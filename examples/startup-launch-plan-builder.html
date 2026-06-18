@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Launch Plan Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.15em;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .intro-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2c3e50;
+        }
+
+        .intro-section h2 {
+            color: #e74c3c;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-header h3 {
+            font-size: 1.3em;
+            flex-grow: 1;
+        }
+
+        .category-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .strategy-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .strategy-card:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+        }
+
+        .strategy-card.selected {
+            border-color: #27ae60;
+            background: #f0fff4;
+            box-shadow: 0 4px 16px rgba(39, 174, 96, 0.3);
+        }
+
+        .strategy-card:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .strategy-title {
+            color: #2c3e50;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding-right: 30px;
+        }
+
+        .strategy-description {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 28px;
+            height: 28px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .strategy-card.selected .checkmark {
+            display: flex;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .selection-summary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .selection-summary p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .selection-count {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .generate-btn {
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .generate-btn:focus {
+            outline: 3px solid #27ae60;
+            outline-offset: 3px;
+        }
+
+        .action-plan {
+            display: none;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 3px solid #27ae60;
+        }
+
+        .action-plan.visible {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-plan h2 {
+            color: #27ae60;
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .action-plan-intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .strategy-implementation {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .strategy-implementation h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .strategy-number {
+            background: #3498db;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .implementation-section {
+            margin-bottom: 20px;
+        }
+
+        .implementation-section h4 {
+            color: #34495e;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .implementation-section ul {
+            margin-left: 30px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .implementation-section li {
+            margin-bottom: 8px;
+        }
+
+        .time-estimate {
+            background: #f39c12;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .resource-reference {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #27ae60;
+        }
+
+        .resource-reference strong {
+            color: #27ae60;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #34495e;
+        }
+
+        .reset-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+
+        .action-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .selection-summary {
+                position: relative;
+                top: 0;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .header {
+                background: none;
+                color: #333;
+                border-bottom: 3px solid #27ae60;
+            }
+
+            .selection-summary, .action-buttons, .category-section, .intro-section {
+                display: none;
+            }
+
+            .action-plan {
+                display: block !important;
+                border: none;
+                box-shadow: none;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Startup Launch Plan Builder</h1>
+            <p>Select 3-5 priority areas from the strategies below to create your personalized startup launch plan. You can't do everything at once—strategic focus is essential for early-stage success.</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Why Prioritize?</h2>
+                <p>Successful startups focus ruthlessly on what matters most in the early stages. Trying to execute on too many fronts simultaneously leads to diluted effort, wasted resources, and burnout.</p>
+                <p style="margin-top: 10px;"><strong>Your task:</strong> Review the startup strategies below (based on proven frameworks like Lean Startup, Business Model Canvas, and customer development principles) and select 3-5 that align with your current stage and resources. You'll receive a detailed action plan with implementation steps for each.</p>
+            </div>
+
+            <div class="selection-summary" role="region" aria-live="polite" aria-label="Selection summary">
+                <p>You've selected</p>
+                <div class="selection-count" id="selectionCount">0</div>
+                <p>priority areas (select 3-5)</p>
+                <button class="generate-btn" id="generateBtn" onclick="generateActionPlan()" disabled aria-label="Generate your personalized launch plan">
+                    Generate My Launch Plan
+                </button>
+            </div>
+
+            <!-- Product Development -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>📦 Product Development</h3>
+                    <span class="category-count" id="productCount">0 selected</span>
+                </div>
+                <div class="strategy-grid">
+                    <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="mvp" 
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)" 
+                         aria-label="Select strategy: Build Minimum Viable Product">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Build Minimum Viable Product (MVP)</div>
+                        <div class="strategy-description">Create the simplest version of your product that delivers core value and enables customer learning.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="customer-discovery"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Conduct Customer Discovery Interviews">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Conduct Customer Discovery Interviews</div>
+                        <div class="strategy-description">Talk to potential customers to validate assumptions about their problems and needs before building.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="product-market-fit"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Test Product-Market Fit">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Test Product-Market Fit</div>
+                        <div class="strategy-description">Systematically validate whether your product solves a real problem people will pay to solve.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="rapid-iteration"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Implement Rapid Iteration Process">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Implement Rapid Iteration Process</div>
+                        <div class="strategy-description">Establish a build-measure-learn feedback loop to quickly improve your product based on data.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marketing & Customer Acquisition -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>📢 Marketing & Customer Acquisition</h3>
+                    <span class="category-count" id="marketingCount">0 selected</span>
+                </div>
+                <div class="strategy-grid">
+                    <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="social-media"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Launch Social Media Presence">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Launch Social Media Presence</div>
+                        <div class="strategy-description">Establish your brand on 1-2 key platforms where your target customers spend time.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="content-marketing"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Develop Content Marketing Strategy">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Develop Content Marketing Strategy</div>
+                        <div class="strategy-description">Create valuable content that attracts and educates your target audience while building authority.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="email-marketing"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Build Email Marketing System">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Build Email Marketing System</div>
+                        <div class="strategy-description">Start collecting email addresses and create automated sequences to nurture potential customers.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="referral-program"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Create Referral Program">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Create Referral/Word-of-Mouth Program</div>
+                        <div class="strategy-description">Incentivize existing customers to refer others through a structured referral system.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operations & Infrastructure -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>💼 Operations & Infrastructure</h3>
+                    <span class="category-count" id="operationsCount">0 selected</span>
+                </div>
+                <div class="strategy-grid">
+                    <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="legal-structure"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Establish Legal Business Structure">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Establish Legal Business Structure</div>
+                        <div class="strategy-description">Choose and register your business entity (LLC, S-Corp, etc.) to protect personal assets and enable operations.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="accounting-system"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Set Up Accounting System">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Set Up Basic Accounting System</div>
+                        <div class="strategy-description">Implement simple bookkeeping to track revenue, expenses, and cash flow from day one.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="sops"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Document Core Processes">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Document Core Business Processes</div>
+                        <div class="strategy-description">Create standard operating procedures for key workflows to ensure consistency and enable scaling.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="project-management"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Implement Project Management Tools">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Implement Project Management Tools</div>
+                        <div class="strategy-description">Adopt lightweight tools to organize tasks, track progress, and coordinate team activities.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue & Financial Planning -->
+            <div class="category-section">
+                <div class="category-header">
+                    <h3>💰 Revenue & Financial Planning</h3>
+                    <span class="category-count" id="revenueCount">0 selected</span>
+                </div>
+                <div class="strategy-grid">
+                    <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="pricing-strategy"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Develop Pricing Strategy">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Develop Evidence-Based Pricing Strategy</div>
+                        <div class="strategy-description">Research competitor pricing and test different price points to find optimal pricing for your market.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="revenue-streams"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Identify Multiple Revenue Streams">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Identify Multiple Revenue Streams</div>
+                        <div class="strategy-description">Explore diverse ways to generate income beyond your primary offering to reduce risk.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="sales-funnel"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Design Sales Funnel">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Design Customer Acquisition Funnel</div>
+                        <div class="strategy-description">Map the journey from awareness to purchase and optimize each stage for conversion.</div>
+                    </div>
+                    <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="retention"
+                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         aria-label="Select strategy: Build Customer Retention Strategy">
+                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="strategy-title">Build Customer Retention Strategy</div>
+                        <div class="strategy-description">Create systems to keep customers engaged, satisfied, and returning for repeat purchases.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Plan Section -->
+            <div class="action-plan" id="actionPlan" role="region" aria-label="Your personalized startup launch plan">
+                <h2>🎯 Your Personalized Startup Launch Plan</h2>
+                <p class="action-plan-intro">Here are detailed, actionable steps for implementing your selected strategies. Use this as your roadmap for the next 90 days!</p>
+                <div id="planContent"></div>
+                <div class="action-buttons">
+                    <button class="action-btn print-btn" onclick="window.print()" aria-label="Print your launch plan">
+                        🖨️ Print Launch Plan
+                    </button>
+                    <button class="action-btn reset-btn" onclick="resetToolkit()" aria-label="Reset and start over">
+                        ↺ Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const selectedStrategies = new Set();
+
+        const strategyDetails = {
+            'mvp': {
+                title: 'Build Minimum Viable Product (MVP)',
+                quickStart: [
+                    'Identify the single core problem your product solves and the minimum features needed to solve it',
+                    'Create a simple prototype using no-code tools (Figma for apps, landing page for services)',
+                    'Define success metrics: what customer behavior indicates your MVP works?',
+                    'Set a deadline (typically 2-4 weeks) to force ruthless prioritization'
+                ],
+                implementation: [
+                    'Use the "one feature" rule: if your MVP has more than one core feature, it\'s not minimum enough',
+                    'Test with 5-10 real potential customers, not friends and family',
+                    'Focus on learning, not perfection—your first version will be embarrassing, and that\'s okay',
+                    'Document what you learn after each user interaction to inform iteration'
+                ],
+                timeframe: '2-4 weeks for initial MVP; $0-500 using no-code tools',
+                resourceLink: 'Framework: Eric Ries\' Lean Startup - Build-Measure-Learn cycle'
+            },
+            'customer-discovery': {
+                title: 'Conduct Customer Discovery Interviews',
+                quickStart: [
+                    'Create a list of 20-30 people who fit your target customer profile',
+                    'Develop 5-7 open-ended questions focused on their problems, not your solution',
+                    'Schedule 15-20 minute interviews (in-person, video call, or phone)',
+                    'Take detailed notes during each conversation, focusing on pain points and current solutions'
+                ],
+                implementation: [
+                    'Follow Steve Blank\'s advice: "Get out of the building" - talk to real people, not just online research',
+                    'Ask "why" repeatedly to get to root problems: "Tell me about the last time you experienced [problem]"',
+                    'Listen for emotional language - strong feelings indicate real pain points worth solving',
+                    'Analyze patterns across interviews: what problems come up repeatedly? What language do customers use?'
+                ],
+                timeframe: '2-3 weeks for 20 interviews; minimal cost ($0-100 for incentives)',
+                resourceLink: 'Framework: Steve Blank\'s Customer Development methodology'
+            },
+            'product-market-fit': {
+                title: 'Test Product-Market Fit',
+                quickStart: [
+                    'Define your product-market fit hypothesis: "[Customer segment] will use [product] to solve [problem]"',
+                    'Establish clear metrics: retention rate, Net Promoter Score, or "very disappointed" percentage (Sean Ellis test)',
+                    'Get your MVP in front of at least 30-50 early users within target segment',
+                    'Track both qualitative feedback and quantitative usage data'
+                ],
+                implementation: [
+                    'Use Sean Ellis test: ask users "How would you feel if you could no longer use this product?" Target: 40%+ say "very disappointed"',
+                    'Monitor retention: do users come back? Product-market fit = people using product repeatedly without prompting',
+                    'Look for organic growth signals: unprompted referrals, word-of-mouth, users finding creative use cases',
+                    'Be honest about results - most products don\'t achieve fit on first attempt; iteration is normal'
+                ],
+                timeframe: '4-8 weeks of testing; costs vary by customer acquisition method',
+                resourceLink: 'Framework: Sean Ellis Product-Market Fit Survey and Marc Andreessen\'s PMF concept'
+            },
+            'rapid-iteration': {
+                title: 'Implement Rapid Iteration Process',
+                quickStart: [
+                    'Establish weekly or bi-weekly sprint cycles with clear goals',
+                    'Create a simple feedback loop: build → measure → learn → adjust',
+                    'Set up basic analytics to track user behavior (Google Analytics, Mixpanel, or Hotjar)',
+                    'Schedule regular customer check-ins to gather qualitative insights'
+                ],
+                implementation: [
+                    'Prioritize changes based on data: what will have biggest impact on key metrics?',
+                    'Use A/B testing for significant changes to validate improvements',
+                    'Keep a public or internal changelog to document iterations and learnings',
+                    'Resist feature bloat—iteration doesn\'t mean adding, often means removing or simplifying'
+                ],
+                timeframe: 'Ongoing process; 5-10 hours per week for analysis and planning',
+                resourceLink: 'Framework: Lean Startup Build-Measure-Learn cycle and Agile methodology'
+            },
+            'social-media': {
+                title: 'Launch Social Media Presence',
+                quickStart: [
+                    'Research where your target customers spend time online (LinkedIn for B2B, Instagram for visual products, etc.)',
+                    'Start with ONE platform to focus efforts - you can expand later',
+                    'Create professional profile: clear bio, branded images, contact information',
+                    'Develop content calendar with 2-3 posts per week minimum for first month'
+                ],
+                implementation: [
+                    'Focus on providing value, not just promoting: 80% helpful content, 20% promotional',
+                    'Engage authentically: respond to comments, join relevant conversations, follow industry leaders',
+                    'Use platform-specific features: Stories, Reels, LinkedIn articles, Twitter threads',
+                    'Track engagement metrics but don\'t obsess - focus on building genuine connections'
+                ],
+                timeframe: '5-10 hours per week; $0 to start (can invest in ads later)',
+                resourceLink: 'Principle: Gary Vaynerchuk\'s "Jab, Jab, Jab, Right Hook" - give value before asking'
+            },
+            'content-marketing': {
+                title: 'Develop Content Marketing Strategy',
+                quickStart: [
+                    'Identify 3-5 topics your target customers care about deeply (based on customer discovery)',
+                    'Choose one primary content format: blog posts, videos, podcasts, or LinkedIn articles',
+                    'Create content calendar: aim for one high-quality piece per week',
+                    'Focus on solving customer problems, answering questions, and sharing expertise'
+                ],
+                implementation: [
+                    'Write for humans first, search engines second - authentic voice beats keyword-stuffing',
+                    'Repurpose content across channels: turn blog post into LinkedIn carousel, video, Twitter thread',
+                    'Build email list from content: offer valuable resource (guide, template, checklist) in exchange for email',
+                    'Be consistent over time - content marketing is a marathon, not a sprint; results compound'
+                ],
+                timeframe: '5-8 hours per week for content creation; $0-200/month for tools',
+                resourceLink: 'Framework: Marcus Sheridan\'s "They Ask, You Answer" approach'
+            },
+            'email-marketing': {
+                title: 'Build Email Marketing System',
+                quickStart: [
+                    'Set up email service provider (Mailchimp, ConvertKit, or similar - free tiers available)',
+                    'Create simple lead magnet: checklist, guide, template, or discount code',
+                    'Add email signup form to website and social media profiles',
+                    'Write 3-5 email welcome sequence introducing your brand and delivering value'
+                ],
+                implementation: [
+                    'Send regular emails (weekly or bi-weekly) to stay top-of-mind without overwhelming',
+                    'Segment your list by interests or behaviors to personalize messaging',
+                    'Test subject lines, send times, and content to improve open and click rates',
+                    'Always include clear call-to-action - what do you want readers to do next?'
+                ],
+                timeframe: '3-5 hours weekly for emails; $0-50/month for email platform',
+                resourceLink: 'Principle: Permission marketing (Seth Godin) - earn the right to communicate'
+            },
+            'referral-program': {
+                title: 'Create Referral/Word-of-Mouth Program',
+                quickStart: [
+                    'Design simple referral incentive: discount, free product, or cash reward for both referrer and referee',
+                    'Create easy sharing mechanism: unique referral link or code',
+                    'Use referral software (ReferralCandy, Viral Loops) or build simple tracking spreadsheet',
+                    'Launch to existing customers first - they know your value and are most likely to share'
+                ],
+                implementation: [
+                    'Make asking for referrals natural: "Loved working with you! Know anyone else who might benefit?"',
+                    'Timing matters: ask after delivering exceptional value or receiving positive feedback',
+                    'Thank and reward promptly - acknowledge referrals within 24 hours',
+                    'Track referral sources to identify your best advocates and what motivates sharing'
+                ],
+                timeframe: '1-2 hours setup; ongoing monitoring; budget depends on incentive structure',
+                resourceLink: 'Framework: Dropbox\'s viral referral model - two-sided incentives drive growth'
+            },
+            'legal-structure': {
+                title: 'Establish Legal Business Structure',
+                quickStart: [
+                    'Research business entity types: sole proprietorship, LLC, S-Corp, C-Corp (most startups choose LLC)',
+                    'Consult with attorney or use online service (LegalZoom, ZenBusiness, Rocket Lawyer)',
+                    'Register business name and obtain EIN (Employer Identification Number) from IRS',
+                    'Open separate business bank account to maintain legal separation from personal finances'
+                ],
+                implementation: [
+                    'LLC offers liability protection with simpler tax treatment than corporations for most startups',
+                    'File formation documents in your state (typically $50-500 fee)',
+                    'Create operating agreement defining ownership, roles, and procedures even if sole owner',
+                    'Consider state of formation - some entrepreneurs choose Delaware or Wyoming for legal benefits'
+                ],
+                timeframe: '1-2 weeks; $100-1,000 depending on state and legal assistance',
+                resourceLink: 'Resource: SBA.gov business structure guide and state-specific requirements'
+            },
+            'accounting-system': {
+                title: 'Set Up Basic Accounting System',
+                quickStart: [
+                    'Choose accounting software: QuickBooks, FreshBooks, or Wave (free option)',
+                    'Set up chart of accounts: categorize income and expenses properly from day one',
+                    'Connect business bank account and credit cards for automatic transaction importing',
+                    'Establish routine: reconcile accounts weekly, review financials monthly'
+                ],
+                implementation: [
+                    'Track everything: even small expenses add up and may be tax-deductible',
+                    'Separate business and personal expenses completely - never commingle funds',
+                    'Save receipts digitally (photo with phone, organized in cloud storage)',
+                    'Set aside money for taxes quarterly - roughly 25-30% of net income for self-employed'
+                ],
+                timeframe: '2-3 hours setup; 1-2 hours monthly for bookkeeping; $0-50/month software',
+                resourceLink: 'Principle: Basic bookkeeping and cash flow management fundamentals'
+            },
+            'sops': {
+                title: 'Document Core Business Processes',
+                quickStart: [
+                    'Identify 3-5 processes you do repeatedly: customer onboarding, order fulfillment, content creation, etc.',
+                    'For each process, write step-by-step checklist in Google Docs or Notion',
+                    'Include screenshots or screen recordings where helpful (use Loom for quick videos)',
+                    'Test documentation by having someone else follow instructions - refine based on questions'
+                ],
+                implementation: [
+                    'Start simple - even a bullet-point checklist is better than nothing',
+                    'Document as you go: every time you complete a task, note the steps',
+                    'Update SOPs when process changes - keep documentation current',
+                    'SOPs enable delegation, ensure consistency, and make your business sellable later'
+                ],
+                timeframe: '2-4 hours per process; ongoing updates as needed',
+                resourceLink: 'Framework: E-Myth Revisited (Michael Gerber) - systems-dependent, not people-dependent business'
+            },
+            'project-management': {
+                title: 'Implement Project Management Tools',
+                quickStart: [
+                    'Choose tool based on team size and needs: Trello (simple), Asana (robust), Notion (flexible)',
+                    'Set up basic structure: boards for different projects, lists for workflow stages',
+                    'Create templates for recurring tasks to save time',
+                    'Train team members on tool and establish usage norms (daily check-ins, update frequency)'
+                ],
+                implementation: [
+                    'Start with one tool - don\'t use five different apps that create more confusion',
+                    'Use for all work communication - reduce email and Slack chaos by centralizing tasks',
+                    'Assign clear owners and deadlines for every task - no ambiguity about responsibility',
+                    'Review and adjust system monthly: is it helping productivity or creating busywork?'
+                ],
+                timeframe: '3-4 hours setup; 15-30 minutes daily for updates; $0-20/month per user',
+                resourceLink: 'Methodology: Getting Things Done (GTD) principles and Kanban workflow management'
+            },
+            'pricing-strategy': {
+                title: 'Develop Evidence-Based Pricing Strategy',
+                quickStart: [
+                    'Research 5-10 competitors: what do they charge? How do they structure pricing?',
+                    'Calculate your costs: materials, labor, overhead, and desired profit margin',
+                    'Survey target customers: "What would you expect to pay for [solution to their problem]?"',
+                    'Test 2-3 different price points with early customers to gauge willingness to pay'
+                ],
+                implementation: [
+                    'Price based on value delivered, not just cost-plus - customers pay for outcomes, not inputs',
+                    'Consider psychological pricing: $99 vs $100, tiered options (good/better/best)',
+                    'Start higher than comfortable - easier to discount than raise prices later',
+                    'Review and adjust quarterly based on customer feedback, acquisition cost, and profitability'
+                ],
+                timeframe: '1-2 weeks for research and testing; ongoing optimization',
+                resourceLink: 'Framework: Value-based pricing and Van Westendorp Price Sensitivity Meter'
+            },
+            'revenue-streams': {
+                title: 'Identify Multiple Revenue Streams',
+                quickStart: [
+                    'List complementary products or services your customers might need',
+                    'Consider different models: one-time sales, subscriptions, licensing, consulting, affiliate commissions',
+                    'Evaluate which streams align with your capabilities and customer needs',
+                    'Start with one primary stream, add secondary streams once stable'
+                ],
+                implementation: [
+                    'Look for "upsell" and "cross-sell" opportunities within existing customer base',
+                    'Create tiered offerings: entry-level, premium, enterprise',
+                    'Explore passive income: digital products, courses, templates, tools',
+                    'Don\'t dilute focus - additional streams should leverage existing assets and customers'
+                ],
+                timeframe: 'Ongoing development; 2-4 weeks per new revenue stream',
+                resourceLink: 'Concept: Business Model Canvas - revenue streams component and diversification strategy'
+            },
+            'sales-funnel': {
+                title: 'Design Customer Acquisition Funnel',
+                quickStart: [
+                    'Map customer journey stages: awareness → interest → consideration → purchase → retention',
+                    'Identify content/touchpoints for each stage (ads, blog posts, demos, testimonials, etc.)',
+                    'Set up tracking: Google Analytics goals or CRM pipeline to measure conversions',
+                    'Calculate key metrics: conversion rates between each stage, customer acquisition cost'
+                ],
+                implementation: [
+                    'Optimize the biggest bottleneck first: where do most prospects drop off?',
+                    'Test different messaging, offers, and calls-to-action to improve conversion',
+                    'Create retargeting campaigns for people who don\'t convert immediately',
+                    'Automate where possible: email sequences, chatbots, scheduling tools'
+                ],
+                timeframe: '1-2 weeks to map and build; ongoing optimization',
+                resourceLink: 'Framework: AIDA model (Attention, Interest, Desire, Action) and marketing funnel optimization'
+            },
+            'retention': {
+                title: 'Build Customer Retention Strategy',
+                quickStart: [
+                    'Identify why customers leave: survey churned customers, analyze cancellation reasons',
+                    'Create onboarding sequence: help new customers succeed quickly with your product',
+                    'Establish regular touchpoints: check-ins, newsletters, product updates',
+                    'Develop loyalty program or incentives for repeat purchases'
+                ],
+                implementation: [
+                    'Track retention metrics: churn rate, repeat purchase rate, customer lifetime value',
+                    'Proactively address issues: monitor usage patterns, reach out to at-risk customers',
+                    'Delight customers unexpectedly: surprise bonuses, handwritten notes, birthday recognition',
+                    'Make it easy to get help: responsive support, comprehensive FAQs, self-service options'
+                ],
+                timeframe: 'Ongoing effort; 5-10 hours per week for customer success activities',
+                resourceLink: 'Principle: Customer success as revenue driver - retention is cheaper than acquisition'
+            }
+        };
+
+        function toggleStrategy(card) {
+            const strategy = card.getAttribute('data-strategy');
+            
+            if (selectedStrategies.has(strategy)) {
+                selectedStrategies.delete(strategy);
+                card.classList.remove('selected');
+                card.setAttribute('aria-pressed', 'false');
+            } else {
+                if (selectedStrategies.size < 5) {
+                    selectedStrategies.add(strategy);
+                    card.classList.add('selected');
+                    card.setAttribute('aria-pressed', 'true');
+                } else {
+                    alert('You\'ve already selected 5 strategies. Deselect one to choose a different strategy.');
+                    return;
+                }
+            }
+            
+            updateSelectionCount();
+            announceToScreenReader(card.querySelector('.strategy-title').textContent + 
+                (card.classList.contains('selected') ? ' selected' : ' deselected'));
+        }
+
+        function handleKeyPress(event, card) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleStrategy(card);
+            }
+        }
+
+        function updateSelectionCount() {
+            const count = selectedStrategies.size;
+            document.getElementById('selectionCount').textContent = count;
+            
+            const categories = {
+                product: 0,
+                marketing: 0,
+                operations: 0,
+                revenue: 0
+            };
+            
+            selectedStrategies.forEach(strategy => {
+                const card = document.querySelector(`[data-strategy="${strategy}"]`);
+                const category = card.getAttribute('data-category');
+                categories[category]++;
+            });
+            
+            document.getElementById('productCount').textContent = categories.product + ' selected';
+            document.getElementById('marketingCount').textContent = categories.marketing + ' selected';
+            document.getElementById('operationsCount').textContent = categories.operations + ' selected';
+            document.getElementById('revenueCount').textContent = categories.revenue + ' selected';
+            
+            const generateBtn = document.getElementById('generateBtn');
+            if (count >= 3 && count <= 5) {
+                generateBtn.disabled = false;
+                generateBtn.style.opacity = '1';
+            } else {
+                generateBtn.disabled = true;
+                generateBtn.style.opacity = '0.5';
+            }
+        }
+
+        function generateActionPlan() {
+            const planContent = document.getElementById('planContent');
+            planContent.innerHTML = '';
+            
+            let index = 1;
+            selectedStrategies.forEach(strategy => {
+                const details = strategyDetails[strategy];
+                
+                const strategyDiv = document.createElement('div');
+                strategyDiv.className = 'strategy-implementation';
+                
+                strategyDiv.innerHTML = `
+                    <h3>
+                        <span class="strategy-number">${index}</span>
+                        ${details.title}
+                    </h3>
+                    
+                    <div class="implementation-section">
+                        <h4>🚀 Quick Start Steps</h4>
+                        <ul>
+                            ${details.quickStart.map(step => `<li>${step}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="implementation-section">
+                        <h4>📋 Implementation Details</h4>
+                        <ul>
+                            ${details.implementation.map(step => `<li>${step}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="time-estimate">⏱️ Time & Cost: ${details.timeframe}</div>
+                    
+                    <div class="resource-reference">
+                        <strong>📚 Based On:</strong>
+                        ${details.resourceLink}
+                    </div>
+                `;
+                
+                planContent.appendChild(strategyDiv);
+                index++;
+            });
+            
+            const actionPlan = document.getElementById('actionPlan');
+            actionPlan.classList.add('visible');
+            actionPlan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            announceToScreenReader('Your personalized startup launch plan has been generated with ' + 
+                                   selectedStrategies.size + ' strategies.');
+        }
+
+        function resetToolkit() {
+            if (confirm('Are you sure you want to start over? Your current selections will be cleared.')) {
+                selectedStrategies.clear();
+                document.querySelectorAll('.strategy-card').forEach(card => {
+                    card.classList.remove('selected');
+                    card.setAttribute('aria-pressed', 'false');
+                });
+                updateSelectionCount();
+                document.getElementById('actionPlan').classList.remove('visible');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                announceToScreenReader('Launch plan reset. Start making your selections again.');
+            }
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            setTimeout(() => announcement.remove(), 1000);
+        }
+
+        document.querySelectorAll('.strategy-card').forEach(card => {
+            card.setAttribute('aria-pressed', 'false');
+        });
+    </script>
+</body>
+</html>
