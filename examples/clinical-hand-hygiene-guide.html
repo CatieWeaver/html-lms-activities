@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Hand Hygiene Procedure Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .intro-section {
+            background: #e3f2fd;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #2196f3;
+        }
+
+        .intro-section h2 {
+            color: #1976d2;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p {
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .intro-section ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        .intro-section li {
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .step-container {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: #2196f3;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            color: #2c3e50;
+            font-size: 1.4em;
+            font-weight: 700;
+            flex-grow: 1;
+        }
+
+        .step-duration {
+            background: #fff3cd;
+            color: #856404;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            border: 1px solid #ffeaa7;
+        }
+
+        .step-content {
+            margin-bottom: 20px;
+        }
+
+        .step-description {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.05em;
+            margin-bottom: 15px;
+        }
+
+        .technique-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+
+        .technique-box h4 {
+            color: #2196f3;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .technique-box ul {
+            margin-left: 25px;
+            color: #333;
+        }
+
+        .technique-box li {
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .mistake-box {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #f39c12;
+        }
+
+        .mistake-box h4 {
+            color: #e67e22;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mistake-box ul {
+            margin-left: 25px;
+            color: #333;
+        }
+
+        .mistake-box li {
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .rationale-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #27ae60;
+        }
+
+        .rationale-box h4 {
+            color: #27ae60;
+            font-size: 1.1em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rationale-box p {
+            color: #333;
+            line-height: 1.7;
+        }
+
+        .visual-placeholder {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px dashed #2196f3;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 20px 0;
+            color: #1976d2;
+            font-style: italic;
+        }
+
+        .step-checkbox {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+
+        .step-checkbox:hover {
+            background: #e8f5e9;
+            border-color: #27ae60;
+        }
+
+        .step-checkbox input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: #27ae60;
+        }
+
+        .step-checkbox label {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .step-checkbox.checked {
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+
+        .completion-message {
+            display: none;
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .completion-message.visible {
+            display: block;
+        }
+
+        .completion-message h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .completion-message p {
+            font-size: 1.1em;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .key-points-box {
+            background: #fff9e6;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .key-points-box h3 {
+            color: #e67e22;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .key-points-box ul {
+            margin-left: 25px;
+        }
+
+        .key-points-box li {
+            color: #333;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .btn-primary {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .step-header {
+                flex-wrap: wrap;
+            }
+
+            .step-duration {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .header {
+                background: none;
+                color: #333;
+                border-bottom: 3px solid #2c3e50;
+            }
+
+            .button-group, .progress-section {
+                display: none;
+            }
+
+            .step-container {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Clinical Hand Hygiene Procedure Guide</h1>
+            <p>Learn the proper technique for surgical/clinical handwashing based on WHO guidelines. Follow each step carefully to ensure effective hand hygiene and infection prevention.</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-section">
+                <h2>Why Proper Hand Hygiene Matters</h2>
+                <p>Hand hygiene is the single most important measure to prevent healthcare-associated infections. Proper technique removes transient microorganisms and reduces resident flora on hands.</p>
+                <p><strong>When to perform clinical handwashing:</strong></p>
+                <ul>
+                    <li>Before and after patient contact</li>
+                    <li>Before aseptic or invasive procedures</li>
+                    <li>After contact with body fluids or contaminated surfaces</li>
+                    <li>Before donning sterile gloves</li>
+                    <li>After removing gloves</li>
+                </ul>
+            </div>
+
+            <div class="progress-section" role="region" aria-live="polite">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar">
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+                <p class="progress-text">Completed <span id="completedCount">0</span> of 7 steps</p>
+            </div>
+
+            <!-- Step 1: Preparation -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Preparation</h3>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Remove jewelry, watches, and ensure your forearms are bare to 2 inches above the elbow. Turn on water to a comfortable warm temperature using foot or elbow controls if available.</p>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Remove all rings, watches, and bracelets (these harbor bacteria)</li>
+                            <li>Adjust water temperature to warm (hot water can damage skin barrier)</li>
+                            <li>Keep hands and forearms lower than elbows to allow water to flow down and away</li>
+                            <li>Avoid touching the sink or faucet once hands are washed</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Leaving jewelry on (rings increase bacterial counts by 10-fold)</li>
+                            <li>Using water that's too hot (damages skin's protective layer)</li>
+                            <li>Touching contaminated surfaces after starting the wash</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>Jewelry and watches trap moisture and microorganisms underneath. Studies show that skin under rings harbors higher concentrations of bacteria that persist even after handwashing. Proper preparation ensures the entire hand surface can be effectively cleaned.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 1)">
+                    <input type="checkbox" id="step1" aria-label="Mark step 1 as complete">
+                    <label for="step1">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 2: Wet Hands and Apply Soap -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Wet Hands and Apply Soap</h3>
+                    <span class="step-duration">⏱️ 10 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Wet hands and forearms thoroughly with water. Apply 3-5mL of antimicrobial soap to cover all hand and wrist surfaces. Avoid using excessive soap which can be difficult to rinse completely.</p>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Wet hands completely from fingertips to elbows</li>
+                            <li>Apply enough soap to create good lather but not excessive amounts</li>
+                            <li>Use antimicrobial soap (chlorhexidine or iodophor-based for surgical procedures)</li>
+                            <li>Begin lathering immediately to activate antimicrobial agents</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Using too little soap (insufficient coverage and lather)</li>
+                            <li>Using too much soap (difficult to rinse, leaves residue)</li>
+                            <li>Not wetting hands thoroughly before applying soap</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>Antimicrobial soap contains agents that kill or inhibit microorganisms. Proper amount and even distribution ensures adequate contact time and coverage. Water activates the soap's cleansing properties and helps create mechanical friction for removing debris.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 2)">
+                    <input type="checkbox" id="step2" aria-label="Mark step 2 as complete">
+                    <label for="step2">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 3: Wash Palms and Backs of Hands -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Wash Palms and Backs of Hands</h3>
+                    <span class="step-duration">⏱️ 15 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Vigorously rub palm to palm, then place right palm over left dorsum with interlaced fingers and vice versa. Use firm circular motions covering entire hand surfaces.</p>
+
+                    <div class="visual-placeholder">
+                        <p>👐 Visual: Palm-to-palm and back-of-hand washing technique</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                    </div>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Rub palms together using rotary motions (not just sliding)</li>
+                            <li>Cover backs of hands completely, including wrist area</li>
+                            <li>Interlace fingers to ensure coverage between digits</li>
+                            <li>Apply firm pressure but avoid abrading skin</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Rushing through this step (inadequate contact time)</li>
+                            <li>Missing the backs of hands and wrists</li>
+                            <li>Using only sliding motion instead of rotary friction</li>
+                            <li>Not interlacing fingers properly</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>The backs of hands and spaces between fingers are frequently missed areas in handwashing. Studies using fluorescent markers show these areas often retain contamination. Mechanical friction combined with antimicrobial soap physically removes and kills microorganisms.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 3)">
+                    <input type="checkbox" id="step3" aria-label="Mark step 3 as complete">
+                    <label for="step3">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 4: Clean Between Fingers and Thumbs -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Clean Between Fingers and Thumbs</h3>
+                    <span class="step-duration">⏱️ 15 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Rub palm to palm with fingers interlaced, moving back and forth. Clasp each thumb with opposite hand and rotate, ensuring complete coverage of thumb surfaces.</p>
+
+                    <div class="visual-placeholder">
+                        <p>🤞 Visual: Interlaced finger washing and thumb clasping technique</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                    </div>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Fully interlace fingers and move hands back and forth vigorously</li>
+                            <li>Ensure soap reaches all web spaces between fingers</li>
+                            <li>Rotate each thumb within clasped opposite hand (covers all thumb surfaces)</li>
+                            <li>Don't forget the base of thumbs where they join the palm</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Superficial interlacing without vigorous back-and-forth motion</li>
+                            <li>Forgetting to wash thumbs separately (most commonly missed area)</li>
+                            <li>Not covering base of thumbs and web spaces completely</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>The thumb and interdigital spaces (web spaces) are the most frequently missed areas in handwashing, with bacterial counts remaining high after inadequate washing. These areas require specific attention and technique to ensure proper cleaning. Research shows thumbs harbor significant bacterial loads.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 4)">
+                    <input type="checkbox" id="step4" aria-label="Mark step 4 as complete">
+                    <label for="step4">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 5: Clean Fingertips and Nails -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Clean Fingertips and Under Nails</h3>
+                    <span class="step-duration">⏱️ 15 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Rub fingertips of each hand in opposite palm with rotary motion. Clean under each fingernail using the opposite hand's fingernails or a nail brush if available. This step is critical as subungual areas harbor high bacterial loads.</p>
+
+                    <div class="visual-placeholder">
+                        <p>👉 Visual: Fingertip rotation in palm and nail cleaning technique</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                    </div>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Rotate fingertips in opposite palm using circular, scrubbing motion</li>
+                            <li>Pay special attention to nail beds and cuticle areas</li>
+                            <li>Use nail brush or opposite fingernails to clean under each nail</li>
+                            <li>Ensure nails are short and free of polish (per clinical guidelines)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Neglecting to clean under nails (highest concentration of bacteria)</li>
+                            <li>Having long nails or artificial nails (contraindicated in clinical settings)</li>
+                            <li>Light touch instead of vigorous scrubbing motion</li>
+                            <li>Forgetting nail beds and cuticles</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>Subungual areas (under nails) harbor the highest concentration of microorganisms on hands. Studies show bacteria counts under fingernails can be 100-1000 times higher than on fingertip skin. Long or artificial nails significantly increase bacterial load and are strongly associated with healthcare-associated infections.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 5)">
+                    <input type="checkbox" id="step5" aria-label="Mark step 5 as complete">
+                    <label for="step5">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 6: Wash Wrists and Forearms -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">Wash Wrists and Forearms</h3>
+                    <span class="step-duration">⏱️ 20 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">For surgical/clinical handwashing, wash each wrist and forearm up to 2 inches above the elbow using circular motions. Work from cleanest (hands) to least clean (elbows) areas.</p>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Wash each wrist using rotary motion with opposite hand</li>
+                            <li>Move up forearm in circular motions covering all surfaces</li>
+                            <li>Wash to 2 inches above elbow (or as specified by facility protocol)</li>
+                            <li>Keep hands higher than elbows to prevent recontamination</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Forgetting wrists entirely (frequently missed area)</li>
+                            <li>Not washing high enough on forearms</li>
+                            <li>Allowing water to run from elbow down to hands (recontaminates clean hands)</li>
+                            <li>Touching sink or faucet with clean hands/forearms</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>The wrist area is a transition zone that's frequently missed. For surgical procedures, washing the forearms prevents contamination when donning sterile gowns and gloves. Proper positioning (hands up, elbows down) ensures water flows from clean to dirty areas, preventing recontamination.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 6)">
+                    <input type="checkbox" id="step6" aria-label="Mark step 6 as complete">
+                    <label for="step6">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Step 7: Rinse and Dry -->
+            <div class="step-container">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <h3 class="step-title">Rinse Thoroughly and Dry</h3>
+                    <span class="step-duration">⏱️ 20 seconds</span>
+                </div>
+
+                <div class="step-content">
+                    <p class="step-description">Rinse hands and forearms thoroughly under running water, starting at fingertips and moving toward elbows. Allow water to flow downward away from hands. Dry completely with sterile towel or air dryer.</p>
+
+                    <div class="technique-box">
+                        <h4>✓ Proper Technique</h4>
+                        <ul>
+                            <li>Rinse from fingertips toward elbows (clean to less clean)</li>
+                            <li>Keep hands elevated above elbows during rinsing</li>
+                            <li>Rinse until all soap residue is removed</li>
+                            <li>Pat dry thoroughly using sterile towel (surgical) or clean paper towel</li>
+                            <li>Use towel to turn off faucet (if not hands-free)</li>
+                            <li>Ensure hands are completely dry before donning gloves</li>
+                        </ul>
+                    </div>
+
+                    <div class="mistake-box">
+                        <h4>⚠️ Common Mistakes</h4>
+                        <ul>
+                            <li>Incomplete rinsing (soap residue dries skin and harbors bacteria)</li>
+                            <li>Touching faucet with clean hands when turning off water</li>
+                            <li>Not drying hands completely (moisture promotes bacterial growth)</li>
+                            <li>Using same section of towel to dry hands and forearms</li>
+                            <li>Recontaminating clean hands by touching contaminated surfaces</li>
+                        </ul>
+                    </div>
+
+                    <div class="rationale-box">
+                        <h4>📚 Why It Matters</h4>
+                        <p>Soap residue can cause skin irritation and drying, which damages the skin's protective barrier and increases bacterial colonization. Incomplete drying creates a moist environment that promotes rapid bacterial multiplication. Wet hands can transfer bacteria up to 1000 times more effectively than dry hands. Proper drying technique is as important as washing.</p>
+                    </div>
+                </div>
+
+                <div class="step-checkbox" onclick="toggleStep(this, 7)">
+                    <input type="checkbox" id="step7" aria-label="Mark step 7 as complete">
+                    <label for="step7">I have completed this step</label>
+                </div>
+            </div>
+
+            <!-- Key Points Summary -->
+            <div class="key-points-box">
+                <h3>🎯 Key Points to Remember</h3>
+                <ul>
+                    <li><strong>Total time:</strong> Clinical handwashing takes 40-60 seconds minimum; surgical scrub takes 2-5 minutes</li>
+                    <li><strong>Most missed areas:</strong> Thumbs, fingertips, under nails, backs of hands, and wrists</li>
+                    <li><strong>Proper positioning:</strong> Always keep hands higher than elbows to prevent recontamination</li>
+                    <li><strong>Complete drying:</strong> Wet hands transfer bacteria 1000x more than dry hands</li>
+                    <li><strong>Frequency:</strong> Perform hand hygiene before and after every patient contact</li>
+                    <li><strong>Jewelry:</strong> Remove all rings, watches, and bracelets before beginning</li>
+                </ul>
+            </div>
+
+            <div class="completion-message" id="completionMessage">
+                <h3>✓ Procedure Complete!</h3>
+                <p>You've reviewed all 7 steps of proper clinical hand hygiene technique.</p>
+                <p>Remember: Consistent, proper hand hygiene is the single most effective way to prevent healthcare-associated infections and protect both patients and healthcare workers.</p>
+                <p><strong>Practice this technique regularly until it becomes automatic!</strong></p>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Print Procedure Guide</button>
+                <button class="btn btn-secondary" onclick="resetActivity()">↺ Review Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let completedSteps = 0;
+        const totalSteps = 7;
+
+        function toggleStep(checkbox, stepNumber) {
+            const input = checkbox.querySelector('input[type="checkbox"]');
+            
+            // Toggle checkbox
+            input.checked = !input.checked;
+            
+            // Update visual state
+            if (input.checked) {
+                checkbox.classList.add('checked');
+                completedSteps++;
+                announceToScreenReader(`Step ${stepNumber} marked as complete`);
+            } else {
+                checkbox.classList.remove('checked');
+                completedSteps--;
+                announceToScreenReader(`Step ${stepNumber} marked as incomplete`);
+            }
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const percentage = Math.round((completedSteps / totalSteps) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const completedCount = document.getElementById('completedCount');
+
+            progressBar.style.width = percentage + '%';
+            progressText.textContent = percentage + '%';
+            completedCount.textContent = completedSteps;
+
+            if (completedSteps === totalSteps) {
+                showCompletion();
+            } else {
+                // Hide completion message if user unchecks a step
+                document.getElementById('completionMessage').classList.remove('visible');
+            }
+        }
+
+        function showCompletion() {
+            const completionMessage = document.getElementById('completionMessage');
+            completionMessage.classList.add('visible');
+            completionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            announceToScreenReader('Congratulations! You have completed all steps of the hand hygiene procedure.');
+        }
+
+        function resetActivity() {
+            if (confirm('Are you sure you want to reset? All progress will be cleared.')) {
+                completedSteps = 0;
+                
+                // Uncheck all checkboxes
+                document.querySelectorAll('.step-checkbox').forEach(checkbox => {
+                    checkbox.classList.remove('checked');
+                    checkbox.querySelector('input[type="checkbox"]').checked = false;
+                });
+
+                updateProgress();
+                document.getElementById('completionMessage').classList.remove('visible');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                announceToScreenReader('Activity reset. You can review the procedure again.');
+            }
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            setTimeout(() => announcement.remove(), 1000);
+        }
+    </script>
+</body>
+</html>
