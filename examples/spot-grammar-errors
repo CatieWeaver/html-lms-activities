@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot the Grammar & Style Errors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.15em;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .essay-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-right: 3px solid #dee2e6;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .feedback-section {
+            padding: 30px;
+            background: white;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .instructions {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .instructions h2 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .instructions p {
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .score-board {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .score-board h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .score-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .essay-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            line-height: 1.8;
+        }
+
+        .essay-content h2 {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .essay-content .byline {
+            text-align: center;
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 0.95em;
+        }
+
+        .essay-content p {
+            margin-bottom: 18px;
+            color: #333;
+            text-indent: 2em;
+        }
+
+        .clickable-issue {
+            background: rgba(52, 152, 219, 0.15);
+            padding: 2px 4px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: inline;
+        }
+
+        .clickable-issue:hover {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: #3498db;
+        }
+
+        .clickable-issue:focus {
+            outline: 3px solid #2980b9;
+            outline-offset: 2px;
+        }
+
+        .clickable-issue.found {
+            background: rgba(39, 174, 96, 0.2);
+            border-color: #27ae60;
+            cursor: default;
+        }
+
+        .clickable-issue.found:hover {
+            background: rgba(39, 174, 96, 0.2);
+        }
+
+        .feedback-empty {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+
+        .feedback-empty p {
+            margin-bottom: 15px;
+        }
+
+        .feedback-card {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .feedback-card h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .issue-icon {
+            background: #27ae60;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            flex-shrink: 0;
+        }
+
+        .feedback-card .error {
+            background: #fff3cd;
+            border-left: 3px solid #f39c12;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .feedback-card .error strong {
+            color: #e67e22;
+        }
+
+        .feedback-card .correction {
+            background: #d1f2eb;
+            border-left: 3px solid #27ae60;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .feedback-card .correction strong {
+            color: #27ae60;
+        }
+
+        .feedback-card .rule {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .feedback-card .rule strong {
+            color: #2c3e50;
+        }
+
+        .completion-message {
+            background: #27ae60;
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .completion-message h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .completion-message p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .reset-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .hint-btn {
+            background: #34495e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            cursor: pointer;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .hint-btn:hover {
+            background: #2c3e50;
+        }
+
+        .hint-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .hint-text {
+            background: #fff9e6;
+            border-left: 3px solid #f39c12;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .hint-text.visible {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .essay-section {
+                border-right: none;
+                border-bottom: 3px solid #dee2e6;
+                max-height: none;
+            }
+
+            .feedback-section {
+                max-height: none;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .score-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Spot the Grammar & Style Errors</h1>
+            <p>Practice your editing skills! Click on errors in this student essay to reveal corrections and explanations. There are 10 errors to find.</p>
+        </div>
+
+        <div class="content">
+            <!-- Essay Section -->
+            <div class="essay-section">
+                <div class="instructions">
+                    <h2>📝 Your Task</h2>
+                    <p><strong>Click on any highlighted text</strong> that contains a grammar or style error.</p>
+                    <p>Each error you identify will reveal an explanation and the correct version.</p>
+                </div>
+
+                <div class="score-board" role="region" aria-live="polite" aria-label="Your progress">
+                    <h3>Your Progress</h3>
+                    <div class="score-stats">
+                        <div class="stat">
+                            <div class="stat-number" id="foundCount">0</div>
+                            <div class="stat-label">Errors Found</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10</div>
+                            <div class="stat-label">Total Errors</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="essay-content">
+                    <h2>Time Management Strategies for College Students</h2>
+                    <p class="byline">A student essay demonstrating common writing errors</p>
+
+                    <p>College students face many challenges when trying to balance their academic responsibilities with work, social activities, and personal commitments. <span class="clickable-issue" data-issue="1" tabindex="0" role="button" aria-label="Potential error: click to reveal">One of the most important skills for success is time management, its essential for achieving academic goals while maintaining a healthy lifestyle.</span> Developing effective time management strategies can significantly improve a students performance and reduce stress levels.</p>
+
+                    <p>The first step in managing time effectively is creating a detailed schedule. <span class="clickable-issue" data-issue="2" tabindex="0" role="button" aria-label="Potential error: click to reveal">Students should write down all of their commitments they should include classes, work shifts, study sessions, and extracurricular activities.</span> By visualizing how time is allocated throughout the week, students can identify gaps in their schedule and plan accordingly. Many successful students use digital calendars or planner apps to keep track of deadlines and appointments.</p>
+
+                    <p><span class="clickable-issue" data-issue="3" tabindex="0" role="button" aria-label="Potential error: click to reveal">Because it helps prevent last-minute cramming and reduces anxiety.</span> Breaking larger assignments into smaller, manageable tasks makes them feel less overwhelming. For example, a research paper can be divided into stages: choosing a topic, conducting research, creating an outline, writing a draft, and revising. This approach allows students to make steady progress without feeling pressured by looming deadlines.</p>
+
+                    <p>Prioritization is another crucial component of effective time management. <span class="clickable-issue" data-issue="4" tabindex="0" role="button" aria-label="Potential error: click to reveal">Not all tasks are equally important, students must learn to distinguish between urgent and non-urgent activities.</span> The Eisenhower Matrix, which categorizes tasks by urgency and importance, can help students focus on what truly matters. By tackling high-priority items first, students ensure that critical work gets completed even when unexpected events arise.</p>
+
+                    <p>Eliminating distractions represents a significant challenge for today's students. <span class="clickable-issue" data-issue="5" tabindex="0" role="button" aria-label="Potential error: click to reveal">Social media, streaming services, and smartphones constantly compete for there attention.</span> Creating a dedicated study environment free from these interruptions can dramatically improve focus and productivity. <span class="clickable-issue" data-issue="6" tabindex="0" role="button" aria-label="Potential error: click to reveal">Some students find that using apps that block distracting websites during study sessions helps them stay on task, it prevents the temptation to check social media every few minutes.</span></p>
+
+                    <p><span class="clickable-issue" data-issue="7" tabindex="0" role="button" aria-label="Potential error: click to reveal">Walking into the library, studying in groups becomes an effective strategy for many students.</span> Collaborative learning sessions allow students to share knowledge, clarify confusing concepts, and hold each other accountable. However, study groups only work when all members remain focused on academic goals rather than socializing.</p>
+
+                    <p>Taking regular breaks is essential for maintaining productivity over extended study periods. <span class="clickable-issue" data-issue="8" tabindex="0" role="button" aria-label="Potential error: click to reveal">The Pomodoro Technique, which involve working for 25 minutes followed by a 5-minute break, have been proven effective for many students.</span> These brief breaks prevent mental fatigue and help students return to their work with renewed focus and energy.</p>
+
+                    <p>Sleep should never be sacrificed for studying. <span class="clickable-issue" data-issue="9" tabindex="0" role="button" aria-label="Potential error: click to reveal">While pulling all-nighters might seem necessary during exam week, research shows that adequate sleep is crucial for memory consolidation and cognitive function, students who sleep well perform better academically than those who sacrifice sleep for extra study time.</span> Maintaining a consistent sleep schedule improves both academic performance and overall health.</p>
+
+                    <p>In conclusion, effective time management requires planning, prioritization, and discipline. <span class="clickable-issue" data-issue="10" tabindex="0" role="button" aria-label="Potential error: click to reveal">Student's who master these skills early in their college careers set themselves up for long-term success.</span> By implementing the strategies discussed in this essay, students can reduce stress, improve their grades, and create a more balanced college experience. Time management is not just about getting more done; it is about making intentional choices about how to spend one's most valuable resource.</p>
+                </div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="feedback-section">
+                <div id="feedbackContent">
+                    <div class="feedback-empty">
+                        <p>👆 <strong>Click on highlighted text</strong> in the essay to identify errors and see corrections.</p>
+                        <p>Look for grammar mistakes, punctuation errors, and style issues.</p>
+                        <button class="hint-btn" onclick="toggleHints()">💡 Need a Hint?</button>
+                        <div class="hint-text" id="hintText">
+                            <strong>Common error types to look for:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Comma splices and run-on sentences</li>
+                                <li>Sentence fragments</li>
+                                <li>Subject-verb agreement issues</li>
+                                <li>Pronoun errors (their/there/they're, its/it's)</li>
+                                <li>Apostrophe misuse</li>
+                                <li>Misplaced modifiers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const errors = {
+            1: {
+                title: 'Comma Splice',
+                error: 'Two independent clauses are joined with only a comma: "...is time management, its essential for achieving academic goals..." This creates a comma splice error.',
+                correction: 'Fix this by: (1) Using a semicolon: "...is time management; it\'s essential..." OR (2) Adding a coordinating conjunction: "...is time management, and it\'s essential..." OR (3) Creating two sentences: "...is time management. It\'s essential..."',
+                rule: '<strong>Grammar Rule:</strong> A comma alone cannot join two independent clauses (complete sentences). Use a semicolon, a comma with a coordinating conjunction (and, but, or, nor, for, so, yet), or separate them into two sentences. Note: "it\'s" (with apostrophe) means "it is," while "its" (no apostrophe) is possessive.'
+            },
+            2: {
+                title: 'Run-On Sentence',
+                error: 'Two complete sentences are incorrectly joined without proper punctuation: "...all of their commitments they should include classes..." This is a run-on sentence (also called a fused sentence).',
+                correction: 'Correct version: "Students should write down all of their commitments. They should include classes, work shifts, study sessions, and extracurricular activities." OR "Students should write down all of their commitments, including classes, work shifts, study sessions, and extracurricular activities."',
+                rule: '<strong>Grammar Rule:</strong> Independent clauses must be properly connected with punctuation (period, semicolon, or comma with conjunction). You cannot simply run two sentences together without punctuation.'
+            },
+            3: {
+                title: 'Sentence Fragment',
+                error: 'This is an incomplete sentence (fragment). It begins with "Because" but never completes the thought with an independent clause. Subordinating conjunctions like "because" create dependent clauses that cannot stand alone.',
+                correction: 'Correct version: "Planning ahead is crucial because it helps prevent last-minute cramming and reduces anxiety." This attaches the dependent clause to an independent clause, creating a complete sentence.',
+                rule: '<strong>Grammar Rule:</strong> A dependent clause (starting with subordinating conjunctions like because, although, when, if, since) cannot stand alone as a sentence. It must be attached to an independent clause.'
+            },
+            4: {
+                title: 'Comma Splice',
+                error: 'Two independent clauses are incorrectly joined with just a comma: "...are equally important, students must learn..." This is another comma splice.',
+                correction: 'Correct version: "Not all tasks are equally important; students must learn to distinguish between urgent and non-urgent activities." OR "Not all tasks are equally important, so students must learn to distinguish..."',
+                rule: '<strong>Grammar Rule:</strong> When joining two independent clauses, use a semicolon or a comma plus coordinating conjunction. A comma alone is insufficient.'
+            },
+            5: {
+                title: 'Wrong Word (Their/There/They\'re)',
+                error: 'The word "there" is used incorrectly. "There" indicates location, but the sentence needs the possessive pronoun "their" (belonging to them).',
+                correction: 'Correct version: "...constantly compete for their attention." Use "their" (possessive), not "there" (location) or "they\'re" (they are).',
+                rule: '<strong>Grammar Rule:</strong> Their = possessive (belonging to them). There = location (over there). They\'re = contraction of "they are." Choose based on meaning.'
+            },
+            6: {
+                title: 'Comma Splice',
+                error: 'Two independent clauses joined with only a comma: "...helps them stay on task, it prevents the temptation..." This is a comma splice.',
+                correction: 'Correct version: "Some students find that using apps that block distracting websites during study sessions helps them stay on task because it prevents the temptation to check social media every few minutes."',
+                rule: '<strong>Grammar Rule:</strong> Independent clauses require proper connectors. Use subordinating conjunctions (because, although, when), coordinating conjunctions with comma (and, but, so), or semicolons.'
+            },
+            7: {
+                title: 'Misplaced Modifier',
+                error: 'The introductory phrase "Walking into the library" incorrectly modifies "studying in groups." This suggests that studying in groups is walking into the library, which doesn\'t make logical sense.',
+                correction: 'Correct version: "When students walk into the library, studying in groups becomes an effective strategy for many." OR simply "Studying in groups is an effective strategy for many students."',
+                rule: '<strong>Grammar Rule:</strong> Modifiers should be placed next to the word they modify. Introductory phrases should logically describe the subject of the main clause that follows.'
+            },
+            8: {
+                title: 'Subject-Verb Agreement',
+                error: 'The subject "Pomodoro Technique" (singular) doesn\'t agree with the verbs "involve" and "have been" (plural). Singular subjects require singular verbs.',
+                correction: 'Correct version: "The Pomodoro Technique, which involves working for 25 minutes followed by a 5-minute break, has been proven effective for many students."',
+                rule: '<strong>Grammar Rule:</strong> Subjects and verbs must agree in number. Singular subjects take singular verbs (involves, has). Plural subjects take plural verbs (involve, have). Don\'t be confused by intervening phrases.'
+            },
+            9: {
+                title: 'Run-On Sentence / Comma Splice',
+                error: 'This sentence contains two independent clauses joined only by a comma: "...for memory consolidation and cognitive function, students who sleep well perform better..." This is an extremely long comma splice that makes the sentence difficult to read.',
+                correction: 'Correct version: "While pulling all-nighters might seem necessary during exam week, research shows that adequate sleep is crucial for memory consolidation and cognitive function. Students who sleep well perform better academically than those who sacrifice sleep for extra study time."',
+                rule: '<strong>Grammar Rule:</strong> Long, complex sentences with multiple clauses must be properly punctuated. When two independent clauses could stand alone as sentences, separate them with a period or semicolon, or connect them with proper conjunctions.'
+            },
+            10: {
+                title: 'Apostrophe Error',
+                error: 'The word "Student\'s" uses an apostrophe to indicate possession (belonging to one student), but the sentence refers to multiple students. The apostrophe is misplaced.',
+                correction: 'Correct version: "Students who master these skills..." (no apostrophe - plural noun) OR "Students\' who master..." would indicate something belonging to multiple students, but in this context, no apostrophe is needed because "students" is simply the plural subject.',
+                rule: '<strong>Grammar Rule:</strong> Apostrophes show possession or contractions, not plurals. Plural nouns don\'t need apostrophes unless showing possession. Student = one student. Students = multiple students. Student\'s = belonging to one student. Students\' = belonging to multiple students.'
+            }
+        };
+
+        let foundErrors = 0;
+        const totalErrors = 10;
+
+        // Initialize click handlers
+        document.querySelectorAll('.clickable-issue').forEach(issue => {
+            issue.addEventListener('click', function() {
+                handleIssueClick(this);
+            });
+
+            issue.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleIssueClick(this);
+                }
+            });
+        });
+
+        function handleIssueClick(element) {
+            if (element.classList.contains('found')) {
+                return; // Already found, do nothing
+            }
+
+            const issueNumber = element.getAttribute('data-issue');
+            const errorData = errors[issueNumber];
+
+            // Mark as found
+            element.classList.add('found');
+            foundErrors++;
+
+            // Update score
+            document.getElementById('foundCount').textContent = foundErrors;
+
+            // Show feedback
+            showFeedback(issueNumber, errorData);
+
+            // Check if all found
+            if (foundErrors === totalErrors) {
+                showCompletion();
+            }
+
+            // Announce to screen readers
+            announceToScreenReader(`Error ${issueNumber} found: ${errorData.title}`);
+        }
+
+        function showFeedback(issueNumber, errorData) {
+            const feedbackContent = document.getElementById('feedbackContent');
+
+            // Remove empty state on first error
+            if (foundErrors === 1) {
+                feedbackContent.innerHTML = '';
+            }
+
+            const feedbackCard = document.createElement('div');
+            feedbackCard.className = 'feedback-card';
+            feedbackCard.innerHTML = `
+                <h3>
+                    <span class="issue-icon">${issueNumber}</span>
+                    ${errorData.title}
+                </h3>
+                <div class="error">
+                    <strong>❌ What's Wrong:</strong> ${errorData.error}
+                </div>
+                <div class="correction">
+                    <strong>✅ How to Fix It:</strong> ${errorData.correction}
+                </div>
+                <div class="rule">
+                    ${errorData.rule}
+                </div>
+            `;
+
+            feedbackContent.appendChild(feedbackCard);
+
+            // Scroll feedback card into view
+            feedbackCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function showCompletion() {
+            const feedbackContent = document.getElementById('feedbackContent');
+
+            const completionMessage = document.createElement('div');
+            completionMessage.className = 'completion-message';
+            completionMessage.innerHTML = `
+                <h3>🎉 Excellent Work!</h3>
+                <p>You've successfully identified all 10 grammar and style errors!</p>
+                <p>You've practiced recognizing comma splices, run-on sentences, fragments, subject-verb agreement issues, pronoun errors, misplaced modifiers, and apostrophe mistakes.</p>
+                <p><strong>Keep practicing these skills to become a stronger writer and editor!</strong></p>
+                <button class="reset-btn" onclick="resetActivity()">↺ Try Again</button>
+            `;
+
+            feedbackContent.appendChild(completionMessage);
+            completionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            announceToScreenReader('Congratulations! You have found all 10 errors.');
+        }
+
+        function toggleHints() {
+            const hintText = document.getElementById('hintText');
+            hintText.classList.toggle('visible');
+        }
+
+        function resetActivity() {
+            if (confirm('Are you sure you want to reset? Your progress will be lost.')) {
+                location.reload();
+            }
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            setTimeout(() => announcement.remove(), 1000);
+        }
+    </script>
+</body>
+</html>
