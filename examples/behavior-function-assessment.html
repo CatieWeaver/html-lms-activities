@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Behavior Function Assessment Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 17px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .progress-step {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #34495e;
+            transition: all 0.4s ease;
+            font-size: 16px;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+
+        .progress-step.completed {
+            background: #27ae60;
+            color: white;
+        }
+
+        .progress-connector {
+            width: 50px;
+            height: 4px;
+            background: #bdc3c7;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .progress-connector.completed {
+            background: #27ae60;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-screen {
+            text-align: center;
+        }
+
+        .welcome-screen p {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .challenge-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .challenge-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .challenge-card {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 14px;
+            padding: 28px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.15);
+            border-color: #2c3e50;
+        }
+
+        .challenge-card:focus {
+            outline: 4px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .challenge-card.selected {
+            background: #2c3e50;
+            color: white;
+            border-color: #2c3e50;
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px rgba(44, 62, 80, 0.3);
+        }
+
+        .challenge-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            filter: grayscale(20%);
+        }
+
+        .challenge-card.selected .challenge-icon {
+            filter: grayscale(0%);
+        }
+
+        .challenge-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .challenge-card p {
+            font-size: 14px;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        .challenge-card.selected p {
+            opacity: 0.95;
+        }
+
+        .context-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .context-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .context-card {
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .context-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.12);
+            border-color: #3498db;
+        }
+
+        .context-card.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .context-card h4 {
+            font-size: 19px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .context-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .context-card.selected p {
+            opacity: 0.95;
+        }
+
+        .solution-section {
+            background: white;
+            border-radius: 14px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .solution-section h3 {
+            color: #2c3e50;
+            font-size: 26px;
+            margin-bottom: 24px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .solution-items {
+            display: grid;
+            gap: 20px;
+        }
+
+        .solution-item {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            border-radius: 10px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .solution-item:hover {
+            transform: translateX(6px);
+            box-shadow: 0 6px 16px rgba(44, 62, 80, 0.12);
+            border-left-width: 6px;
+        }
+
+        .solution-item h4 {
+            color: #2c3e50;
+            font-size: 19px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .solution-icon {
+            font-size: 24px;
+        }
+
+        .solution-item p {
+            color: #444;
+            line-height: 1.7;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .solution-item ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .solution-item li {
+            color: #555;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 36px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:focus {
+            outline: 4px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #34495e;
+        }
+
+        .btn-primary:disabled {
+            background: #bdc3c7;
+            color: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .btn-restart {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-restart:hover {
+            background: #2980b9;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 5px solid #f39c12;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box h3 {
+            color: #e67e22;
+            font-size: 20px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .info-box p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .challenge-summary {
+            background: white;
+            border-radius: 12px;
+            padding: 26px;
+            margin-bottom: 24px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .challenge-summary h4 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .summary-label {
+            font-weight: 700;
+            color: #34495e;
+            min-width: 120px;
+        }
+
+        .summary-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .encouragement-box {
+            background: #d4edda;
+            border-left: 5px solid #27ae60;
+            color: #155724;
+            padding: 26px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.1);
+        }
+
+        .encouragement-box p {
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .encouragement-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .resource-links {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .resource-links h4 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+
+        .resource-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-links li {
+            margin-bottom: 10px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .resource-links li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .resource-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .resource-links a:hover {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 767px) {
+            .header h1 {
+                font-size: 26px;
+            }
+            
+            .header p {
+                font-size: 15px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .progress-step {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .progress-connector {
+                width: 30px;
+            }
+
+            .challenge-card {
+                min-height: auto;
+            }
+
+            .summary-label {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Classroom Behavior Function Assessment Tool</h1>
+            <p>Identify challenging behaviors and discover evidence-based intervention strategies based on behavioral function</p>
+        </div>
+
+        <div class="content">
+            <div class="progress-indicator">
+                <div class="progress-step active" id="step1" aria-label="Step 1">1</div>
+                <div class="progress-connector" id="connector1"></div>
+                <div class="progress-step" id="step2" aria-label="Step 2">2</div>
+                <div class="progress-connector" id="connector2"></div>
+                <div class="progress-step" id="step3" aria-label="Step 3">3</div>
+            </div>
+
+            <!-- Welcome Screen -->
+            <div class="screen active" id="welcome-screen">
+                <div class="welcome-screen">
+                    <p>Understanding why a behavior occurs (its function) is essential for developing effective interventions. This tool uses principles from Applied Behavior Analysis (ABA) and Positive Behavioral Interventions and Supports (PBIS) to help you identify behavioral functions and match them with evidence-based strategies.</p>
+                    <p>You'll identify the type of challenging behavior, assess its likely function (what the behavior accomplishes for the student), and receive practical intervention strategies tailored to that function.</p>
+                    <p><strong>Let's get started.</strong></p>
+                </div>
+                <div class="button-group" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="goToScreen('challenge-screen')">Begin Assessment</button>
+                </div>
+            </div>
+
+            <!-- Behavior Type Selection Screen -->
+            <div class="screen" id="challenge-screen">
+                <div class="info-box">
+                    <h3>Step 1: Identify the Behavior Type</h3>
+                    <p>Select the category that best describes the challenging behavior you're observing:</p>
+                </div>
+
+                <div class="challenge-cards" role="radiogroup" aria-label="Select behavior type">
+                    <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="disruptive" onclick="selectChallenge('disruptive')" onkeypress="handleCardKeypress(event, 'disruptive')">
+                        <div class="challenge-icon">🔊</div>
+                        <h3>Disruptive/Off-Task</h3>
+                        <p>Talking out, leaving seat, not following directions, distracting others, wandering</p>
+                    </div>
+
+                    <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="aggressive" onclick="selectChallenge('aggressive')" onkeypress="handleCardKeypress(event, 'aggressive')">
+                        <div class="challenge-icon">😤</div>
+                        <h3>Aggressive/Destructive</h3>
+                        <p>Hitting, kicking, throwing objects, property destruction, verbal aggression</p>
+                    </div>
+
+                    <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="withdrawal" onclick="selectChallenge('withdrawal')" onkeypress="handleCardKeypress(event, 'withdrawal')">
+                        <div class="challenge-icon">😔</div>
+                        <h3>Withdrawal/Avoidance</h3>
+                        <p>Refusing to participate, shutting down, hiding, not completing work, task avoidance</p>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('welcome-screen')">Back</button>
+                    <button class="btn btn-primary" id="challenge-next-btn" disabled onclick="goToScreen('context-screen')">Continue</button>
+                </div>
+            </div>
+
+            <!-- Function Selection Screen -->
+            <div class="screen" id="context-screen">
+                <div class="info-box">
+                    <h3>Step 2: Assess the Behavioral Function</h3>
+                    <p>Based on your observations, what does the behavior seem to accomplish for the student? Select the function that best matches:</p>
+                </div>
+
+                <div class="context-options" role="radiogroup" aria-label="Select behavioral function" id="context-options-container">
+                    <!-- Dynamically populated based on behavior type -->
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('challenge-screen')">Back</button>
+                    <button class="btn btn-primary" id="context-next-btn" disabled onclick="showSolutions()">Get Intervention Strategies</button>
+                </div>
+            </div>
+
+            <!-- Solutions Screen -->
+            <div class="screen" id="solutions-screen">
+                <div class="challenge-summary">
+                    <h4>Behavioral Assessment Summary</h4>
+                    <div class="summary-item">
+                        <span class="summary-label">Behavior Type:</span>
+                        <span class="summary-value" id="selected-challenge-name"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Likely Function:</span>
+                        <span class="summary-value" id="selected-context-name"></span>
+                    </div>
+                </div>
+
+                <div class="encouragement-box">
+                    <div class="encouragement-icon">✓</div>
+                    <p><strong>Function-based interventions are most effective.</strong> By matching your strategies to the underlying function of the behavior, you're taking a research-informed approach that addresses the root cause rather than just the symptoms.</p>
+                </div>
+
+                <div class="solution-section">
+                    <h3>Evidence-Based Intervention Strategies</h3>
+                    <div class="solution-items" id="solution-items"></div>
+                    <div class="resource-links" id="resource-links">
+                        <!-- Dynamically populated with resources -->
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goToScreen('context-screen')">Back</button>
+                    <button class="btn btn-restart" onclick="restartActivity()">Assess Another Behavior</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application state
+        const appState = {
+            currentScreen: 'welcome',
+            selectedChallenge: null,
+            selectedContext: null
+        };
+
+        // Behavior type names
+        const challengeNames = {
+            disruptive: "Disruptive/Off-Task Behavior",
+            aggressive: "Aggressive/Destructive Behavior",
+            withdrawal: "Withdrawal/Avoidance Behavior"
+        };
+
+        // Function options for each behavior type
+        const contextOptions = {
+            disruptive: [
+                {
+                    id: "attention",
+                    title: "Attention-Seeking",
+                    description: "Behavior occurs to gain peer or adult attention (positive or negative)"
+                },
+                {
+                    id: "escape",
+                    title: "Escape/Avoidance",
+                    description: "Behavior helps student avoid tasks, situations, or demands"
+                },
+                {
+                    id: "sensory",
+                    title: "Sensory Stimulation",
+                    description: "Behavior provides sensory input the student seeks or needs"
+                },
+                {
+                    id: "tangible",
+                    title: "Access to Tangible",
+                    description: "Behavior helps student gain access to preferred items or activities"
+                }
+            ],
+            aggressive: [
+                {
+                    id: "attention",
+                    title: "Attention-Seeking",
+                    description: "Behavior occurs to gain immediate peer or adult attention"
+                },
+                {
+                    id: "escape",
+                    title: "Escape/Avoidance",
+                    description: "Behavior helps student escape from demands or uncomfortable situations"
+                },
+                {
+                    id: "sensory",
+                    title: "Sensory Regulation",
+                    description: "Behavior helps student regulate overwhelming sensory input or emotions"
+                },
+                {
+                    id: "tangible",
+                    title: "Access to Tangible",
+                    description: "Behavior is an attempt to obtain desired items or control"
+                }
+            ],
+            withdrawal: [
+                {
+                    id: "escape",
+                    title: "Escape/Avoidance",
+                    description: "Behavior helps student avoid challenging tasks or social situations"
+                },
+                {
+                    id: "attention",
+                    title: "Attention (Negative)",
+                    description: "Withdrawal leads to adult concern and one-on-one attention"
+                },
+                {
+                    id: "sensory",
+                    title: "Sensory Regulation",
+                    description: "Withdrawal helps student manage sensory overload or emotional dysregulation"
+                }
+            ]
+        };
+
+        // Solutions database with ABA/PBIS-based strategies
+        const solutions = {
+            disruptive: {
+                attention: [
+                    {
+                        icon: "✋",
+                        title: "Teach Appropriate Attention-Seeking",
+                        description: "Explicitly teach and reinforce appropriate ways to gain attention.",
+                        details: [
+                            "Teach specific replacement behaviors: raising hand, using 'excuse me,' asking for help appropriately",
+                            "Practice these skills when student is calm, not during problem behavior",
+                            "Provide immediate, enthusiastic attention when student uses appropriate methods",
+                            "Create a visual reminder card showing appropriate attention-seeking strategies"
+                        ]
+                    },
+                    {
+                        icon: "⏰",
+                        title: "Provide Scheduled Attention",
+                        description: "Prevent attention-seeking behavior by proactively meeting the need for attention.",
+                        details: [
+                            "Schedule regular check-ins throughout class (every 5-10 minutes initially)",
+                            "Provide specific, positive attention during appropriate behavior",
+                            "Use non-contingent attention (give attention before problem behavior occurs)",
+                            "Gradually increase time between check-ins as behavior improves"
+                        ]
+                    },
+                    {
+                        icon: "🚫",
+                        title: "Minimize Attention to Problem Behavior",
+                        description: "Reduce reinforcement by limiting attention given to disruptive behavior.",
+                        details: [
+                            "Use planned ignoring for minor, attention-seeking disruptions (if safe to do so)",
+                            "Give attention to nearby students who are on-task",
+                            "Redirect briefly and neutrally without extensive discussion",
+                            "Never engage in power struggles or lengthy explanations during disruption"
+                        ]
+                    },
+                    {
+                        icon: "👥",
+                        title: "Peer-Mediated Attention",
+                        description: "Teach peers to provide attention for appropriate behavior.",
+                        details: [
+                            "Assign a peer buddy who models and reinforces positive behavior",
+                            "Teach classmates to ignore minor disruptions and praise on-task behavior",
+                            "Structure collaborative activities where positive peer attention is natural",
+                            "Use partner or small group work to provide appropriate peer interaction"
+                        ]
+                    }
+                ],
+                escape: [
+                    {
+                        icon: "📚",
+                        title: "Modify Task Difficulty",
+                        description: "Adjust task demands to match student's current skill level.",
+                        details: [
+                            "Break longer assignments into smaller, manageable chunks",
+                            "Reduce the amount of work required while maintaining learning objectives",
+                            "Provide clear visual supports showing task expectations and completion",
+                            "Offer choices in how to complete tasks (written, verbal, drawing)"
+                        ]
+                    },
+                    {
+                        icon: "⏸️",
+                        title: "Teach Break-Requesting",
+                        description: "Provide appropriate escape through taught break-taking skills.",
+                        details: [
+                            "Teach student to request breaks using a break card, hand signal, or verbal request",
+                            "Honor break requests immediately when student uses appropriate method",
+                            "Set clear expectations for break duration and location",
+                            "Gradually increase work time required before breaks are available"
+                        ]
+                    },
+                    {
+                        icon: "💪",
+                        title: "Build Academic Skills",
+                        description: "Address skill deficits that make tasks aversive.",
+                        details: [
+                            "Provide additional instruction and practice in challenging areas",
+                            "Use pre-teaching to build confidence before introducing new concepts",
+                            "Incorporate high-interest materials to increase engagement",
+                            "Celebrate small improvements to build self-efficacy"
+                        ]
+                    },
+                    {
+                        icon: "🎯",
+                        title: "Make Tasks More Engaging",
+                        description: "Increase task appeal to reduce the motivation to escape.",
+                        details: [
+                            "Incorporate student interests into assignments",
+                            "Use varied instructional methods (hands-on, technology, movement)",
+                            "Provide opportunities for choice within structured parameters",
+                            "Include preferred activities as part of the work session"
+                        ]
+                    }
+                ],
+                sensory: [
+                    {
+                        icon: "🪑",
+                        title: "Provide Appropriate Sensory Input",
+                        description: "Offer alternative ways to meet sensory needs.",
+                        details: [
+                            "Provide fidgets, stress balls, or sensory tools during seated work",
+                            "Allow alternative seating (wobble cushion, standing desk, therapy ball)",
+                            "Incorporate movement breaks every 20-30 minutes",
+                            "Create a sensory toolkit with approved items student can access"
+                        ]
+                    },
+                    {
+                        icon: "🏃",
+                        title: "Schedule Movement Opportunities",
+                        description: "Build sensory breaks into the daily routine.",
+                        details: [
+                            "Use brain breaks with movement activities (stretching, jumping jacks)",
+                            "Assign classroom jobs requiring movement (paper passer, messenger)",
+                            "Incorporate kinesthetic learning activities into lessons",
+                            "Allow standing or pacing during independent work if non-disruptive"
+                        ]
+                    },
+                    {
+                        icon: "🔇",
+                        title: "Modify Sensory Environment",
+                        description: "Reduce sensory overload that may drive disruptive behavior.",
+                        details: [
+                            "Provide noise-canceling headphones or ear plugs for focused work",
+                            "Reduce visual clutter in student's workspace",
+                            "Allow student to sit away from high-traffic areas or bright lights",
+                            "Create a calm-down corner with reduced sensory stimulation"
+                        ]
+                    },
+                    {
+                        icon: "⏰",
+                        title: "Implement Sensory Schedule",
+                        description: "Proactively meet sensory needs before behavior escalates.",
+                        details: [
+                            "Use a visual schedule showing when movement breaks occur",
+                            "Provide heavy work activities (pushing, carrying) before seated tasks",
+                            "Allow sensory tool use during transitions and challenging activities",
+                            "Work with occupational therapist to develop individualized sensory diet"
+                        ]
+                    }
+                ],
+                tangible: [
+                    {
+                        icon: "⏳",
+                        title: "Teach Delayed Gratification",
+                        description: "Help student learn to wait for preferred items or activities.",
+                        details: [
+                            "Use a visual timer showing when preferred item will be available",
+                            "Start with very short wait times and gradually increase duration",
+                            "Provide a visual schedule showing when preferred activities occur",
+                            "Practice waiting skills during calm moments, not during problem behavior"
+                        ]
+                    },
+                    {
+                        icon: "🎟️",
+                        title: "Implement Token Economy",
+                        description: "Create system where appropriate behavior earns access to desired items.",
+                        details: [
+                            "Develop clear token system with visual representation of progress",
+                            "Provide tokens for on-task behavior, following directions, appropriate requests",
+                            "Allow student to exchange tokens for preferred items or activities",
+                            "Gradually increase number of tokens required as behavior improves"
+                        ]
+                    },
+                    {
+                        icon: "🗓️",
+                        title: "Schedule Access to Preferred Items",
+                        description: "Build in guaranteed access to reduce need to obtain through disruption.",
+                        details: [
+                            "Create daily schedule with designated times for preferred activities",
+                            "Make access to preferred items contingent on appropriate behavior",
+                            "Use 'First-Then' boards showing work before access to desired item",
+                            "Never remove scheduled access as punishment"
+                        ]
+                    },
+                    {
+                        icon: "🙋",
+                        title: "Teach Appropriate Requesting",
+                        description: "Provide functional communication alternative to obtain desired items.",
+                        details: [
+                            "Teach specific request phrases: 'May I have...?' 'Can I use...?'",
+                            "Use visual cards or communication device if verbal requests are difficult",
+                            "Immediately honor appropriate requests when possible",
+                            "Teach how to accept 'no' or 'wait' with visual supports"
+                        ]
+                    }
+                ]
+            },
+            aggressive: {
+                attention: [
+                    {
+                        icon: "👋",
+                        title: "Teach Prosocial Attention-Seeking",
+                        description: "Provide explicit instruction in appropriate ways to gain attention.",
+                        details: [
+                            "Teach and role-play appropriate attention-getting strategies",
+                            "Use social stories to explain why aggression doesn't lead to positive attention",
+                            "Immediately provide enthusiastic attention for appropriate requests",
+                            "Practice skills daily when student is regulated, not during escalation"
+                        ]
+                    },
+                    {
+                        icon: "⚠️",
+                        title: "Provide Non-Contingent Attention",
+                        description: "Prevent aggressive behavior by proactively meeting attention needs.",
+                        details: [
+                            "Schedule frequent, brief check-ins throughout the day",
+                            "Provide specific praise for appropriate behavior every 3-5 minutes initially",
+                            "Give attention during calm, appropriate moments",
+                            "Use proximity and non-verbal attention (smile, thumbs up) frequently"
+                        ]
+                    },
+                    {
+                        icon: "🤐",
+                        title: "Minimize Attention During Aggression",
+                        description: "Ensure aggressive behavior doesn't result in desired attention.",
+                        details: [
+                            "Respond calmly and neutrally without extended discussion or emotional reaction",
+                            "Use minimal words during redirect or safety intervention",
+                            "Provide attention to other students modeling appropriate behavior",
+                            "Debrief later when student is calm, not during or immediately after aggression"
+                        ]
+                    },
+                    {
+                        icon: "💚",
+                        title: "Build Positive Relationships",
+                        description: "Strong relationships reduce need for negative attention-seeking.",
+                        details: [
+                            "Spend 1-on-1 time with student during non-problem times",
+                            "Show genuine interest in student's interests and experiences",
+                            "Greet student warmly each day and say goodbye at dismissal",
+                            "Find opportunities for positive interactions unrelated to behavior management"
+                        ]
+                    }
+                ],
+                escape: [
+                    {
+                        icon: "🛡️",
+                        title: "Teach Safe Escape Behaviors",
+                        description: "Provide appropriate alternatives to aggressive escape.",
+                        details: [
+                            "Teach student to use break card or request help when feeling overwhelmed",
+                            "Create a designated calm space where student can go when needed",
+                            "Honor escape requests immediately when student uses appropriate method",
+                            "Gradually increase task demands as student builds tolerance and skills"
+                        ]
+                    },
+                    {
+                        icon: "📉",
+                        title: "Reduce Task Demands",
+                        description: "Modify expectations to reduce need for aggressive escape.",
+                        details: [
+                            "Shorten assignments while maintaining learning objectives",
+                            "Break work into very small steps with celebration after each",
+                            "Provide additional wait time for responses and processing",
+                            "Allow alternative ways to demonstrate learning (verbal instead of written)"
+                        ]
+                    },
+                    {
+                        icon: "⚡",
+                        title: "Identify and Address Triggers",
+                        description: "Prevent aggressive behavior by removing or modifying triggers.",
+                        details: [
+                            "Keep data to identify specific tasks or situations that precede aggression",
+                            "Modify or provide extra support during identified trigger situations",
+                            "Use visual supports to prepare student for difficult transitions or tasks",
+                            "Provide warnings before transitions or challenging activities"
+                        ]
+                    },
+                    {
+                        icon: "📚",
+                        title: "Build Skills in Deficit Areas",
+                        description: "Address skill gaps that make tasks overwhelming.",
+                        details: [
+                            "Provide explicit instruction and practice in challenging academic areas",
+                            "Use pre-teaching to introduce concepts before whole-class instruction",
+                            "Celebrate effort and small improvements, not just accuracy",
+                            "Ensure tasks are within student's zone of proximal development"
+                        ]
+                    }
+                ],
+                sensory: [
+                    {
+                        icon: "😌",
+                        title: "Teach Self-Regulation Strategies",
+                        description: "Provide tools for managing sensory and emotional overwhelm.",
+                        details: [
+                            "Teach deep breathing, counting, or visualization techniques",
+                            "Practice regulation strategies when student is calm",
+                            "Create a visual card with regulation strategies student can use",
+                            "Provide sensory regulation tools (weighted lap pad, stress ball, fidget)"
+                        ]
+                    },
+                    {
+                        icon: "🏃",
+                        title: "Provide Intensive Movement Breaks",
+                        description: "Use physical activity to regulate sensory system.",
+                        details: [
+                            "Schedule vigorous movement breaks before potentially triggering activities",
+                            "Use heavy work activities (wall pushes, carrying books, chair squats)",
+                            "Allow access to movement breaks when student requests or shows early warning signs",
+                            "Work with occupational therapist to develop individualized sensory plan"
+                        ]
+                    },
+                    {
+                        icon: "🔕",
+                        title: "Create Low-Stimulation Environment",
+                        description: "Reduce sensory input that may contribute to dysregulation.",
+                        details: [
+                            "Provide quiet workspace away from high-traffic areas",
+                            "Reduce visual and auditory distractions in student's area",
+                            "Allow use of noise-canceling headphones during work time",
+                            "Dim lights or provide alternative lighting if fluorescents are triggering"
+                        ]
+                    },
+                    {
+                        icon: "🚨",
+                        title: "Recognize Warning Signs Early",
+                        description: "Intervene before behavior escalates to aggression.",
+                        details: [
+                            "Learn student's early warning signs (body language, verbal cues, pacing)",
+                            "Intervene at first sign with regulation support or break opportunity",
+                            "Create a signal system where student can communicate they're getting overwhelmed",
+                            "Never ignore early warning signs - immediate support prevents escalation"
+                        ]
+                    }
+                ],
+                tangible: [
+                    {
+                        icon: "🗣️",
+                        title: "Teach Functional Communication",
+                        description: "Replace aggression with appropriate requesting skills.",
+                        details: [
+                            "Teach specific request phrases or use visual/device-based communication",
+                            "Immediately honor appropriate requests (at least initially)",
+                            "Practice requesting during calm times, not during problem behavior",
+                            "Provide communication tools that are always accessible to student"
+                        ]
+                    },
+                    {
+                        icon: "⏱️",
+                        title: "Implement Scheduled Access",
+                        description: "Reduce motivation for aggressive behavior by ensuring regular access.",
+                        details: [
+                            "Create visual schedule showing when student will have access to preferred items",
+                            "Make access predictable and reliable to reduce anxiety about availability",
+                            "Never remove scheduled access as a consequence",
+                            "Use timer to show how long until next access opportunity"
+                        ]
+                    },
+                    {
+                        icon: "🎫",
+                        title: "Use Differential Reinforcement",
+                        description: "Make preferred items more accessible through appropriate behavior.",
+                        details: [
+                            "Create token system where appropriate behavior earns access",
+                            "Start with very short intervals between tokens initially",
+                            "Provide visual representation of progress toward preferred item",
+                            "Ensure aggression never results in access to desired item"
+                        ]
+                    },
+                    {
+                        icon: "🙅",
+                        title: "Teach Acceptance of Denial",
+                        description: "Help student tolerate being told 'no' or 'wait.'",
+                        details: [
+                            "Use visual supports (red card for 'no,' yellow for 'wait')",
+                            "Start by denying access to less-preferred items and build tolerance",
+                            "Provide specific praise when student accepts denial appropriately",
+                            "Offer alternative acceptable option when primary request must be denied"
+                        ]
+                    }
+                ]
+            },
+            withdrawal: {
+                escape: [
+                    {
+                        icon: "🎯",
+                        title: "Modify Task Demands",
+                        description: "Reduce the aversiveness of tasks to decrease avoidance.",
+                        details: [
+                            "Shorten assignments significantly to increase success rate",
+                            "Provide additional scaffolding and support during difficult tasks",
+                            "Break work into very small, achievable steps",
+                            "Offer choice in task format or sequence while maintaining learning goals"
+                        ]
+                    },
+                    {
+                        icon: "🪜",
+                        title: "Use Gradual Exposure",
+                        description: "Slowly increase task demands as student builds tolerance.",
+                        details: [
+                            "Start with very brief work periods (even 30 seconds initially)",
+                            "Celebrate any engagement, no matter how small",
+                            "Gradually increase duration and difficulty as student experiences success",
+                            "Never push too hard too fast - regression is normal and expected"
+                        ]
+                    },
+                    {
+                        icon: "💪",
+                        title: "Build Competence",
+                        description: "Address skill deficits that make tasks overwhelming.",
+                        details: [
+                            "Provide explicit, systematic instruction in areas of weakness",
+                            "Use high success rate activities to build confidence",
+                            "Pre-teach content before introducing to whole class",
+                            "Celebrate effort and small improvements consistently"
+                        ]
+                    },
+                    {
+                        icon: "🤝",
+                        title: "Reduce Social Demands",
+                        description: "Modify social aspects of tasks that may be anxiety-producing.",
+                        details: [
+                            "Allow student to work independently or with single trusted peer",
+                            "Don't require public speaking or calling on student unexpectedly",
+                            "Provide alternative ways to participate in group activities",
+                            "Gradually increase social demands as comfort level grows"
+                        ]
+                    }
+                ],
+                attention: [
+                    {
+                        icon: "👁️",
+                        title: "Provide Proactive Attention",
+                        description: "Meet need for attention before withdrawal occurs.",
+                        details: [
+                            "Schedule regular brief check-ins throughout the day",
+                            "Provide specific, positive attention during appropriate engagement",
+                            "Use proximity and non-verbal attention (smile, thumbs up) frequently",
+                            "Don't wait for withdrawal to provide one-on-one time"
+                        ]
+                    },
+                    {
+                        icon: "🚫",
+                        title: "Minimize Attention to Withdrawal",
+                        description: "Ensure withdrawal doesn't result in desired attention.",
+                        details: [
+                            "Avoid extended coaxing, pleading, or negotiating",
+                            "Check in briefly and neutrally, then give space",
+                            "Provide attention to nearby students who are engaged",
+                            "Save intensive support for moments of appropriate engagement"
+                        ]
+                    },
+                    {
+                        icon: "🔄",
+                        title: "Teach Appropriate Attention-Seeking",
+                        description: "Provide alternative to withdrawal for obtaining attention.",
+                        details: [
+                            "Teach student to request help or check-in appropriately",
+                            "Immediately provide enthusiastic attention for appropriate requests",
+                            "Use social stories about asking for help when feeling stuck or overwhelmed",
+                            "Create signal system where student can indicate need for support"
+                        ]
+                    },
+                    {
+                        icon: "💙",
+                        title: "Build Trusting Relationship",
+                        description: "Strong connection reduces need for attention through withdrawal.",
+                        details: [
+                            "Spend time with student during preferred activities",
+                            "Show genuine interest in student's thoughts and feelings",
+                            "Maintain calm, supportive presence even during withdrawal",
+                            "Be consistent and predictable in responses and availability"
+                        ]
+                    }
+                ],
+                sensory: [
+                    {
+                        icon: "😮‍💨",
+                        title: "Teach Coping Strategies",
+                        description: "Provide tools for managing sensory and emotional overwhelm.",
+                        details: [
+                            "Teach and practice deep breathing, progressive muscle relaxation",
+                            "Create visual cards with regulation strategies student can access",
+                            "Practice coping skills when student is calm and regulated",
+                            "Allow student to use coping strategies proactively when needed"
+                        ]
+                    },
+                    {
+                        icon: "🏠",
+                        title: "Create Safe Retreat Space",
+                        description: "Provide appropriate environment for sensory regulation.",
+                        details: [
+                            "Designate calm corner with reduced sensory input",
+                            "Include regulation tools (weighted items, fidgets, soft lighting)",
+                            "Allow access when student needs to retreat and regulate",
+                            "Set clear expectations for space use and return to activities"
+                        ]
+                    },
+                    {
+                        icon: "🌊",
+                        title: "Reduce Environmental Demands",
+                        description: "Modify classroom to reduce sensory overwhelm.",
+                        details: [
+                            "Provide quiet workspace away from noise and visual stimulation",
+                            "Reduce number of people and activity level in student's area",
+                            "Allow use of headphones or privacy shields during work",
+                            "Adjust lighting, temperature, or seating as needed for comfort"
+                        ]
+                    },
+                    {
+                        icon: "⚡",
+                        title: "Recognize Warning Signs",
+                        description: "Intervene early before complete withdrawal occurs.",
+                        details: [
+                            "Learn student's early signs of overwhelm (eye contact loss, body language)",
+                            "Offer regulation support at first sign of distress",
+                            "Allow break or retreat before complete shutdown",
+                            "Create check-in system where student can signal need for support"
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Resource links
+        const resources = {
+            general: {
+                title: "Additional Resources",
+                links: [
+                    { text: "PBIS.org", description: "Positive Behavioral Interventions and Supports framework and resources" },
+                    { text: "Behavior Analyst Certification Board", description: "Information on evidence-based behavioral interventions" },
+                    { text: "IRIS Center", description: "Free training modules on classroom and behavior management" },
+                    { text: "Consultation with school psychologist or BCBA", description: "For individualized behavior support planning" }
+                ]
+            }
+        };
+
+        // Navigation functions
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+            appState.currentScreen = screenId.replace('-screen', '');
+            updateProgressIndicator();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            announceChange(`Navigated to ${screenId.replace('-screen', '').replace('-', ' ')} section`);
+        }
+
+        function announceChange(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            setTimeout(() => announcement.remove(), 1000);
+        }
+
+        function updateProgressIndicator() {
+            const steps = {
+                'welcome': 1,
+                'challenge': 1,
+                'context': 2,
+                'solutions': 3
+            };
+            
+            const currentStep = steps[appState.currentScreen];
+            
+            for (let i = 1; i <= 3; i++) {
+                const step = document.getElementById(`step${i}`);
+                const connector = document.getElementById(`connector${i}`);
+                
+                if (i < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                    if (connector) connector.classList.add('completed');
+                } else if (i === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                    if (connector) connector.classList.remove('completed');
+                }
+            }
+        }
+
+        function selectChallenge(challenge) {
+            document.querySelectorAll('.challenge-card').forEach(card => {
+                card.classList.remove('selected');
+                card.setAttribute('aria-checked', 'false');
+            });
+            
+            const selectedCard = document.querySelector(`[data-challenge="${challenge}"]`);
+            selectedCard.classList.add('selected');
+            selectedCard.setAttribute('aria-checked', 'true');
+            
+            appState.selectedChallenge = challenge;
+            appState.selectedContext = null;
+            document.getElementById('challenge-next-btn').disabled = false;
+            
+            announceChange(`Selected ${challengeNames[challenge]}`);
+        }
+
+        function handleCardKeypress(event, challenge) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectChallenge(challenge);
+            }
+        }
+
+        function loadContextOptions() {
+            const container = document.getElementById('context-options-container');
+            const options = contextOptions[appState.selectedChallenge];
+            
+            container.innerHTML = '';
+            
+            options.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'context-card';
+                div.tabIndex = 0;
+                div.setAttribute('role', 'radio');
+                div.setAttribute('aria-checked', 'false');
+                div.setAttribute('data-context', option.id);
+                div.onclick = () => selectContext(option.id);
+                div.onkeypress = (e) => handleContextKeypress(e, option.id);
+                
+                div.innerHTML = `
+                    <h4>${option.title}</h4>
+                    <p>${option.description}</p>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function selectContext(context) {
+            document.querySelectorAll('.context-card').forEach(card => {
+                card.classList.remove('selected');
+                card.setAttribute('aria-checked', 'false');
+            });
+            
+            const selectedCard = document.querySelector(`[data-context="${context}"]`);
+            selectedCard.classList.add('selected');
+            selectedCard.setAttribute('aria-checked', 'true');
+            
+            appState.selectedContext = context;
+            document.getElementById('context-next-btn').disabled = false;
+            
+            announceChange(`Selected context option`);
+        }
+
+        function handleContextKeypress(event, context) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                selectContext(context);
+            }
+        }
+
+        function showSolutions() {
+            const solutionsList = solutions[appState.selectedChallenge][appState.selectedContext];
+            const solutionsContainer = document.getElementById('solution-items');
+            
+            const contextObj = contextOptions[appState.selectedChallenge].find(
+                opt => opt.id === appState.selectedContext
+            );
+            
+            document.getElementById('selected-challenge-name').textContent = challengeNames[appState.selectedChallenge];
+            document.getElementById('selected-context-name').textContent = contextObj.title;
+            
+            solutionsContainer.innerHTML = '';
+            solutionsList.forEach(solution => {
+                const solutionDiv = document.createElement('div');
+                solutionDiv.className = 'solution-item';
+                
+                const detailsHTML = solution.details 
+                    ? `<ul>${solution.details.map(detail => `<li>${detail}</li>`).join('')}</ul>`
+                    : '';
+                
+                solutionDiv.innerHTML = `
+                    <h4><span class="solution-icon">${solution.icon}</span>${solution.title}</h4>
+                    <p>${solution.description}</p>
+                    ${detailsHTML}
+                `;
+                solutionsContainer.appendChild(solutionDiv);
+            });
+            
+            const resourcesSection = document.getElementById('resource-links');
+            const resourceData = resources.general;
+            
+            resourcesSection.innerHTML = `
+                <h4>${resourceData.title}</h4>
+                <ul>
+                    ${resourceData.links.map(link => `
+                        <li>${link.text} — ${link.description}</li>
+                    `).join('')}
+                </ul>
+            `;
+            
+            goToScreen('solutions-screen');
+        }
+
+        function restartActivity() {
+            appState.selectedChallenge = null;
+            appState.selectedContext = null;
+            
+            document.querySelectorAll('.challenge-card, .context-card').forEach(card => {
+                card.classList.remove('selected');
+                card.setAttribute('aria-checked', 'false');
+            });
+            
+            document.getElementById('challenge-next-btn').disabled = true;
+            document.getElementById('context-next-btn').disabled = true;
+            
+            goToScreen('welcome-screen');
+        }
+
+        const originalGoToScreen = goToScreen;
+        goToScreen = function(screenId) {
+            if (screenId === 'context-screen' && appState.selectedChallenge) {
+                loadContextOptions();
+            }
+            originalGoToScreen(screenId);
+        };
+
+        updateProgressIndicator();
+    </script>
+</body>
+</html>
