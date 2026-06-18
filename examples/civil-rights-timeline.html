@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil Rights Movement Timeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .instructions h2 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .progress-text {
+            font-size: 1.1em;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .event-bank {
+            margin-bottom: 30px;
+        }
+
+        .event-bank h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            min-height: 100px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #bdc3c7;
+        }
+
+        .event-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .event-card.dragging {
+            opacity: 0.5;
+        }
+
+        .event-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+
+        .event-card:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .event-card.selected {
+            border: 3px solid #3498db;
+            background: #e3f2fd;
+            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4);
+        }
+
+        .event-card h4 {
+            color: #2c3e50;
+            font-size: 1em;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .event-card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .timeline-section {
+            margin-bottom: 30px;
+        }
+
+        .timeline-section h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #3498db 0%, #2c3e50 100%);
+            transform: translateX(-50%);
+        }
+
+        .timeline-slot {
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .timeline-slot:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .year-label {
+            flex: 1;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 2px solid #3498db;
+        }
+
+        .drop-zone {
+            flex: 1;
+            min-height: 120px;
+            padding: 15px;
+            background: white;
+            border: 3px dashed #bdc3c7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: #3498db;
+            background: rgba(227, 242, 253, 0.3);
+        }
+
+        .drop-zone.drag-over {
+            background: rgba(232, 245, 233, 0.5);
+            border-color: #27ae60;
+            transform: scale(1.02);
+        }
+
+        .drop-zone.filled {
+            border-style: solid;
+            border-color: #e0e0e0;
+            background: white;
+        }
+
+        .drop-zone.correct {
+            background: rgba(212, 237, 218, 0.3);
+            border-color: #27ae60;
+        }
+
+        .drop-zone.incorrect {
+            background: rgba(248, 215, 218, 0.4);
+            border-color: #e74c3c;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .drop-zone-placeholder {
+            color: #95a5a6;
+            font-style: italic;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .drop-zone .event-card {
+            width: 100%;
+            margin: 0;
+            cursor: default;
+        }
+
+        .feedback-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .drop-zone.correct .feedback-icon {
+            color: #27ae60;
+        }
+
+        .drop-zone.incorrect .feedback-icon {
+            color: #e74c3c;
+        }
+
+        .completion-message {
+            display: none;
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .completion-message.visible {
+            display: block;
+        }
+
+        .completion-message h3 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .completion-message p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .event-details {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #27ae60;
+            display: none;
+        }
+
+        .event-details.visible {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .event-details h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .event-details p {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .timeline-slot {
+                flex-direction: column !important;
+            }
+
+            .timeline-line {
+                display: none;
+            }
+
+            .events-container {
+                grid-template-columns: 1fr;
+            }
+
+            .year-label {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Civil Rights Movement Timeline</h1>
+            <p>Arrange the key events of the American Civil Rights Movement (1954-1968) in chronological order. Click an event to select it, then click a year on the timeline to place it.</p>
+        </div>
+
+        <div class="content">
+            <div class="instructions">
+                <h2>📚 Instructions</h2>
+                <p><strong>Click an event</strong> from the bank below to select it (it will turn blue).</p>
+                <p><strong>Then click a year</strong> on the timeline to place the event.</p>
+                <p>Correct placements turn green with a ✓. Incorrect placements briefly turn red and return to the event bank.</p>
+            </div>
+
+            <div class="progress-section" role="region" aria-live="polite">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar">
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+                <p class="progress-text"><span id="correctCount">0</span> of 10 events placed correctly</p>
+            </div>
+
+            <div class="event-bank">
+                <h3>Event Bank</h3>
+                <div class="events-container" id="eventBank">
+                    <!-- Events will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="timeline-section">
+                <h3>Timeline: 1954-1968</h3>
+                <div class="timeline">
+                    <div class="timeline-line" aria-hidden="true"></div>
+                    <div id="timelineSlots">
+                        <!-- Timeline slots will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showAllDetails()" id="detailsBtn" style="display: none;">Show Event Details</button>
+                <button class="btn btn-secondary" onclick="resetActivity()">Reset Activity</button>
+            </div>
+
+            <div id="eventDetailsSection"></div>
+
+            <div class="completion-message" id="completionMessage">
+                <h3>🎉 Excellent Work!</h3>
+                <p>You've successfully arranged all the major events of the Civil Rights Movement in chronological order.</p>
+                <p>These events represent pivotal moments in the struggle for racial equality and justice in America, leading to significant legal, social, and political changes.</p>
+                <p>Click "Show Event Details" below to learn more about the significance of each event.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const events = [
+            {
+                id: 'event1',
+                year: 1954,
+                title: 'Brown v. Board of Education',
+                description: 'Supreme Court rules segregation in public schools unconstitutional',
+                details: 'The Supreme Court\'s unanimous decision in Brown v. Board of Education declared that "separate but equal" educational facilities were inherently unequal, overturning Plessy v. Ferguson (1896). This landmark decision marked the beginning of the legal dismantling of segregation and inspired the modern Civil Rights Movement.'
+            },
+            {
+                id: 'event2',
+                year: 1955,
+                title: 'Montgomery Bus Boycott',
+                description: 'Rosa Parks\' arrest sparks 381-day boycott of city buses',
+                details: 'After Rosa Parks refused to give up her bus seat to a white passenger, the African American community organized a 381-day boycott of Montgomery\'s bus system. Led by Dr. Martin Luther King Jr., the boycott ended with the Supreme Court ruling that bus segregation was unconstitutional, demonstrating the power of nonviolent protest.'
+            },
+            {
+                id: 'event3',
+                year: 1957,
+                title: 'Little Rock Nine',
+                description: 'Federal troops enforce school desegregation in Arkansas',
+                details: 'Nine African American students attempted to integrate Little Rock Central High School, facing violent opposition from white protesters and Arkansas Governor Orval Faubus. President Eisenhower deployed federal troops to protect the students and enforce the Supreme Court\'s Brown v. Board decision, demonstrating federal commitment to desegregation.'
+            },
+            {
+                id: 'event4',
+                year: 1960,
+                title: 'Greensboro Sit-Ins',
+                description: 'College students begin lunch counter sit-ins',
+                details: 'Four African American college students sat at a whites-only lunch counter in Greensboro, North Carolina, refusing to leave when denied service. The sit-in movement spread rapidly across the South, with thousands of students participating in nonviolent protests against segregation in public accommodations.'
+            },
+            {
+                id: 'event5',
+                year: 1961,
+                title: 'Freedom Rides',
+                description: 'Activists challenge segregation in interstate travel',
+                details: 'Interracial groups of activists rode buses through the South to challenge segregation in interstate travel facilities. Despite facing violent attacks and arrests, the Freedom Riders forced the federal government to enforce desegregation of interstate transportation, demonstrating the courage required for social change.'
+            },
+            {
+                id: 'event6',
+                year: 1963,
+                title: 'March on Washington',
+                description: 'Dr. King delivers "I Have a Dream" speech',
+                details: 'Over 250,000 people gathered at the Lincoln Memorial for the March on Washington for Jobs and Freedom. Dr. Martin Luther King Jr. delivered his famous "I Have a Dream" speech, articulating the movement\'s vision of racial equality and economic justice. The march helped build support for civil rights legislation.'
+            },
+            {
+                id: 'event7',
+                year: 1964,
+                title: 'Civil Rights Act',
+                description: 'Landmark legislation bans discrimination',
+                details: 'President Lyndon B. Johnson signed the Civil Rights Act of 1964, the most comprehensive civil rights legislation since Reconstruction. It prohibited discrimination based on race, color, religion, sex, or national origin in employment and public accommodations, fundamentally changing American society and law.'
+            },
+            {
+                id: 'event8',
+                year: 1965,
+                title: 'Selma to Montgomery Marches',
+                description: '"Bloody Sunday" and voting rights protests',
+                details: 'Three marches from Selma to Montgomery, Alabama, demanded voting rights. The first march, "Bloody Sunday," ended with brutal police violence against peaceful protesters. The images shocked the nation and accelerated passage of the Voting Rights Act, demonstrating how media coverage could influence public opinion and policy.'
+            },
+            {
+                id: 'event9',
+                year: 1965,
+                title: 'Voting Rights Act',
+                description: 'Federal law protects African American voting rights',
+                details: 'The Voting Rights Act of 1965 prohibited racial discrimination in voting, eliminating literacy tests, poll taxes, and other barriers used to prevent African Americans from voting. Federal oversight ensured enforcement, leading to dramatic increases in African American voter registration and political participation across the South.'
+            },
+            {
+                id: 'event10',
+                year: 1968,
+                title: 'Fair Housing Act',
+                description: 'Federal law bans housing discrimination',
+                details: 'Passed one week after Dr. Martin Luther King Jr.\'s assassination, the Fair Housing Act prohibited discrimination in the sale, rental, and financing of housing based on race, religion, national origin, or sex. It addressed one of the most persistent forms of discrimination and marked the final major civil rights legislation of the era.'
+            }
+        ];
+
+        const years = [1954, 1955, 1957, 1960, 1961, 1963, 1964, 1965, 1965, 1968];
+        let selectedEvent = null;
+        let correctPlacements = 0;
+
+        function initializeActivity() {
+            // Shuffle events
+            const shuffledEvents = [...events].sort(() => Math.random() - 0.5);
+            
+            // Create event cards
+            const eventBank = document.getElementById('eventBank');
+            shuffledEvents.forEach(event => {
+                const card = createEventCard(event);
+                eventBank.appendChild(card);
+            });
+
+            // Create timeline slots
+            const timelineSlots = document.getElementById('timelineSlots');
+            years.forEach((year, index) => {
+                const slot = createTimelineSlot(year, index);
+                timelineSlots.appendChild(slot);
+            });
+        }
+
+        function createEventCard(event) {
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.draggable = true;
+            card.tabIndex = 0;
+            card.setAttribute('data-event-id', event.id);
+            card.setAttribute('data-year', event.year);
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `Event: ${event.title} - ${event.description}`);
+
+            card.innerHTML = `
+                <h4>${event.title}</h4>
+                <p>${event.description}</p>
+            `;
+
+            // Click to select
+            card.addEventListener('click', function(e) {
+                selectEvent(this);
+            });
+
+            // Keyboard support
+            card.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    selectEvent(this);
+                }
+            });
+
+            // Optional drag support for those who prefer it
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+
+            return card;
+        }
+
+        function selectEvent(eventCard) {
+            // If clicking the same event, deselect it
+            if (selectedEvent === eventCard) {
+                selectedEvent.classList.remove('selected');
+                selectedEvent = null;
+                announceToScreenReader('Event deselected');
+                return;
+            }
+
+            // Deselect previous
+            if (selectedEvent) {
+                selectedEvent.classList.remove('selected');
+            }
+
+            // Select new event
+            selectedEvent = eventCard;
+            eventCard.classList.add('selected');
+            announceToScreenReader('Event selected. Click a year on the timeline to place it.');
+        }
+
+        function createTimelineSlot(year, index) {
+            const slot = document.createElement('div');
+            slot.className = 'timeline-slot';
+
+            const yearLabel = document.createElement('div');
+            yearLabel.className = 'year-label';
+            yearLabel.textContent = year;
+
+            const dropZone = document.createElement('div');
+            dropZone.className = 'drop-zone';
+            dropZone.setAttribute('data-year', year);
+            dropZone.setAttribute('data-slot-index', index);
+            dropZone.setAttribute('role', 'button');
+            dropZone.setAttribute('aria-label', `Place event in year ${year}`);
+            dropZone.tabIndex = 0;
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'drop-zone-placeholder';
+            placeholder.textContent = 'Click to place event here';
+            dropZone.appendChild(placeholder);
+
+            // Click to place
+            dropZone.addEventListener('click', function(e) {
+                if (selectedEvent && !this.classList.contains('filled')) {
+                    placeEventInSlot(selectedEvent, this);
+                }
+            });
+
+            // Keyboard support
+            dropZone.addEventListener('keypress', function(e) {
+                if ((e.key === 'Enter' || e.key === ' ') && selectedEvent) {
+                    e.preventDefault();
+                    placeEventInSlot(selectedEvent, this);
+                }
+            });
+
+            // Optional drag-and-drop support
+            dropZone.addEventListener('dragover', handleDragOver);
+            dropZone.addEventListener('drop', handleDrop);
+            dropZone.addEventListener('dragleave', handleDragLeave);
+
+            slot.appendChild(yearLabel);
+            slot.appendChild(dropZone);
+
+            return slot;
+        }
+
+        // Optional drag support
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            this.classList.add('drag-over');
+            return false;
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            e.preventDefault();
+
+            this.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                placeEventInSlot(draggedElement, this);
+            }
+
+            return false;
+        }
+
+        function placeEventInSlot(eventCard, dropZone) {
+            // Check if drop zone already has an event
+            const existingCard = dropZone.querySelector('.event-card');
+            if (existingCard) {
+                // Return existing card to bank
+                existingCard.classList.remove('selected');
+                document.getElementById('eventBank').appendChild(existingCard);
+            }
+
+            // Clear placeholder
+            const placeholder = dropZone.querySelector('.drop-zone-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+
+            // Remove selection styling
+            eventCard.classList.remove('selected');
+
+            // Place event in drop zone
+            dropZone.appendChild(eventCard);
+            dropZone.classList.add('filled');
+
+            // Check if correct
+            const eventYear = parseInt(eventCard.getAttribute('data-year'));
+            const slotYear = parseInt(dropZone.getAttribute('data-year'));
+
+            if (eventYear === slotYear) {
+                dropZone.classList.remove('incorrect');
+                dropZone.classList.add('correct');
+                const icon = document.createElement('div');
+                icon.className = 'feedback-icon';
+                icon.textContent = '✓';
+                dropZone.appendChild(icon);
+                announceToScreenReader(`Correct! ${eventCard.querySelector('h4').textContent} belongs in ${slotYear}.`);
+            } else {
+                dropZone.classList.add('incorrect');
+                dropZone.classList.remove('correct');
+                const icon = document.createElement('div');
+                icon.className = 'feedback-icon';
+                icon.textContent = '✗';
+                dropZone.appendChild(icon);
+                announceToScreenReader(`Incorrect. This event does not belong in ${slotYear}.`);
+                
+                // Return to bank after delay
+                setTimeout(() => {
+                    const feedbackIcon = dropZone.querySelector('.feedback-icon');
+                    if (feedbackIcon) feedbackIcon.remove();
+                    dropZone.classList.remove('incorrect', 'filled');
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'drop-zone-placeholder';
+                    placeholder.textContent = 'Click to place event here';
+                    dropZone.appendChild(placeholder);
+                    document.getElementById('eventBank').appendChild(eventCard);
+                }, 1500);
+            }
+
+            // Clear selection
+            selectedEvent = null;
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const correctSlots = document.querySelectorAll('.drop-zone.correct').length;
+            correctPlacements = correctSlots;
+            
+            const percentage = Math.round((correctSlots / events.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const correctCount = document.getElementById('correctCount');
+
+            progressBar.style.width = percentage + '%';
+            progressText.textContent = percentage + '%';
+            correctCount.textContent = correctSlots;
+
+            if (correctSlots === events.length) {
+                showCompletion();
+            }
+        }
+
+        function showCompletion() {
+            const completionMessage = document.getElementById('completionMessage');
+            completionMessage.classList.add('visible');
+            document.getElementById('detailsBtn').style.display = 'inline-block';
+            completionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            announceToScreenReader('Congratulations! You have completed the timeline correctly.');
+        }
+
+        function showAllDetails() {
+            const detailsSection = document.getElementById('eventDetailsSection');
+            detailsSection.innerHTML = '<h3 style="color: #2c3e50; margin: 30px 0 20px 0; text-align: center;">Event Details & Historical Significance</h3>';
+
+            // Sort events by year
+            const sortedEvents = [...events].sort((a, b) => a.year - b.year);
+
+            sortedEvents.forEach(event => {
+                const detailCard = document.createElement('div');
+                detailCard.className = 'event-details visible';
+                detailCard.innerHTML = `
+                    <h4>${event.year} - ${event.title}</h4>
+                    <p><strong>What happened:</strong> ${event.description}</p>
+                    <p><strong>Significance:</strong> ${event.details}</p>
+                `;
+                detailsSection.appendChild(detailCard);
+            });
+
+            detailsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetActivity() {
+            if (confirm('Are you sure you want to reset? Your progress will be lost.')) {
+                location.reload();
+            }
+        }
+
+        function announceToScreenReader(message) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            announcement.textContent = message;
+            document.body.appendChild(announcement);
+            setTimeout(() => announcement.remove(), 1000);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initializeActivity);
+    </script>
+</body>
+</html>
