@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Guide — Interactive HTML for Your LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --teal: #0D7377;
+            --teal-hover: #0A5C60;
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.06);
+            --radius: 10px;
+            --radius-sm: 6px;
+            --code-bg: #EEF2F7;
+            --code-ink: #1A1A2E;
+            --code-placeholder: #0A5C60;
+            --code-border: #CBD5E0;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Navigation ── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(247,247,245,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--teal); }
+        .nav-back svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── Page layout ── */
+        .page-header {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 64px 24px 48px;
+        }
+        .page-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px;
+        }
+        .page-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+        .page-intro {
+            font-size: 1.05rem;
+            color: var(--ink-secondary);
+            line-height: 1.75;
+            max-width: 640px;
+        }
+
+        .content-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* ── TOC ── */
+        .toc {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--teal);
+            border-radius: var(--radius);
+            padding: 22px 26px;
+        }
+        .toc-title {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px;
+        }
+        .toc-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .toc-list a {
+            font-size: 0.9rem;
+            color: var(--ink-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .toc-list a:hover { color: var(--teal); }
+
+        /* ── Content cards ── */
+        .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 34px;
+            box-shadow: var(--shadow-sm);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-title-num {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 1.5rem;
+            color: var(--teal);
+            opacity: 0.65;
+            line-height: 1;
+        }
+        .card-intro {
+            font-size: 0.93rem;
+            color: var(--ink-secondary);
+            line-height: 1.75;
+            margin-bottom: 18px;
+        }
+
+        /* ── Prompt blocks ── */
+        .prompt-label {
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-tertiary);
+            margin-bottom: 8px;
+        }
+        .prompt-block {
+            background: var(--code-bg);
+            color: var(--code-ink);
+            border: 1px solid var(--code-border);
+            padding: 18px 48px 18px 20px;
+            border-radius: var(--radius-sm);
+            font-family: 'Courier New', 'Lucida Console', monospace;
+            font-size: 0.9rem;
+            line-height: 1.75;
+            overflow-x: auto;
+            margin-bottom: 16px;
+            position: relative;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .prompt-block .placeholder {
+            color: var(--code-placeholder);
+            font-weight: 600;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--surface);
+            border: 1px solid var(--code-border);
+            color: var(--ink-secondary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .copy-btn:hover { background: var(--teal); color: white; border-color: var(--teal); }
+
+        /* ── Example box ── */
+        .example-wrap {
+            background: var(--surface-tint);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .example-label {
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        /* ── Activity blocks ── */
+        .activity-block {
+            border-top: 1px solid var(--border);
+            padding-top: 26px;
+            margin-top: 26px;
+        }
+        .activity-block:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+        .activity-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+        .activity-block-title {
+            font-size: 1.0rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .activity-tag {
+            font-size: 0.71rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--teal);
+            background: var(--surface-tint);
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .best-for {
+            font-size: 0.85rem;
+            color: var(--ink-secondary);
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+        .best-for strong { color: var(--teal); }
+
+        /* ── Tips ── */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .tip-item {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+        }
+        .tip-item-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 6px;
+        }
+        .tip-item p {
+            font-size: 0.83rem;
+            color: var(--ink-secondary);
+            line-height: 1.65;
+        }
+        .do-dont {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .do-item, .dont-item {
+            display: flex;
+            gap: 10px;
+            font-size: 0.88rem;
+            line-height: 1.55;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+        }
+        .do-item { background: #F0FFF4; border: 1px solid #C6F6D5; color: #1A4731; }
+        .dont-item { background: #FFF5F5; border: 1px solid #FED7D7; color: #6B2323; }
+        .do-item::before { content: "✓"; font-weight: 700; flex-shrink: 0; }
+        .dont-item::before { content: "✕"; font-weight: 700; flex-shrink: 0; }
+
+        /* ── Troubleshooting ── */
+        .trouble-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .trouble-problem {
+            background: var(--surface-subtle);
+            padding: 13px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .trouble-solution {
+            padding: 14px 18px;
+            font-size: 0.87rem;
+            color: var(--ink-secondary);
+            line-height: 1.7;
+        }
+        .trouble-solution strong { color: var(--ink); }
+        .callout {
+            background: var(--surface-tint);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--teal);
+            border-radius: var(--radius-sm);
+            padding: 16px 18px;
+            margin-top: 8px;
+            font-size: 0.87rem;
+            color: var(--ink-secondary);
+            line-height: 1.7;
+        }
+        .callout strong { color: var(--ink); }
+
+        /* ── Responsive ── */
+        @media (max-width: 680px) {
+            .tips-grid { grid-template-columns: 1fr; }
+            .content-card { padding: 22px 18px; }
+            .prompt-block { font-size: 0.84rem; }
+        }
+        a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 3px; }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" aria-label="Site navigation">
+        <div class="nav-inner">
+            <a href="../index.html" class="nav-logo">Interactive HTML for Your LMS</a>
+            <a href="../index.html" class="nav-back">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                Back to main site
+            </a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <p class="page-eyebrow">Prompt Guide</p>
+        <h1 class="page-title">Context Is King: Prompting for Activities That Fit Your Course</h1>
+        <p class="page-intro">This guide covers the full workflow: how to approach AI as a creative collaborator, how to write prompts that produce usable results, and how to troubleshoot when something doesn't render correctly in your LMS.</p>
+    </div>
+
+    <div class="content-wrap">
+
+        <nav class="toc" aria-label="Page contents">
+            <div class="toc-title">On this page</div>
+            <ul class="toc-list">
+                <li><a href="#approach">Two ways to approach a prompt</a></li>
+                <li><a href="#quickstart">Adapting an existing activity</a></li>
+                <li><a href="#brainstorm">Brainstorming prompt</a></li>
+                <li><a href="#activity-prompts">Activity-specific prompts</a></li>
+                <li><a href="#tips">Tips for better results</a></li>
+                <li><a href="#troubleshooting">Troubleshooting in your LMS</a></li>
+            </ul>
+        </nav>
+
+        <!-- Approach -->
+        <div class="content-card" id="approach">
+            <div class="card-title">Two ways to approach a prompt</div>
+            <p class="card-intro">The prompts in this guide fall into two categories, and knowing which one fits your situation saves revision time.</p>
+            <p class="card-intro">Use a <strong>brainstorming prompt</strong> when you have content but aren't sure what interaction format would serve it best. Describe what you have, share your learning goals, and ask the AI to suggest a few formats before you commit to one. This often surfaces approaches worth considering that a more prescriptive prompt would bypass.</p>
+            <p class="card-intro" style="margin-bottom:0;">Use a <strong>prescriptive prompt</strong> when you already know the format you want. These prompts include the learning objective, the audience, and the specific technical parameters, and they produce more precise output because there is less for the AI to interpret. Both approaches are demonstrated below, and you can combine them: brainstorm first, then get prescriptive once you've chosen a direction.</p>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="content-card" id="quickstart">
+            <div class="card-title"><span class="card-title-num">01</span> Adapting an existing activity</div>
+            <p class="card-intro">The most reliable path to a finished activity is adapting one of the examples from the Activity Library. You can see exactly what you're getting, and the AI has a complete working model to build from rather than starting from scratch.</p>
+
+            <div class="prompt-label">How to get the source code</div>
+            <div class="example-wrap" style="margin-bottom:20px;">
+                <p style="font-size:0.88rem;color:var(--ink-secondary);line-height:1.7;">Open any activity from the library. Right-click anywhere on the page and choose <strong>View Page Source</strong> (or press <strong>Ctrl+U</strong> on Windows / <strong>Cmd+Option+U</strong> on Mac). Select all the code (Ctrl+A), copy it (Ctrl+C), and paste it into your AI prompt.</p>
+            </div>
+
+            <div class="prompt-label">Adaptation prompt template</div>
+            <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>I have an HTML <span class="placeholder">[ACTIVITY TYPE]</span> activity about <span class="placeholder">[ORIGINAL SUBJECT]</span>.
+
+I want to adapt it for my <span class="placeholder">[YOUR SUBJECT]</span> course to <span class="placeholder">[YOUR LEARNING GOAL]</span>.
+
+Keep all the functionality (<span class="placeholder">[LIST KEY FEATURES]</span>) but replace
+the content with my material below.
+
+Requirements:
+- Maintain WCAG 2.1 AA color contrast
+- Keep keyboard navigation and screen reader support
+- No external libraries or dependencies
+- Must work embedded in a Blackboard Ultra document
+
+My content: <span class="placeholder">[PASTE YOUR CONTENT HERE]</span>
+
+Here's the HTML to adapt: <span class="placeholder">[PASTE SOURCE CODE]</span></div>
+
+            <div class="example-wrap">
+                <div class="example-label">Example</div>
+                <div class="prompt-block" style="margin-bottom:0;padding-right:20px;">I have an HTML flashcard activity about psychology concepts.
+
+I want to adapt it for my Spanish 101 course to help students
+practice vocabulary before the Unit 2 exam.
+
+Keep the flip animation, study mode toggle, shuffle, and mastery
+tracking. Replace the psychology content with my vocabulary list.
+
+Requirements:
+- Maintain WCAG 2.1 AA color contrast
+- Keep keyboard navigation and screen reader support
+- No external libraries or dependencies
+- Must work embedded in a Blackboard Ultra document
+
+My vocabulary list:
+1. la biblioteca — the library
+2. el horario — the schedule
+[continue with remaining items]
+
+Here's the HTML to adapt: [paste source code]</div>
+            </div>
+        </div>
+
+        <!-- Brainstorming -->
+        <div class="content-card" id="brainstorm">
+            <div class="card-title"><span class="card-title-num">02</span> Brainstorming prompt</div>
+            <p class="card-intro">Use this when you know your content but haven't settled on a format. Asking the AI to suggest options first — before building anything — often leads to a better activity than jumping straight to a specification.</p>
+
+            <div class="prompt-label">Brainstorming prompt template</div>
+            <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>I'm working on <span class="placeholder">[COURSE/MODULE/TOPIC]</span> and have content that
+feels flat or hard for students to engage with. I want to make
+it more interactive.
+
+Here's the content or what I'm working with:
+<span class="placeholder">[Paste your content, or describe it — for example: "I have a
+list of 12 leadership theories with brief descriptions" or "I
+need students to understand the stages of mitosis in sequence"]</span>
+
+My learning goals for this content:
+- <span class="placeholder">[e.g., Help students distinguish between closely related concepts]</span>
+- <span class="placeholder">[e.g., Give students a way to self-check before an assessment]</span>
+
+Can you suggest 3 to 4 ways to present this as an interactive
+HTML activity that embeds in a Blackboard Ultra document? For
+each option, describe what it would look like and why it fits
+this content. All options should be self-contained HTML with no
+external libraries and should follow WCAG 2.1 AA standards.</div>
+
+            <p class="card-intro" style="margin-top:16px;margin-bottom:0;">Once you have options, follow up with the one that fits: <em>"I like option 2. Can you build that using my content?"</em> You can also mix and match: <em>"Can you take the layout from option 1 and the interaction style from option 3?"</em></p>
+        </div>
+
+        <!-- Activity-Specific Prompts -->
+        <div class="content-card" id="activity-prompts">
+            <div class="card-title"><span class="card-title-num">03</span> Activity-specific prompts</div>
+            <p class="card-intro" style="margin-bottom:28px;">Use these when you know the format you want. Each prompt includes the key features to preserve and a clear structure for the content you need to supply.</p>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Flashcards</div>
+                    <span class="activity-tag">Recall &amp; Retrieval</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Vocabulary, definitions, key concepts, formulas, terms. Any content where recognition and retrieval practice supports learning.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML flashcard activity for <span class="placeholder">[COURSE/TOPIC]</span>.
+
+Create <span class="placeholder">[NUMBER]</span> flashcards where:
+- Front: <span class="placeholder">[what goes on front — term, question, image description]</span>
+- Back: <span class="placeholder">[what goes on back — definition, answer, explanation]</span>
+
+Required features: flip animation, study/quiz mode toggle, shuffle,
+mastery tracking (known / needs review), keyboard navigation
+(spacebar to flip, arrow keys to navigate), progress counter.
+
+My content:
+1. <span class="placeholder">[FRONT]</span> — <span class="placeholder">[BACK]</span>
+2. <span class="placeholder">[FRONT]</span> — <span class="placeholder">[BACK]</span>
+
+Accessibility: WCAG 2.1 AA contrast, full keyboard support, ARIA
+labels, screen reader compatible. Single HTML file, no external
+libraries, Blackboard Ultra compatible.</div>
+            </div>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Sorting &amp; Categorization</div>
+                    <span class="activity-tag">Classification</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Any content requiring classification — literary devices, historical causes, business models, clinical presentations, data types.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML drag-and-drop sorting activity for <span class="placeholder">[COURSE]</span>.
+
+Students will sort <span class="placeholder">[NUMBER]</span> items into <span class="placeholder">[NUMBER]</span> categories.
+
+Categories:
+1. <span class="placeholder">[CATEGORY NAME]</span>: <span class="placeholder">[brief description]</span>
+2. <span class="placeholder">[CATEGORY NAME]</span>: <span class="placeholder">[brief description]</span>
+
+Items to sort (with correct placement):
+- <span class="placeholder">[ITEM]</span> — belongs in <span class="placeholder">[CATEGORY]</span>
+- <span class="placeholder">[ITEM]</span> — belongs in <span class="placeholder">[CATEGORY]</span>
+
+Required features: drag-and-drop, immediate feedback with explanation
+on placement, progress tracking, reset button. Include a keyboard
+alternative (Tab to select, Enter to pick up and drop) for
+accessibility. WCAG 2.1 AA contrast, ARIA live regions for feedback.
+Single HTML file, no external libraries.</div>
+            </div>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Branching Scenarios &amp; Decision Trees</div>
+                    <span class="activity-tag">Critical Thinking</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Case studies, clinical reasoning, ethical dilemmas, troubleshooting. Scenarios where the right answer depends on context and teaches through consequence rather than instruction.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML branching scenario for my <span class="placeholder">[COURSE/CONTEXT]</span>.
+
+Starting scenario: <span class="placeholder">[Describe the initial situation — who, what, where,
+and what decision needs to be made]</span>
+
+Decision points:
+1. <span class="placeholder">[SITUATION]</span>
+   Options: A) <span class="placeholder">[CHOICE]</span>  B) <span class="placeholder">[CHOICE]</span>  C) <span class="placeholder">[CHOICE]</span>
+   A leads to: <span class="placeholder">[outcome or next scenario]</span>
+   B leads to: <span class="placeholder">[outcome or next scenario]</span>
+
+2. <span class="placeholder">[Continue as needed]</span>
+
+Each outcome should explain why the choice led there and what
+the learner should take away. Include a restart option.
+
+Required features: one decision point visible at a time, progress
+indicator, outcome explanations, restart button. Keyboard navigable,
+screen reader compatible, WCAG 2.1 AA. Single HTML file.</div>
+            </div>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Checklists &amp; Procedure Guides</div>
+                    <span class="activity-tag">Procedural Knowledge</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Multi-step procedures, safety protocols, pre-activity preparation, project milestones. Content where sequence and completion both matter.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML checklist for <span class="placeholder">[PROCEDURE/PROTOCOL]</span> in my
+<span class="placeholder">[COURSE]</span> course.
+
+Sections:
+1. <span class="placeholder">[SECTION NAME]</span>
+   - <span class="placeholder">[STEP/ITEM]</span>
+   - <span class="placeholder">[STEP/ITEM]</span>
+
+2. <span class="placeholder">[SECTION NAME]</span>
+   - <span class="placeholder">[STEP/ITEM]</span>
+
+Required features: section-level and overall progress tracking,
+checkboxes that persist during the session, print-friendly output,
+clear visual hierarchy between sections and items.
+
+Accessibility: large click targets, visible focus states, keyboard
+navigable, WCAG 2.1 AA contrast. Single HTML file, no external
+libraries, Blackboard Ultra compatible.</div>
+            </div>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Timelines &amp; Sequencing</div>
+                    <span class="activity-tag">Temporal Reasoning</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Chronological events, process sequences, historical periods, scientific discovery timelines, stages in a model or framework.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML timeline sequencing activity for <span class="placeholder">[TOPIC]</span>.
+
+Students will arrange events in chronological order. Events:
+1. <span class="placeholder">[DATE/PERIOD]</span>: <span class="placeholder">[EVENT NAME]</span> — <span class="placeholder">[brief description]</span>
+   Significance: <span class="placeholder">[why this matters]</span>
+2. <span class="placeholder">[continue...]</span>
+
+Required features: click-to-place interaction, immediate feedback
+when an event is placed correctly or incorrectly, contextual detail
+revealed after correct placement, progress tracking, reset option.
+
+Accessibility: keyboard navigation, clear visual feedback, ARIA
+announcements for correct and incorrect placement, WCAG 2.1 AA.
+Single HTML file, no external libraries.</div>
+            </div>
+
+            <div class="activity-block">
+                <div class="activity-block-header">
+                    <div class="activity-block-title">Error Identification</div>
+                    <span class="activity-tag">Analytical Thinking</span>
+                </div>
+                <p class="best-for"><strong>Best for:</strong> Editing and revision practice, code debugging, identifying flawed reasoning, spotting logical fallacies, APA or citation error correction.</p>
+                <div class="prompt-block"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Create an HTML error identification activity for my <span class="placeholder">[COURSE]</span>.
+
+A passage with <span class="placeholder">[NUMBER]</span> embedded errors, where students click
+highlighted text to reveal what's wrong and how to fix it.
+
+Topic/context: <span class="placeholder">[describe the passage]</span>
+
+Error types to include:
+- <span class="placeholder">[ERROR TYPE 1 — e.g., subject-verb disagreement]</span>
+- <span class="placeholder">[ERROR TYPE 2]</span>
+- <span class="placeholder">[ERROR TYPE 3]</span>
+
+For each error, provide:
+- What's wrong
+- The corrected version
+- The underlying rule or principle
+
+Required features: click-to-reveal feedback, progress counter,
+summary at completion showing all errors and corrections.
+
+Accessibility: errors indicated by both color and underline (not
+color alone), keyboard navigable, screen reader announces feedback,
+WCAG 2.1 AA. Single HTML file, no external libraries.</div>
+            </div>
+
+        </div>
+
+        <!-- Tips -->
+        <div class="content-card" id="tips">
+            <div class="card-title"><span class="card-title-num">04</span> Tips for better results</div>
+
+            <p style="font-size:0.93rem;color:var(--ink-secondary);line-height:1.75;margin-bottom:20px;">Specificity is the single biggest lever. Compare these two prompts for the same task:</p>
+
+            <div class="do-dont">
+                <div class="dont-item">Make an activity for an introductory biology course.</div>
+                <div class="do-item">Create flashcards for 15 biology terms related to cellular respiration for an undergraduate intro biology course. Include ATP, mitochondria, glycolysis, and the electron transport chain. Each card should have the term on the front and a 1 to 2 sentence definition with one real-world example on the back.</div>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-item-title">Provide your own content</div>
+                    <p>Supplying your own content means the activity reflects your course's specific examples, terminology, and framing. AI can generate plausible content, but only you know what fits your students and learning objectives.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-item-title">Include accessibility requirements</div>
+                    <p>Specify WCAG 2.1 AA contrast, keyboard navigation, ARIA labels, and screen reader compatibility in every prompt. These need to be requirements from the start, not requests in a revision pass.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-item-title">Test in your actual LMS</div>
+                    <p>Browser testing is a good first check, but LMS environments handle HTML differently. Always paste code into your LMS editor and test every interactive element before sharing with students.</p>
+                </div>
+                <div class="tip-item">
+                    <div class="tip-item-title">Describe what you're seeing</div>
+                    <p>When revising, tell the AI what is happening versus what you expected: "The cards aren't flipping when I click them" gets better results than "fix the flashcards." Specific observations lead to targeted fixes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="content-card" id="troubleshooting">
+            <div class="card-title"><span class="card-title-num">05</span> Troubleshooting in your LMS</div>
+            <p class="card-intro">LMS environments process HTML differently than browsers do. Most issues follow a pattern, and each one has a targeted prompt you can use to address it.</p>
+
+            <div class="trouble-item">
+                <div class="trouble-problem">Excess white space or unexpected gaps</div>
+                <div class="trouble-solution"><strong>Why it happens:</strong> Your LMS adds its own spacing around the content block, which stacks on top of the activity's own margins and padding.<br><br><strong>Fix prompt:</strong> "When I paste this into my LMS, there's too much white space above and below the content. Reduce all top and bottom padding and margins by about half, and remove any unnecessary line breaks."</div>
+            </div>
+
+            <div class="trouble-item">
+                <div class="trouble-problem">Activity scrolls inside a small box instead of expanding</div>
+                <div class="trouble-solution"><strong>Why it happens:</strong> Fixed height values or overflow settings are constraining the container.<br><br><strong>Fix prompt:</strong> "The activity is displaying inside a scrollable box in my LMS instead of expanding to full height. Remove all fixed height values and change any overflow: scroll or overflow: auto to overflow: visible."</div>
+            </div>
+
+            <div class="trouble-item">
+                <div class="trouble-problem">Icons not displaying</div>
+                <div class="trouble-solution"><strong>Why it happens:</strong> Most LMS editors strip external stylesheet references, so icon libraries that load from an external source won't work.<br><br><strong>Fix prompt:</strong> "The icons in this activity aren't displaying in my LMS. Replace all icon library references with inline SVGs or accessible Unicode characters that don't rely on external files."</div>
+            </div>
+
+            <div class="trouble-item">
+                <div class="trouble-problem">Buttons not responding or activity not advancing</div>
+                <div class="trouble-solution"><strong>Why it happens:</strong> JavaScript that runs before the HTML has fully loaded, or a mismatch between element IDs in the HTML and the script.<br><br><strong>Fix prompt:</strong> "The buttons in this activity aren't working when I test it in my LMS. Check that all JavaScript is wrapped in a DOMContentLoaded event listener, and verify that every ID referenced in the script exactly matches an ID in the HTML."</div>
+            </div>
+
+            <div class="trouble-item">
+                <div class="trouble-problem">Elements overlapping or layout breaking</div>
+                <div class="trouble-solution"><strong>Why it happens:</strong> Absolute positioning or fixed widths that work in isolation but collapse inside the LMS content container.<br><br><strong>Fix prompt:</strong> "Parts of this activity are overlapping or misaligned in my LMS. Remove any absolute or fixed positioning, convert fixed pixel widths to percentages or max-width values, and simplify to a single-column layout if needed."</div>
+            </div>
+
+            <div class="callout">
+                <strong>General approach:</strong> Whether you address issues one at a time or in a single pass, what matters most is giving the AI a precise description of what you're seeing and where. "The drag-and-drop items aren't snapping into the drop zones" will get a more useful response than "it doesn't work." The more detail you provide about the specific problem, the less guesswork the AI has to do.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function copyPrompt(btn) {
+            const block = btn.parentElement;
+            const clone = block.cloneNode(true);
+            clone.querySelector('.copy-btn')?.remove();
+            const text = clone.innerText.trim();
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            }).catch(() => {
+                btn.textContent = 'Copy failed';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
