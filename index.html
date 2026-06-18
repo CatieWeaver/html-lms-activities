@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive HTML for Your LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --teal: #0D7377;
+            --teal-hover: #0A5C60;
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.06);
+            --shadow-md: 0 4px 12px rgba(26,26,46,0.08), 0 2px 6px rgba(26,26,46,0.06);
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Navigation ── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(247,247,245,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--teal); }
+
+        /* ── Hero ── */
+        .hero {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 24px 64px;
+        }
+        .hero-headline {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            max-width: 820px;
+            margin-bottom: 24px;
+        }
+        .hero-headline em {
+            font-style: italic;
+            color: var(--teal);
+        }
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--ink-secondary);
+            max-width: 660px;
+            line-height: 1.75;
+            margin-bottom: 52px;
+        }
+
+        /* ── Entry Point Cards ── */
+        .entry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .entry-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--teal);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s, border-left-color 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+        .entry-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-left-color: var(--teal-hover);
+        }
+        .entry-card-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--surface-tint);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .entry-card-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--teal);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .entry-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .entry-card-desc {
+            font-size: 0.9rem;
+            color: var(--ink-secondary);
+            line-height: 1.6;
+        }
+        .entry-card-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin-top: 4px;
+        }
+
+        /* ── Shared section styles ── */
+        .section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 72px 24px;
+        }
+        .section-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0;
+        }
+        .section-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+        .section-intro {
+            font-size: 1.05rem;
+            color: var(--ink-secondary);
+            max-width: 700px;
+            line-height: 1.75;
+            margin-bottom: 40px;
+        }
+
+        /* ── Why section ── */
+        .why-prose {
+            max-width: 760px;
+        }
+        .why-prose p {
+            font-size: 1.0rem;
+            color: var(--ink-secondary);
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+        .why-prose p:last-child { margin-bottom: 0; }
+
+        /* ── Activities preview ── */
+        .activities-preview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        .activities-preview-text h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .activities-preview-text p {
+            font-size: 0.93rem;
+            color: var(--ink-secondary);
+            line-height: 1.7;
+            max-width: 560px;
+        }
+        .activities-preview-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .activity-tag-pill {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--teal);
+            background: var(--surface-tint);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+        .activities-preview-cta {
+            flex-shrink: 0;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--surface);
+            background: var(--teal);
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .btn-primary:hover { background: var(--teal-hover); }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--teal);
+            background: transparent;
+            text-decoration: none;
+            padding: 11px 22px;
+            border: 2px solid var(--teal);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .btn-outline:hover {
+            background: var(--teal);
+            color: var(--surface);
+        }
+
+        /* ── Methodology Strip ── */
+        .method-strip {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .method-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 72px 24px;
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin-top: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .process-step {
+            padding: 28px;
+            border-right: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .process-step:last-child { border-right: none; }
+        .process-step-num {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 2.2rem;
+            color: var(--teal);
+            line-height: 1;
+            margin-bottom: 12px;
+            opacity: 0.7;
+        }
+        .process-step-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+        .process-step p {
+            font-size: 0.87rem;
+            color: var(--ink-secondary);
+            line-height: 1.7;
+        }
+        .method-cta {
+            margin-top: 28px;
+        }
+
+        /* ── Implementation ── */
+        .impl-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .impl-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+        .impl-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .impl-card-title svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--teal);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+        .impl-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+        .impl-list li {
+            font-size: 0.88rem;
+            color: var(--ink-secondary);
+            line-height: 1.6;
+            padding-left: 16px;
+            position: relative;
+        }
+        .impl-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 5px;
+            height: 5px;
+            background: var(--teal);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+        .impl-note {
+            background: var(--surface-tint);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--teal);
+            border-radius: var(--radius-sm);
+            padding: 18px 20px;
+            margin-top: 4px;
+            font-size: 0.88rem;
+            color: var(--ink-secondary);
+            line-height: 1.75;
+            grid-column: 1 / -1;
+        }
+        .impl-note strong { color: var(--ink); }
+
+        /* ── Footer ── */
+        .site-footer {
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+        .footer-brand {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--ink-tertiary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--teal); }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .entry-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .process-step { border-right: none; border-bottom: 1px solid var(--border); }
+            .process-step:last-child { border-bottom: none; }
+            .impl-grid { grid-template-columns: 1fr; }
+            .impl-note { grid-column: 1; }
+            .activities-preview { flex-direction: column; align-items: flex-start; }
+            .footer-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .footer-links { flex-wrap: wrap; gap: 16px; }
+        }
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .hero { padding: 48px 20px 40px; }
+            .section { padding: 48px 20px; }
+            .method-inner { padding: 48px 20px; }
+        }
+        a:focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" aria-label="Site navigation">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Interactive HTML for Your LMS</a>
+            <ul class="nav-links">
+                <li><a href="activities/index.html">Activity Library</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#implementation">Implementation</a></li>
+                <li><a href="prompts/getting-started.html">Prompt Guide</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <h1 class="hero-headline">Dynamic course content,<br><em>built with AI,</em><br>embedded in your LMS.</h1>
+        <p class="hero-sub">A repeatable workflow for creating interactive HTML learning activities that live directly inside your learning management system — no authoring tools, no plugins, and no external hosting required.</p>
+
+        <div class="entry-grid">
+            <a href="activities/index.html" class="entry-card">
+                <div class="entry-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                </div>
+                <div class="entry-card-title">Explore the Activity Library</div>
+                <p class="entry-card-desc">Try live, interactive examples across activity types. Each is designed to be adapted for any discipline.</p>
+                <span class="entry-card-link">Browse activities →</span>
+            </a>
+
+            <a href="#methodology" class="entry-card">
+                <div class="entry-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                </div>
+                <div class="entry-card-title">Understand the Methodology</div>
+                <p class="entry-card-desc">The workflow is iterative and grounded in how people learn. See how it works and how to introduce it to others.</p>
+                <span class="entry-card-link">Read the approach →</span>
+            </a>
+
+            <a href="#implementation" class="entry-card">
+                <div class="entry-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="entry-card-title">Implement at Your Institution</div>
+                <p class="entry-card-desc">From individual adoption to team-scale workflows and shared repositories — what this could look like in practice.</p>
+                <span class="entry-card-link">See implementation models →</span>
+            </a>
+        </div>
+    </header>
+
+    <hr class="section-divider">
+
+    <!-- Why It Works -->
+    <section class="section" id="why">
+        <p class="section-eyebrow">The case for this approach</p>
+        <h2 class="section-title">Customized activities, designed for your course.</h2>
+        <div class="why-prose">
+            <p>Most ready-made interactive content is built for general audiences — it covers a topic, not a course. What makes this approach different is that every activity is generated from the specific content, outcomes, and context you provide. A branching scenario can reflect the exact clinical population your nursing students will encounter. A sorting activity can use the terminology your students will see on their assessments. The interactivity isn't a wrapper around generic content; it's built around what your learners actually need to do.</p>
+            <p>There's a structural advantage here as well. Traditional interactive content often depends on authoring tools, LTI integrations, or external platforms that require institutional setup and ongoing maintenance. This workflow generates standard HTML that embeds directly in your LMS document editor — nothing to install, no vendor dependency to manage, and no separate system to keep running. That portability is a deliberate choice, and it's what makes the approach realistic to sustain and straightforward to share across a team.</p>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Activity Library Preview -->
+    <section class="section" id="activities">
+        <p class="section-eyebrow">Activity Library</p>
+        <h2 class="section-title">Live examples, ready to adapt.</h2>
+        <p class="section-intro">The library includes working examples across multiple interaction types. Interact with any activity, then use the Prompt Guide to build your own version around your content.</p>
+
+        <div class="activities-preview">
+            <div class="activities-preview-text">
+                <h3>Ten activities across seven interaction types</h3>
+                <p>From flashcards and branching scenarios to sorting activities, procedure guides, and timelines — each example is discipline-specific enough to be meaningful and generic enough to show what's possible across fields.</p>
+                <div class="activities-preview-tags">
+                    <span class="activity-tag-pill">Flashcards</span>
+                    <span class="activity-tag-pill">Branching Scenarios</span>
+                    <span class="activity-tag-pill">Sorting</span>
+                    <span class="activity-tag-pill">Checklists</span>
+                    <span class="activity-tag-pill">Timelines</span>
+                    <span class="activity-tag-pill">Planning Tools</span>
+                    <span class="activity-tag-pill">Error Identification</span>
+                </div>
+            </div>
+            <div class="activities-preview-cta">
+                <a href="activities/index.html" class="btn-primary">Browse the library →</a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- Methodology -->
+    <div class="method-strip">
+        <div class="method-inner" id="methodology">
+            <p class="section-eyebrow">The Methodology</p>
+            <h2 class="section-title">Iteration is the process, not a step in it.</h2>
+            <p class="section-intro">The goal isn't to generate HTML — it's to create purposeful, accessible learning experiences efficiently. That requires a specific way of working with AI.</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="process-step-num">01</div>
+                    <div class="process-step-title">Start with the learning need</div>
+                    <p>Identify where content is flat, passive, or difficult for students to navigate. The interaction format should emerge from that need. Sometimes it helps to describe the content to an AI tool and ask what formats might work before specifying one — you may find options worth considering that you hadn't thought of.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-step-num">02</div>
+                    <div class="process-step-title">Prompt with context and constraints</div>
+                    <p>Effective prompts include the learning objective, the audience, and the technical parameters: single-file HTML, no external libraries, compatible with your LMS editor. The more specific the context, the more usable the output tends to be.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-step-num">03</div>
+                    <div class="process-step-title">Test, refine, and document</div>
+                    <p>AI-generated HTML almost always benefits from at least one round of targeted refinement. Test in your actual LMS environment. Document what works — both the prompts and the finished activities — so the workflow is repeatable by others on your team and transferable to faculty.</p>
+                </div>
+            </div>
+
+            <div class="method-cta">
+                <a href="prompts/getting-started.html" class="btn-outline">View the full Prompt Guide →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Implementation -->
+    <section class="section" id="implementation">
+        <p class="section-eyebrow">Implementation</p>
+        <h2 class="section-title">What adoption could look like at your institution.</h2>
+        <p class="section-intro">This workflow scales across resource levels. The models below reflect realistic starting points depending on your team's capacity and institutional context.</p>
+
+        <div class="impl-grid">
+            <div class="impl-card">
+                <div class="impl-card-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+                    Individual Practitioner
+                </div>
+                <ul class="impl-list">
+                    <li>An ID or faculty member adopts the workflow independently, using this site as a reference</li>
+                    <li>Builds a personal library of activities for frequently taught courses</li>
+                    <li>Uses AI iteratively to refine and troubleshoot without needing additional technical support</li>
+                    <li>Lowest barrier to entry — requires only an AI tool and LMS access</li>
+                </ul>
+            </div>
+
+            <div class="impl-card">
+                <div class="impl-card-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    ID Team or CTL
+                </div>
+                <ul class="impl-list">
+                    <li>Shared prompt library and template standards maintained by the team</li>
+                    <li>Accessibility review built into the design consultation workflow</li>
+                    <li>Done-for-you activity support for faculty, with documentation for replication</li>
+                    <li>Workshops or course design labs to build faculty capacity over time</li>
+                </ul>
+            </div>
+
+            <div class="impl-card">
+                <div class="impl-card-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    Institutional Repository
+                </div>
+                <ul class="impl-list">
+                    <li>Activities housed in a Blackboard Organization or shared LMS space for faculty access</li>
+                    <li>Master course shells or templates with pre-built interactive content</li>
+                    <li>Standardized naming conventions for discoverability and maintenance</li>
+                    <li>Update workflows and version control for long-term sustainability</li>
+                </ul>
+            </div>
+
+            <div class="impl-card">
+                <div class="impl-card-title">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    QA &amp; Accessibility at Scale
+                </div>
+                <ul class="impl-list">
+                    <li>Prompt templates with accessibility requirements baked in from the start</li>
+                    <li>Alternate format or pathway provided when interactive content can't be made fully accessible</li>
+                    <li>Team-level review process before activities go live in courses</li>
+                    <li>Ongoing audit process as LMS environments and standards evolve</li>
+                </ul>
+            </div>
+
+            <div class="impl-note">
+                <strong>A note on tool choice:</strong> This workflow uses AI tools to generate standard HTML, CSS, and JavaScript — the same languages that power the web. Activities require no external libraries, no plugins, and no server-side dependencies. They embed directly into LMS document editors that support HTML input, which makes the workflow portable across institutions and maintainable without specialized infrastructure.
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">Interactive HTML for Your LMS</div>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="activities/index.html">Activity Library</a>
+                <a href="#methodology">Methodology</a>
+                <a href="#implementation">Implementation</a>
+                <a href="prompts/getting-started.html">Prompt Guide</a>
+            </nav>
+        </div>
+    </footer>
+
+</body>
+</html>
