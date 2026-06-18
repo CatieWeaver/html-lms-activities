@@ -85,4 +85,4 @@ To add an activity to the library:
 
 ---
 
-*Developed by the Instructional Design & Technology team at WKU CITL.*
+*Developed by Western Kentucky University's Center for Innovative Teaching & Learning.*
