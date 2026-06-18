@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry Lab Safety Checklist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .progress-container {
+            background-color: #34495e;
+            padding: 20px 30px;
+            color: white;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #229954);
+            border-radius: 6px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .checklist {
+            padding: 30px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 18px;
+            margin-bottom: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .checklist-item:hover {
+            border-color: #2c3e50;
+            background-color: #f8f9fa;
+            transform: translateX(4px);
+        }
+
+        .checklist-item.checked {
+            border-color: #27ae60;
+            background-color: rgba(39, 174, 96, 0.05);
+        }
+
+        .checklist-item.checked .item-text {
+            color: #2c3e50;
+        }
+
+        .checkbox-wrapper {
+            position: relative;
+            margin-right: 16px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #2c3e50;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:hover {
+            border-color: #34495e;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:focus {
+            outline: 3px solid rgba(39, 174, 96, 0.3);
+            outline-offset: 2px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            animation: checkmark 0.3s ease;
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .item-content {
+            flex-grow: 1;
+        }
+
+        .item-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+
+        .item-subtext {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .nested-items {
+            margin-top: 12px;
+            padding-left: 20px;
+            border-left: 3px solid #3498db;
+        }
+
+        .nested-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .nested-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .nested-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2c3e50;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 12px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nested-checkbox:hover {
+            border-color: #34495e;
+        }
+
+        .nested-checkbox:focus {
+            outline: 3px solid rgba(39, 174, 96, 0.3);
+            outline-offset: 2px;
+        }
+
+        .nested-checkbox:checked {
+            background-color: #3498db;
+            border-color: #3498db;
+        }
+
+        .nested-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            animation: checkmark 0.3s ease;
+        }
+
+        .nested-label {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            padding: 20px 30px;
+            background-color: #f8f9fa;
+            border-top: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+        }
+
+        .btn:focus {
+            outline: 3px solid rgba(39, 174, 96, 0.4);
+            outline-offset: 2px;
+        }
+
+        .btn-reset {
+            background-color: white;
+            color: #2c3e50;
+            border: 2px solid #2c3e50;
+        }
+
+        .btn-reset:hover {
+            background-color: #2c3e50;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(44, 62, 80, 0.2);
+        }
+
+        .btn-print {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background-color: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(44, 62, 80, 0.3);
+        }
+
+        .completion-message {
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        .completion-message.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .warning-banner {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 15px 20px;
+            margin: 20px 30px;
+            border-radius: 4px;
+        }
+
+        .warning-banner strong {
+            color: #e67e22;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .warning-banner p {
+            color: #856404;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .checklist {
+                padding: 20px 16px;
+            }
+
+            .checklist-item {
+                padding: 14px;
+            }
+
+            .item-text {
+                font-size: 0.95rem;
+            }
+
+            .item-subtext {
+                font-size: 0.8rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: auto;
+                max-width: none;
+            }
+
+            .warning-banner {
+                margin: 15px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 16px;
+            }
+
+            .header h1 {
+                font-size: 1.3rem;
+            }
+
+            .progress-container {
+                padding: 16px 16px;
+            }
+
+            .checklist-item:hover {
+                transform: translateX(2px);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .action-buttons {
+                display: none;
+            }
+
+            .checklist-item {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .checklist-item:hover {
+                transform: none;
+            }
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            .checklist-item {
+                border-width: 3px;
+            }
+
+            .checkbox-wrapper input[type="checkbox"],
+            .nested-checkbox {
+                border-width: 3px;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Chemistry Lab Safety Checklist</h1>
+            <p>Complete ALL items before beginning any laboratory work</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-text">
+                <span>Safety Preparation</span>
+                <span id="progressCount">0 of 16 items completed</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+        <div class="warning-banner">
+            <strong>⚠️ Important Safety Notice</strong>
+            <p>Do NOT begin laboratory work until ALL checklist items are confirmed. If you cannot complete any item, notify your instructor immediately.</p>
+        </div>
+
+        <div class="completion-message" id="completionMessage" role="alert" aria-live="polite">
+            ✓ Safety checklist complete! You may begin laboratory work.
+        </div>
+
+        <div class="checklist" role="list">
+            <!-- Personal Protective Equipment -->
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item1" aria-labelledby="label1">
+                </div>
+                <label for="item1" class="item-content">
+                    <div class="item-text" id="label1">Safety goggles or glasses</div>
+                    <div class="item-subtext">Approved eye protection worn and properly fitted</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item2" aria-labelledby="label2">
+                </div>
+                <label for="item2" class="item-content">
+                    <div class="item-text" id="label2">Lab coat or apron</div>
+                    <div class="item-subtext">Protective clothing covers arms and torso</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item3" aria-labelledby="label3">
+                </div>
+                <label for="item3" class="item-content">
+                    <div class="item-text" id="label3">Appropriate footwear</div>
+                    <div class="item-subtext">Closed-toe shoes covering entire foot (no sandals, flip-flops, or open-toed shoes)</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item4" aria-labelledby="label4">
+                </div>
+                <label for="item4" class="item-content">
+                    <div class="item-text" id="label4">Hair and clothing secured</div>
+                    <div class="item-subtext">Long hair tied back; loose clothing, jewelry, and dangling accessories removed or secured</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item5" aria-labelledby="label5">
+                </div>
+                <label for="item5" class="item-content">
+                    <div class="item-text" id="label5">Gloves available if needed</div>
+                    <div class="item-subtext">Appropriate gloves accessible for handling chemicals or hot materials</div>
+                </label>
+            </div>
+
+            <!-- Pre-Lab Preparation -->
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item6" aria-labelledby="label6">
+                </div>
+                <label for="item6" class="item-content">
+                    <div class="item-text" id="label6">Lab procedure reviewed</div>
+                    <div class="item-subtext">Read and understand all steps of today's experiment before beginning</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item7" aria-labelledby="label7">
+                </div>
+                <label for="item7" class="item-content">
+                    <div class="item-text" id="label7">Chemical hazards identified</div>
+                    <div class="item-subtext">Safety Data Sheets (SDS) reviewed for all chemicals being used today</div>
+                </label>
+            </div>
+
+            <!-- Workspace Setup -->
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item8" aria-labelledby="label8">
+                </div>
+                <label for="item8" class="item-content">
+                    <div class="item-text" id="label8">Workspace clear and organized</div>
+                    <div class="item-subtext">Personal items (bags, phones, notebooks) stored away from lab bench</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item9" aria-labelledby="label9">
+                </div>
+                <label for="item9" class="item-content">
+                    <div class="item-text" id="label9">Equipment inspection completed</div>
+                    <div class="item-subtext">All glassware checked for cracks or chips; equipment functioning properly</div>
+                </label>
+            </div>
+
+            <!-- Safety Equipment Knowledge -->
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item10" aria-labelledby="label10">
+                </div>
+                <label for="item10" class="item-content">
+                    <div class="item-text" id="label10">Emergency equipment locations known</div>
+                    <div class="item-subtext">Location and operation of emergency equipment confirmed:</div>
+                    <div class="nested-items" role="list">
+                        <div class="nested-item" role="listitem">
+                            <input type="checkbox" class="nested-checkbox" id="nested1" aria-labelledby="nestedLabel1">
+                            <label for="nested1" class="nested-label" id="nestedLabel1">Fire extinguisher location and type identified</label>
+                        </div>
+                        <div class="nested-item" role="listitem">
+                            <input type="checkbox" class="nested-checkbox" id="nested2" aria-labelledby="nestedLabel2">
+                            <label for="nested2" class="nested-label" id="nestedLabel2">Eyewash station location confirmed and operational</label>
+                        </div>
+                        <div class="nested-item" role="listitem">
+                            <input type="checkbox" class="nested-checkbox" id="nested3" aria-labelledby="nestedLabel3">
+                            <label for="nested3" class="nested-label" id="nestedLabel3">Emergency shower location confirmed and accessible</label>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item11" aria-labelledby="label11">
+                </div>
+                <label for="item11" class="item-content">
+                    <div class="item-text" id="label11">Emergency exits identified</div>
+                    <div class="item-subtext">Primary and secondary exit routes from lab known</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item12" aria-labelledby="label12">
+                </div>
+                <label for="item12" class="item-content">
+                    <div class="item-text" id="label12">First aid kit location known</div>
+                    <div class="item-subtext">Location of first aid supplies and spill kits identified</div>
+                </label>
+            </div>
+
+            <!-- Safety Procedures -->
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item13" aria-labelledby="label13">
+                </div>
+                <label for="item13" class="item-content">
+                    <div class="item-text" id="label13">Waste disposal procedures understood</div>
+                    <div class="item-subtext">Know which materials go in waste containers vs. sink; proper disposal methods reviewed</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item14" aria-labelledby="label14">
+                </div>
+                <label for="item14" class="item-content">
+                    <div class="item-text" id="label14">Lab partner communication established</div>
+                    <div class="item-subtext">Working with lab partner(s); roles and responsibilities discussed</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item15" aria-labelledby="label15">
+                </div>
+                <label for="item15" class="item-content">
+                    <div class="item-text" id="label15">Emergency contact procedures known</div>
+                    <div class="item-subtext">Know how to contact instructor, lab manager, or campus security in case of emergency</div>
+                </label>
+            </div>
+
+            <div class="checklist-item" role="listitem">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="item16" aria-labelledby="label16">
+                </div>
+                <label for="item16" class="item-content">
+                    <div class="item-text" id="label16">No food, drink, or gum in lab</div>
+                    <div class="item-subtext">All food, beverages, and gum removed from lab area; understand no eating/drinking policy</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-reset" id="resetBtn" aria-label="Reset all checkboxes">
+                Reset Checklist
+            </button>
+            <button class="btn btn-print" id="printBtn" aria-label="Print checklist">
+                Print Checklist
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // State management using in-memory storage
+        const checklistState = {
+            mainItems: new Array(16).fill(false),
+            nestedItems: new Array(3).fill(false)
+        };
+
+        const totalItems = 19; // 16 main items + 3 nested items
+
+        // Initialize checklist
+        function initChecklist() {
+            // Main items
+            for (let i = 1; i <= 16; i++) {
+                const checkbox = document.getElementById(`item${i}`);
+                if (checkbox) {
+                    checkbox.addEventListener('change', () => handleMainCheckboxChange(i - 1));
+                    
+                    // Make the entire checklist item clickable
+                    const checklistItem = checkbox.closest('.checklist-item');
+                    if (checklistItem) {
+                        checklistItem.addEventListener('click', (e) => {
+                            if (e.target !== checkbox && e.target.tagName !== 'INPUT') {
+                                checkbox.checked = !checkbox.checked;
+                                handleMainCheckboxChange(i - 1);
+                            }
+                        });
+                    }
+                }
+            }
+
+            // Nested items
+            for (let i = 1; i <= 3; i++) {
+                const checkbox = document.getElementById(`nested${i}`);
+                if (checkbox) {
+                    checkbox.addEventListener('change', () => handleNestedCheckboxChange(i - 1));
+                }
+            }
+
+            // Action buttons
+            document.getElementById('resetBtn').addEventListener('click', resetChecklist);
+            document.getElementById('printBtn').addEventListener('click', printChecklist);
+
+            // Keyboard navigation for checklist items
+            document.querySelectorAll('.checklist-item').forEach((item, index) => {
+                item.setAttribute('tabindex', '0');
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const checkbox = item.querySelector('input[type="checkbox"]');
+                        if (checkbox) {
+                            checkbox.checked = !checkbox.checked;
+                            checkbox.dispatchEvent(new Event('change'));
+                        }
+                    }
+                });
+            });
+
+            updateProgress();
+        }
+
+        function handleMainCheckboxChange(index) {
+            const checkbox = document.getElementById(`item${index + 1}`);
+            checklistState.mainItems[index] = checkbox.checked;
+            
+            // Update visual state
+            const checklistItem = checkbox.closest('.checklist-item');
+            if (checklistItem) {
+                if (checkbox.checked) {
+                    checklistItem.classList.add('checked');
+                } else {
+                    checklistItem.classList.remove('checked');
+                }
+            }
+
+            // Special handling for item 10 (emergency equipment with nested items)
+            if (index === 9) {
+                updateParentCheckbox();
+            }
+
+            updateProgress();
+        }
+
+        function handleNestedCheckboxChange(index) {
+            const checkbox = document.getElementById(`nested${index + 1}`);
+            checklistState.nestedItems[index] = checkbox.checked;
+            updateParentCheckbox();
+            updateProgress();
+        }
+
+        function updateParentCheckbox() {
+            const parentCheckbox = document.getElementById('item10');
+            const allNestedChecked = checklistState.nestedItems.every(checked => checked);
+            
+            if (allNestedChecked) {
+                parentCheckbox.checked = true;
+                checklistState.mainItems[9] = true;
+                const checklistItem = parentCheckbox.closest('.checklist-item');
+                if (checklistItem) {
+                    checklistItem.classList.add('checked');
+                }
+            } else if (parentCheckbox.checked) {
+                parentCheckbox.checked = false;
+                checklistState.mainItems[9] = false;
+                const checklistItem = parentCheckbox.closest('.checklist-item');
+                if (checklistItem) {
+                    checklistItem.classList.remove('checked');
+                }
+            }
+        }
+
+        function updateProgress() {
+            const checkedCount = checklistState.mainItems.filter(Boolean).length + 
+                               checklistState.nestedItems.filter(Boolean).length;
+            const percentage = (checkedCount / totalItems) * 100;
+
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${percentage}%`;
+            progressBar.setAttribute('aria-valuenow', percentage);
+
+            // Update progress text
+            document.getElementById('progressCount').textContent = 
+                `${checkedCount} of ${totalItems} items completed`;
+
+            // Show completion message
+            const completionMessage = document.getElementById('completionMessage');
+            if (checkedCount === totalItems) {
+                completionMessage.classList.add('show');
+            } else {
+                completionMessage.classList.remove('show');
+            }
+        }
+
+        function resetChecklist() {
+            if (confirm('Are you sure you want to reset all checkboxes?')) {
+                // Reset state
+                checklistState.mainItems.fill(false);
+                checklistState.nestedItems.fill(false);
+
+                // Reset main checkboxes
+                for (let i = 1; i <= 16; i++) {
+                    const checkbox = document.getElementById(`item${i}`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        const checklistItem = checkbox.closest('.checklist-item');
+                        if (checklistItem) {
+                            checklistItem.classList.remove('checked');
+                        }
+                    }
+                }
+
+                // Reset nested checkboxes
+                for (let i = 1; i <= 3; i++) {
+                    const checkbox = document.getElementById(`nested${i}`);
+                    if (checkbox) {
+                        checkbox.checked = false;
+                    }
+                }
+
+                updateProgress();
+            }
+        }
+
+        function printChecklist() {
+            window.print();
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initChecklist);
+        } else {
+            initChecklist();
+        }
+    </script>
+</body>
+</html>
