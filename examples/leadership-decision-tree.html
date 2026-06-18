@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crisis Leadership Case Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: #ecf0f1;
+            padding: 20px 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .progress-bar {
+            background: #bdc3c7;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        .content {
+            padding: 40px 30px;
+            min-height: 400px;
+        }
+
+        .scenario {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .scenario.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scenario h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .scenario-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: #34495e;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 18px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .choice-btn:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .choice-btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .choice-btn:active {
+            transform: translateY(0);
+        }
+
+        .outcome {
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .outcome h3 {
+            color: #27ae60;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .outcome p {
+            color: #2c3e50;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .reflection {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .reflection h4 {
+            color: #e67e22;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .reflection p {
+            color: #2c3e50;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .nav-btn:hover {
+            background: #7f8c8d;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .nav-btn.primary {
+            background: #e74c3c;
+        }
+
+        .nav-btn.primary:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .scenario h2 {
+                font-size: 1.3rem;
+            }
+
+            .scenario-text {
+                font-size: 1rem;
+            }
+
+            .choice-btn {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-container, .content {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .outcome, .reflection {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Crisis Leadership Case Study</h1>
+            <p>Navigate organizational change during a technology disruption crisis</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 6</div>
+        </div>
+
+        <div class="content">
+            <!-- Scenario 1: Initial Crisis -->
+            <div class="scenario active" id="scenario1">
+                <h2>The Crisis Unfolds</h2>
+                <div class="scenario-text">
+                    You are the CEO of MidTech Solutions, a 500-employee software company. Your main competitor has just released a revolutionary AI-powered platform that makes your core product obsolete. Industry analysts predict companies like yours have 6-12 months to adapt or risk losing 60% of market share.
+                    <br><br>
+                    Your leadership team is divided. Some want immediate layoffs to cut costs, others push for aggressive R&D investment, and your board is demanding a response within 48 hours. Employee morale is plummeting as news spreads.
+                    <br><br>
+                    <strong>How do you frame your initial response to this organizational crisis?</strong>
+                </div>
+                <div class="choices">
+                    <button class="choice-btn" onclick="goToScenario(2, 'transparent')">
+                        Be completely transparent with all employees about the severity of the threat and involve them in solution-finding
+                    </button>
+                    <button class="choice-btn" onclick="goToScenario(2, 'controlled')">
+                        Share limited information while you and senior leadership develop a comprehensive strategy first
+                    </button>
+                    <button class="choice-btn" onclick="goToScenario(2, 'decisive')">
+                        Make immediate decisive changes to demonstrate strong leadership and reassure stakeholders
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Employee Response -->
+            <div class="scenario" id="scenario2">
+                <h2>Managing the Human Element</h2>
+                <div class="scenario-text" id="scenario2Text"></div>
+                <div class="choices" id="scenario2Choices"></div>
+            </div>
+
+            <!-- Scenario 3: Strategic Direction -->
+            <div class="scenario" id="scenario3">
+                <h2>Choosing Your Strategic Path</h2>
+                <div class="scenario-text" id="scenario3Text"></div>
+                <div class="choices" id="scenario3Choices"></div>
+            </div>
+
+            <!-- Scenario 4: Implementation Challenges -->
+            <div class="scenario" id="scenario4">
+                <h2>Implementation Reality</h2>
+                <div class="scenario-text" id="scenario4Text"></div>
+                <div class="choices" id="scenario4Choices"></div>
+            </div>
+
+            <!-- Scenario 5: Mid-Course Corrections -->
+            <div class="scenario" id="scenario5">
+                <h2>Adapting Your Approach</h2>
+                <div class="scenario-text" id="scenario5Text"></div>
+                <div class="choices" id="scenario5Choices"></div>
+            </div>
+
+            <!-- Final Outcome -->
+            <div class="scenario" id="scenario6">
+                <h2>Six Months Later: Results</h2>
+                <div class="scenario-text" id="finalOutcome"></div>
+                <div class="outcome" id="outcomeBox"></div>
+                <div class="reflection">
+                    <h4>Leadership Theory Connections</h4>
+                    <p id="theoryConnection"></p>
+                </div>
+                <div class="navigation">
+                    <button class="nav-btn primary" onclick="restartActivity()">Start New Scenario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let totalSteps = 6;
+        let userChoices = [];
+
+        const scenarios = {
+            2: {
+                transparent: {
+                    text: "You've called an all-hands meeting and shared the competitive threat openly. Employees appreciate the honesty but anxiety is high. Some key developers are already updating their resumes, while others are energized to fight back.<br><br>Your transparency has created both opportunity and risk. Middle management is struggling to maintain productivity while addressing constant questions from their teams.<br><br><strong>How do you channel this energy constructively?</strong>",
+                    choices: [
+                        { text: "Form cross-functional innovation teams with volunteers to rapidly prototype solutions", next: 3, path: 'collaborative' },
+                        { text: "Establish clear communication protocols and focus groups to manage information flow", next: 3, path: 'structured' },
+                        { text: "Launch an internal competition with incentives for breakthrough ideas", next: 3, path: 'competitive' }
+                    ]
+                },
+                controlled: {
+                    text: "You've shared that the company faces competitive pressures but kept specifics limited while your leadership team works on strategy. This has created information gaps that rumors are starting to fill.<br><br>Some employees feel left out of important decisions, while others appreciate that leadership is handling the situation. Productivity remains stable but engagement is declining.<br><br><strong>How do you balance strategic planning with employee engagement?</strong>",
+                    choices: [
+                        { text: "Create employee advisory committees to provide input on strategic directions", next: 3, path: 'advisory' },
+                        { text: "Focus on completing the leadership strategy before broader communication", next: 3, path: 'topdown' },
+                        { text: "Gradually increase transparency as plans become more concrete", next: 3, path: 'gradual' }
+                    ]
+                },
+                decisive: {
+                    text: "You've announced immediate cost-cutting measures including a hiring freeze and 10% workforce reduction, while simultaneously increasing R&D investment. The market reacted positively to your quick action.<br><br>However, employee morale has plummeted. Remaining staff are overworked and fearful. Some key talent has already departed, creating knowledge gaps in critical areas.<br><br><strong>How do you rebuild internal momentum while maintaining external confidence?</strong>",
+                    choices: [
+                        { text: "Invest heavily in retention packages and skills development for remaining employees", next: 3, path: 'retention' },
+                        { text: "Bring in external consultants and new hires to fill gaps and drive change", next: 3, path: 'external' },
+                        { text: "Reorganize remaining teams into smaller, more agile units with greater autonomy", next: 3, path: 'agile' }
+                    ]
+                }
+            }
+        };
+
+        const outcomes = {
+            collaborative_innovation_support: {
+                text: "Your collaborative approach has paid off remarkably. The cross-functional teams generated three viable product concepts, with one already in beta testing. Employee engagement is at an all-time high, and voluntary turnover decreased by 40%.",
+                outcome: "Strong Success: Market share loss limited to 15%. Employee satisfaction increased. Two new products launching ahead of schedule.",
+                theory: "Your approach aligns with <strong>Transformational Leadership Theory</strong> (Burns, Bass) and <strong>Distributed Leadership</strong> models. By inspiring collective action and distributing decision-making, you've created organizational resilience and innovation capacity that extends beyond the immediate crisis."
+            },
+            structured_planning_systematic: {
+                text: "Your systematic approach created stability during turbulent times. Clear communication protocols prevented panic, and methodical planning resulted in a solid strategic response, though perhaps not as innovative as hoped.",
+                outcome: "Moderate Success: Market share loss contained to 25%. Organization remains stable with gradual adaptation to new market realities.",
+                theory: "This reflects <strong>Situational Leadership Theory</strong> (Hersey & Blanchard) and <strong>Systems Thinking</strong> approaches. You adapted your leadership style to provide structure during uncertainty, though may have missed opportunities for breakthrough innovation."
+            },
+            competitive_energy_direction: {
+                text: "The internal competition sparked creativity but also created silos. While some excellent ideas emerged, collaboration suffered and political dynamics intensified within the organization.",
+                outcome: "Mixed Results: Market share loss of 30%, but strong pipeline of innovative ideas. Internal culture shows signs of stress.",
+                theory: "Your approach demonstrates elements of <strong>Transactional Leadership</strong> with competitive dynamics. While effective for short-term motivation, it may undermine the collaborative culture needed for sustained organizational transformation."
+            },
+            advisory_balanced_input: {
+                text: "The advisory committees provided valuable employee input while maintaining strategic focus. This balanced approach built trust and generated practical solutions, though decision-making was slower than competitors'.",
+                outcome: "Solid Success: Market share loss of 20%. Strong employee buy-in for strategic changes. Implementation ahead of plan.",
+                theory: "This exemplifies <strong>Participative Leadership</strong> and <strong>Stakeholder Theory</strong>. By balancing strategic control with employee voice, you've created sustainable change with strong organizational support."
+            },
+            topdown_control_execution: {
+                text: "Your top-down approach resulted in a technically sound strategy, but implementation suffered due to limited employee buy-in. Resistance to change became a significant challenge.",
+                outcome: "Limited Success: Market share loss of 35%. Strategy is solid but execution is lagging due to organizational resistance.",
+                theory: "This reflects traditional <strong>Authoritarian Leadership</strong> models. While efficient for decision-making, it often struggles with change management in knowledge-based organizations where employee engagement is crucial for success."
+            },
+            gradual_transparency_trust: {
+                text: "Your gradual approach to transparency built trust over time and allowed for course corrections. The organization adapted well, though some early opportunities were missed due to slower initial response.",
+                outcome: "Good Success: Market share loss of 22%. Strong organizational cohesion and sustainable change processes established.",
+                theory: "This demonstrates <strong>Adaptive Leadership</strong> (Heifetz) and <strong>Change Management</strong> best practices. By gradually building understanding and buy-in, you've created conditions for sustainable organizational transformation."
+            }
+        };
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const percentage = (currentStep / totalSteps) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function goToScenario(scenarioNum, choice) {
+            userChoices.push(choice);
+            currentStep = scenarioNum;
+            updateProgress();
+
+            // Hide current scenario
+            document.querySelector('.scenario.active').classList.remove('active');
+            
+            // Show next scenario
+            const nextScenario = document.getElementById(`scenario${scenarioNum}`);
+            
+            if (scenarioNum === 2) {
+                setupScenario2(choice);
+            } else if (scenarioNum === 3) {
+                setupScenario3();
+            } else if (scenarioNum === 4) {
+                setupScenario4();
+            } else if (scenarioNum === 5) {
+                setupScenario5();
+            } else if (scenarioNum === 6) {
+                setupFinalOutcome();
+            }
+            
+            nextScenario.classList.add('active');
+        }
+
+        function setupScenario2(choice) {
+            const scenario = scenarios[2][choice];
+            document.getElementById('scenario2Text').innerHTML = scenario.text;
+            
+            const choicesContainer = document.getElementById('scenario2Choices');
+            choicesContainer.innerHTML = '';
+            
+            scenario.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario3() {
+            const texts = {
+                collaborative: "Your innovation teams are generating exciting ideas, but the process is taking longer than expected. Competitors are moving fast, and some board members are getting nervous about the timeline.<br><br><strong>How do you maintain innovation momentum while addressing timeline pressures?</strong>",
+                structured: "Your structured approach is yielding solid plans, but employees are asking for more involvement in the solution. Some talented staff are considering offers from competitors who promise more dynamic roles.<br><br><strong>How do you balance systematic planning with talent retention?</strong>",
+                competitive: "The internal competition has generated some breakthrough concepts, but it's also created tension between departments. Collaboration on implementation is suffering.<br><br><strong>How do you harness competitive energy while rebuilding collaboration?</strong>",
+                advisory: "The advisory committees are providing valuable input, but decision-making is slower than your competitors'. Time pressure is mounting from both the board and the market.<br><br><strong>How do you accelerate decisions while maintaining employee input?</strong>",
+                topdown: "Your leadership team has developed a comprehensive strategy, but middle managers are struggling to sell the vision to their teams. Implementation is meeting resistance.<br><br><strong>How do you improve organizational buy-in for your strategic direction?</strong>",
+                gradual: "Your gradual transparency approach is building trust, but some employees feel the pace of change is too slow compared to the competitive threat they're hearing about in the market.<br><br><strong>How do you accelerate organizational response while maintaining trust?</strong>"
+            };
+
+            const choices = {
+                collaborative: [
+                    { text: "Set clearer deadlines while providing innovation teams with additional resources and support", next: 4, path: 'innovation_support' },
+                    { text: "Shift to a hybrid approach combining innovation teams with faster decision-making processes", next: 4, path: 'innovation_hybrid' }
+                ],
+                structured: [
+                    { text: "Expand employee involvement in strategic planning through structured feedback mechanisms", next: 4, path: 'planning_involvement' },
+                    { text: "Accelerate the planning process and increase communication about progress and decisions", next: 4, path: 'planning_systematic' }
+                ],
+                competitive: [
+                    { text: "Create inter-departmental collaboration requirements and shared success metrics", next: 4, path: 'energy_collaboration' },
+                    { text: "Channel competitive energy toward external market competition rather than internal contests", next: 4, path: 'energy_direction' }
+                ],
+                advisory: [
+                    { text: "Streamline the advisory process while maintaining meaningful employee input", next: 4, path: 'balanced_streamlined' },
+                    { text: "Give advisory committees more decision-making authority to speed up the process", next: 4, path: 'balanced_input' }
+                ],
+                topdown: [
+                    { text: "Invest in change management training and communication programs for middle managers", next: 4, path: 'control_communication' },
+                    { text: "Create direct communication channels between leadership and front-line employees", next: 4, path: 'control_execution' }
+                ],
+                gradual: [
+                    { text: "Accelerate transparency while maintaining the trust-building approach", next: 4, path: 'transparency_accelerated' },
+                    { text: "Continue the gradual approach but add more frequent progress updates", next: 4, path: 'transparency_trust' }
+                ]
+            };
+
+            const lastChoice = userChoices[userChoices.length - 1];
+            document.getElementById('scenario3Text').innerHTML = texts[lastChoice];
+            
+            const choicesContainer = document.getElementById('scenario3Choices');
+            choicesContainer.innerHTML = '';
+            
+            choices[lastChoice].forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario4() {
+            document.getElementById('scenario4Text').innerHTML = "Three months into your transformation effort, you're seeing mixed results. Some initiatives are ahead of schedule while others are struggling. A key competitor has just announced a partnership that could further threaten your market position.<br><br>Your board is asking for concrete progress metrics, employees are looking for reassurance about job security, and customers are asking about your competitive response.<br><br><strong>How do you navigate these multiple stakeholder pressures while maintaining transformation momentum?</strong>";
+            
+            const choicesContainer = document.getElementById('scenario4Choices');
+            choicesContainer.innerHTML = '';
+            
+            const choices = [
+                { text: "Focus resources on the most promising initiatives while scaling back others", next: 5, path: 'focus' },
+                { text: "Double down on all initiatives while improving coordination and communication", next: 5, path: 'accelerate' },
+                { text: "Pivot strategy based on new competitive intelligence and stakeholder feedback", next: 5, path: 'pivot' }
+            ];
+            
+            choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario5() {
+            document.getElementById('scenario5Text').innerHTML = "You're now in month five of the transformation. Early results are becoming visible, but sustainability is the question. Employee fatigue is setting in, and you need to prepare the organization for long-term success beyond this immediate crisis.<br><br>Some of your changes are working well, others need adjustment. The market is stabilizing around new norms, and you have a clearer picture of what the future competitive landscape will look like.<br><br><strong>How do you ensure the changes you've made will create lasting organizational capability?</strong>";
+            
+            const choicesContainer = document.getElementById('scenario5Choices');
+            choicesContainer.innerHTML = '';
+            
+            const choices = [
+                { text: "Institutionalize successful changes through new systems, processes, and cultural practices", next: 6, path: 'institutionalize' },
+                { text: "Continue adapting and experimenting while building organizational learning capabilities", next: 6, path: 'learning' },
+                { text: "Consolidate gains and focus on operational excellence in your new strategic direction", next: 6, path: 'consolidate' }
+            ];
+            
+            choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupFinalOutcome() {
+            // Create outcome key based on user choices
+            const outcomeKey = userChoices.slice(1).join('_'); // Skip first choice, combine the rest
+            
+            // Simplified outcome selection based on key patterns
+            let finalOutcome;
+            if (outcomeKey.includes('collaborative') && outcomeKey.includes('innovation')) {
+                finalOutcome = outcomes.collaborative_innovation_support;
+            } else if (outcomeKey.includes('structured') && outcomeKey.includes('systematic')) {
+                finalOutcome = outcomes.structured_planning_systematic;
+            } else if (outcomeKey.includes('competitive') && outcomeKey.includes('direction')) {
+                finalOutcome = outcomes.competitive_energy_direction;
+            } else if (outcomeKey.includes('advisory') || outcomeKey.includes('balanced')) {
+                finalOutcome = outcomes.advisory_balanced_input;
+            } else if (outcomeKey.includes('topdown') || outcomeKey.includes('control')) {
+                finalOutcome = outcomes.topdown_control_execution;
+            } else {
+                finalOutcome = outcomes.gradual_transparency_trust;
+            }
+            
+            document.getElementById('finalOutcome').innerHTML = finalOutcome.text;
+            document.getElementById('outcomeBox').innerHTML = `<h3>Your Results</h3><p>${finalOutcome.outcome}</p>`;
+            document.getElementById('theoryConnection').innerHTML = finalOutcome.theory;
+        }
+
+        function restartActivity() {
+            currentStep = 1;
+            userChoices = [];
+            updateProgress();
+            
+            // Hide all scenarios
+            document.querySelectorAll('.scenario').forEach(scenario => {
+                scenario.classList.remove('active');
+            });
+            
+            // Show first scenario
+            document.getElementById('scenario1').classList.add('active');
+        }
+
+        // Initialize progress bar
+        updateProgress();
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                if (e.target.classList.contains('choice-btn') || e.target.classList.contains('nav-btn')) {
+                    e.preventDefault();
+                    e.target.click();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
