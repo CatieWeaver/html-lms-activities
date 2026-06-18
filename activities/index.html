@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Library — Interactive HTML for Your LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --teal: #0D7377;
+            --teal-hover: #0A5C60;
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.06);
+            --shadow-md: 0 4px 12px rgba(26,26,46,0.08), 0 2px 6px rgba(26,26,46,0.06);
+            --radius: 10px;
+            --radius-sm: 6px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Navigation ── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(247,247,245,0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--teal); }
+        .nav-back svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── Page header ── */
+        .page-header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 64px 24px 48px;
+        }
+        .page-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px;
+        }
+        .page-title {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: clamp(1.9rem, 4vw, 2.9rem);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 16px;
+        }
+        .page-intro {
+            font-size: 1.05rem;
+            color: var(--ink-secondary);
+            line-height: 1.75;
+            max-width: 680px;
+            margin-bottom: 0;
+        }
+        .page-intro a {
+            color: var(--teal);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .page-intro a:hover { text-decoration: underline; }
+
+        /* ── How to use banner ── */
+        .how-to-banner {
+            max-width: 1100px;
+            margin: 0 auto 0;
+            padding: 0 24px 48px;
+        }
+        .how-to-inner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        .how-to-step {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding: 0 24px 0 0;
+            border-right: 1px solid var(--border);
+        }
+        .how-to-step:first-child { padding-left: 0; }
+        .how-to-step:last-child { border-right: none; padding-right: 0; padding-left: 24px; }
+        .how-to-step:nth-child(2) { padding-left: 24px; }
+        .how-to-num {
+            width: 26px;
+            height: 26px;
+            background: var(--surface-tint);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--teal);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .how-to-text strong {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 3px;
+        }
+        .how-to-text p {
+            font-size: 0.83rem;
+            color: var(--ink-secondary);
+            line-height: 1.55;
+        }
+
+        /* ── Activity grid ── */
+        .activity-grid-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .activity-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: box-shadow 0.2s, transform 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+        .activity-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .activity-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .activity-type {
+            font-size: 0.71rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--teal);
+            background: var(--surface-tint);
+            padding: 3px 10px;
+            border-radius: 20px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .activity-card-title {
+            font-size: 1.0rem;
+            font-weight: 700;
+            color: var(--ink);
+        }
+        .activity-card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .activity-card-title a:hover { color: var(--teal); }
+        .activity-card-desc {
+            font-size: 0.88rem;
+            color: var(--ink-secondary);
+            line-height: 1.65;
+        }
+        .activity-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border);
+            margin-top: 2px;
+        }
+        .activity-meta-row {
+            font-size: 0.82rem;
+            color: var(--ink-tertiary);
+            line-height: 1.5;
+        }
+        .activity-meta-row strong {
+            color: var(--ink-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+            margin-right: 4px;
+        }
+        .activity-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal);
+            text-decoration: none;
+            margin-top: 4px;
+            transition: color 0.2s;
+        }
+        .activity-link:hover { color: var(--teal-hover); }
+        .activity-link svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .how-to-inner { grid-template-columns: 1fr; gap: 20px; }
+            .how-to-step { border-right: none; padding: 0 !important; border-bottom: 1px solid var(--border); padding-bottom: 20px !important; }
+            .how-to-step:last-child { border-bottom: none; padding-bottom: 0 !important; }
+            .activity-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .page-header { padding: 40px 20px 32px; }
+            .how-to-banner { padding: 0 20px 40px; }
+            .activity-grid-wrap { padding: 0 20px 60px; }
+        }
+        a:focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 3px;
+            border-radius: 3px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" aria-label="Site navigation">
+        <div class="nav-inner">
+            <a href="../index.html" class="nav-logo">Interactive HTML for Your LMS</a>
+            <a href="../index.html" class="nav-back">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+                Back to main site
+            </a>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <p class="page-eyebrow">Activity Library</p>
+        <h1 class="page-title">Live examples, ready to adapt.</h1>
+        <p class="page-intro">Each activity below is a working example. Interact with it, then use the <a href="../prompts/getting-started.html">Prompt Guide</a> to build your own version around your content and learning outcomes.</p>
+    </div>
+
+    <div class="how-to-banner">
+        <div class="how-to-inner">
+            <div class="how-to-step">
+                <div class="how-to-num">1</div>
+                <div class="how-to-text">
+                    <strong>Try the activity</strong>
+                    <p>Click any "Try this activity" link and interact with it to understand how it works.</p>
+                </div>
+            </div>
+            <div class="how-to-step">
+                <div class="how-to-num">2</div>
+                <div class="how-to-text">
+                    <strong>Copy the source code</strong>
+                    <p>Right-click the activity page, choose View Page Source, then select all and copy.</p>
+                </div>
+            </div>
+            <div class="how-to-step">
+                <div class="how-to-num">3</div>
+                <div class="how-to-text">
+                    <strong>Adapt it with AI</strong>
+                    <p>Use a prompt from the <a href="../prompts/getting-started.html" style="color:var(--teal);font-weight:600;">Prompt Guide</a> to customize the activity for your course content.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="activity-grid-wrap">
+        <div class="activity-grid">
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/psychology-flashcards.html" target="_blank">Psychology Flashcards</a></h2>
+                    <span class="activity-type">Flashcards</span>
+                </div>
+                <p class="activity-card-desc">Study mode, mastery tracking, shuffle, and keyboard navigation. A complete self-study tool that students return to.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Vocabulary, definitions, formulas, key concepts in any field</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Any discipline requiring recall and retrieval practice</div>
+                </div>
+                <a href="../examples/psychology-flashcards.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/chemical-physical-changes-sorting.html" target="_blank">Chemical vs. Physical Changes Sorting</a></h2>
+                    <span class="activity-type">Sorting</span>
+                </div>
+                <p class="activity-card-desc">Drag-and-drop categorization with immediate feedback and progress tracking. Builds classification skills through active engagement.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Literary genres, business models, research methods, historical periods</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Any course with classification or categorization objectives</div>
+                </div>
+                <a href="../examples/chemical-physical-changes-sorting.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/course-redesign-decision-tree.html" target="_blank">Course Redesign Decision Tree</a></h2>
+                    <span class="activity-type">Branching Scenario</span>
+                </div>
+                <p class="activity-card-desc">Multiple decision points with contextual outcomes tied to learning theory. Teaches through consequence rather than instruction.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Clinical reasoning, ethical dilemmas, case analysis, troubleshooting</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Nursing, business, counseling, social work, engineering</div>
+                </div>
+                <a href="../examples/course-redesign-decision-tree.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/behavior-function-assessment.html" target="_blank">Classroom Behavior Function Assessment</a></h2>
+                    <span class="activity-type">Branching Scenario</span>
+                </div>
+                <p class="activity-card-desc">A diagnostic branching tool with personalized recommendations based on user input. Models the contextual judgment the discipline requires.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Needs assessments, diagnostic processes, evaluation frameworks</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Education, healthcare, social sciences, consulting</div>
+                </div>
+                <a href="../examples/behavior-function-assessment.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/leadership-decision-tree.html" target="_blank">Leadership Case Study</a></h2>
+                    <span class="activity-type">Branching Scenario</span>
+                </div>
+                <p class="activity-card-desc">Multi-stage case analysis with role-based perspectives and branching consequences. Authentic decision-making practice in a low-stakes environment.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Business cases, strategic planning, conflict resolution</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Business, management, organizational leadership, MBA programs</div>
+                </div>
+                <a href="../examples/leadership-decision-tree.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/lab-safety-checklist.html" target="_blank">Lab Safety Checklist</a></h2>
+                    <span class="activity-type">Checklist</span>
+                </div>
+                <p class="activity-card-desc">Nested progress tracking with print-friendly output. Useful for procedural content where sequence and completion both matter.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Safety protocols, project milestones, pre-activity preparation</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Lab sciences, healthcare, engineering, project management</div>
+                </div>
+                <a href="../examples/lab-safety-checklist.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/clinical-hand-hygiene-guide.html" target="_blank">Clinical Hand Hygiene Procedure Guide</a></h2>
+                    <span class="activity-type">Procedure Guide</span>
+                </div>
+                <p class="activity-card-desc">Step-by-step procedural content with technique, common mistakes, and rationale for each step. Supports skill acquisition beyond memorization.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Lab techniques, clinical skills, software tutorials, multi-step processes</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Health sciences, technical fields, skills-based learning</div>
+                </div>
+                <a href="../examples/clinical-hand-hygiene-guide.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/civil-rights-timeline.html" target="_blank">Civil Rights Movement Timeline</a></h2>
+                    <span class="activity-type">Timeline</span>
+                </div>
+                <p class="activity-card-desc">Click-to-place chronological sequencing with immediate feedback and historical detail. Builds temporal reasoning alongside contextual understanding.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Scientific discoveries, literary periods, business milestones, medical history</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> History, literature, sciences, business, healthcare</div>
+                </div>
+                <a href="../examples/civil-rights-timeline.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/startup-launch-plan-builder.html" target="_blank">Startup Launch Plan Builder</a></h2>
+                    <span class="activity-type">Planning Tool</span>
+                </div>
+                <p class="activity-card-desc">Select priorities across categories to generate a personalized action plan. Combines learner agency with structured scaffolding.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Research planning, project management, career planning, goal setting</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Business, research methods, professional development</div>
+                </div>
+                <a href="../examples/startup-launch-plan-builder.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+            <div class="activity-card">
+                <div class="activity-card-header">
+                    <h2 class="activity-card-title"><a href="../examples/spot-grammar-errors.html" target="_blank">Spot the Grammar &amp; Style Errors</a></h2>
+                    <span class="activity-type">Error Identification</span>
+                </div>
+                <p class="activity-card-desc">Click-to-reveal feedback on embedded errors with explanations and corrections. Promotes analytical reading and transfer of editing skills.</p>
+                <div class="activity-meta">
+                    <div class="activity-meta-row"><strong>Adapt for:</strong> Code debugging, math error analysis, logical fallacies, scientific reasoning</div>
+                    <div class="activity-meta-row"><strong>Works well in:</strong> Writing across curriculum, computer science, critical thinking</div>
+                </div>
+                <a href="../examples/spot-grammar-errors.html" target="_blank" class="activity-link">
+                    Try this activity
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
