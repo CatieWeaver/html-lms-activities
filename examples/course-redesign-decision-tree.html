@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Redesign Decision Tree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .progress-container {
+            background: #ecf0f1;
+            padding: 20px 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .progress-bar {
+            background: #bdc3c7;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        .content {
+            padding: 40px 30px;
+            min-height: 400px;
+        }
+
+        .scenario {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .scenario.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scenario h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .scenario-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.7;
+            color: #34495e;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background: white;
+            border: 2px solid #3498db;
+            padding: 18px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .choice-btn:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .choice-btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .choice-btn:active {
+            transform: translateY(0);
+        }
+
+        .outcome {
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .outcome h3 {
+            color: #27ae60;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .outcome p {
+            color: #2c3e50;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .reflection {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 25px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .reflection h4 {
+            color: #e67e22;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .reflection p {
+            color: #2c3e50;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+
+        .nav-btn:hover {
+            background: #7f8c8d;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:focus {
+            outline: 3px solid #f39c12;
+            outline-offset: 2px;
+        }
+
+        .nav-btn.primary {
+            background: #e74c3c;
+        }
+
+        .nav-btn.primary:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .scenario h2 {
+                font-size: 1.3rem;
+            }
+
+            .scenario-text {
+                font-size: 1rem;
+            }
+
+            .choice-btn {
+                padding: 15px 20px;
+                font-size: 0.95rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .progress-container, .content {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .outcome, .reflection {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Course Redesign Decision Tree</h1>
+            <p>Navigate the challenges of transforming a struggling course</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 6</div>
+        </div>
+
+        <div class="content">
+            <!-- Scenario 1: Initial Challenge -->
+            <div class="scenario active" id="scenario1">
+                <h2>The Challenge</h2>
+                <div class="scenario-text">
+                    You're teaching a required course with 45 students. End-of-semester data reveals troubling patterns: 35% of students earned D or F grades, course evaluations show frustration with engagement, and several students mentioned feeling "lost" or "overwhelmed."
+                    <br><br>
+                    Your observations confirm the data: attendance is declining, discussion participation is weak, and assignment quality varies dramatically. Some students are clearly thriving, but many are struggling to connect with the material or see its relevance.
+                    <br><br>
+                    You have one semester to redesign before teaching it again. You want to create meaningful change without abandoning core learning objectives.
+                    <br><br>
+                    <strong>How do you begin your course redesign process?</strong>
+                </div>
+                <div class="choices">
+                    <button class="choice-btn" onclick="goToScenario(2, 'student_input')">
+                        Survey students and seek their direct feedback about what worked and what didn't
+                    </button>
+                    <button class="choice-btn" onclick="goToScenario(2, 'peer_review')">
+                        Consult with colleagues who teach similar courses or content experts in the field
+                    </button>
+                    <button class="choice-btn" onclick="goToScenario(2, 'data_analysis')">
+                        Analyze your course data systematically: assignments, assessments, and learning outcomes alignment
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scenario 2: Identifying Problems -->
+            <div class="scenario" id="scenario2">
+                <h2>Understanding the Root Causes</h2>
+                <div class="scenario-text" id="scenario2Text"></div>
+                <div class="choices" id="scenario2Choices"></div>
+            </div>
+
+            <!-- Scenario 3: Strategic Direction -->
+            <div class="scenario" id="scenario3">
+                <h2>Choosing Your Approach</h2>
+                <div class="scenario-text" id="scenario3Text"></div>
+                <div class="choices" id="scenario3Choices"></div>
+            </div>
+
+            <!-- Scenario 4: Implementation -->
+            <div class="scenario" id="scenario4">
+                <h2>Implementing Changes</h2>
+                <div class="scenario-text" id="scenario4Text"></div>
+                <div class="choices" id="scenario4Choices"></div>
+            </div>
+
+            <!-- Scenario 5: Mid-Semester Adjustments -->
+            <div class="scenario" id="scenario5">
+                <h2>Mid-Semester Reality Check</h2>
+                <div class="scenario-text" id="scenario5Text"></div>
+                <div class="choices" id="scenario5Choices"></div>
+            </div>
+
+            <!-- Final Outcome -->
+            <div class="scenario" id="scenario6">
+                <h2>End of Semester: Results</h2>
+                <div class="scenario-text" id="finalOutcome"></div>
+                <div class="outcome" id="outcomeBox"></div>
+                <div class="reflection">
+                    <h4>Teaching and Learning Theory Connections</h4>
+                    <p id="theoryConnection"></p>
+                </div>
+                <div class="navigation">
+                    <button class="nav-btn primary" onclick="restartActivity()">Try Different Approach</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let totalSteps = 6;
+        let userChoices = [];
+
+        const scenarios = {
+            2: {
+                student_input: {
+                    text: "Student feedback reveals three themes: (1) They struggle to see connections between weekly topics, (2) Assignments feel disconnected from real-world application, (3) They want more opportunities to practice before high-stakes assessments.<br><br>However, student suggestions vary widely—some want more structure, others want more flexibility. You need to synthesize this feedback into actionable changes.<br><br><strong>How do you use student input to guide your redesign?</strong>",
+                    choices: [
+                        { text: "Focus on the most common themes and redesign around explicit connections and scaffolding", next: 3, path: 'student_focused' },
+                        { text: "Create multiple pathways that allow students to choose approaches that match their needs", next: 3, path: 'student_choice' },
+                        { text: "Balance student feedback with pedagogical best practices from learning science", next: 3, path: 'student_balanced' }
+                    ]
+                },
+                peer_review: {
+                    text: "Colleagues suggest your course covers too much content too quickly, leaving little time for depth or application. They recommend streamlining learning objectives and adding more formative assessment opportunities.<br><br>One colleague shares their successful redesign using backward design. Another emphasizes active learning strategies. A third focuses on Universal Design for Learning principles.<br><br><strong>Which direction resonates most with your course needs?</strong>",
+                    choices: [
+                        { text: "Adopt backward design: start with desired outcomes and build assessments and activities accordingly", next: 3, path: 'backward_design' },
+                        { text: "Prioritize active learning strategies to increase engagement and application", next: 3, path: 'active_learning' },
+                        { text: "Implement UDL principles to support diverse learners through multiple means of representation and expression", next: 3, path: 'udl_approach' }
+                    ]
+                },
+                data_analysis: {
+                    text: "Your data analysis reveals critical gaps: (1) Students performed worst on assignments requiring synthesis across multiple concepts, (2) Early low-stakes assignments predicted final performance more than the midterm, (3) Learning objectives weren't clearly aligned with assessments.<br><br>The highest-performing students sought help early and often. Struggling students rarely attended office hours or used available resources.<br><br><strong>What does this data tell you about where to focus your redesign?</strong>",
+                    choices: [
+                        { text: "Redesign assessments to better align with learning objectives and build in more formative feedback", next: 3, path: 'assessment_alignment' },
+                        { text: "Create integrated learning activities that help students make connections across concepts", next: 3, path: 'integrated_learning' },
+                        { text: "Build support structures that proactively reach struggling students before they fall behind", next: 3, path: 'support_structures' }
+                    ]
+                }
+            }
+        };
+
+        const outcomes = {
+            student_focused_success: {
+                text: "Your student-centered redesign created clear improvements. Course evaluations increased significantly, with students noting better organization and clearer connections between topics. Grade distribution shifted positively: D/F rates dropped to 18%.",
+                outcome: "Strong Success: Students report higher engagement, better understanding of course purpose, and appreciation for scaffolded learning approach.",
+                theory: "This approach aligns with <strong>Student-Centered Learning</strong> and <strong>Constructivist principles</strong>. By responding to learner needs while maintaining rigorous expectations, you've created an environment where students take more ownership of their learning."
+            },
+            active_learning_engagement: {
+                text: "Active learning strategies transformed classroom dynamics. Students are more engaged, collaborative work improved, and application skills are noticeably stronger. Some students initially resisted the change from lecture format but adapted well.",
+                outcome: "Good Success: D/F rates dropped to 20%. Student engagement measurably increased. Critical thinking skills showed marked improvement.",
+                theory: "Your approach demonstrates <strong>Active Learning Theory</strong> and <strong>Social Constructivism</strong> (Vygotsky). By shifting from passive reception to active construction of knowledge, you've deepened learning and retention."
+            },
+            udl_inclusive_design: {
+                text: "Universal Design for Learning principles created more inclusive learning environment. Students with diverse needs report feeling better supported. Multiple means of representation and expression reduced barriers without lowering standards.",
+                outcome: "Solid Success: D/F rates dropped to 22%. All student populations showed improvement. Accessibility and inclusivity enhanced significantly.",
+                theory: "This reflects <strong>Universal Design for Learning (UDL)</strong> frameworks and <strong>Inclusive Pedagogy</strong>. By designing for variability from the start, you've created learning experiences that benefit all students, not just those with documented needs."
+            },
+            backward_design_clarity: {
+                text: "Backward design brought welcome clarity to your course. Students understand learning objectives and how each activity builds toward mastery. Assessment alignment improved dramatically. The streamlined content allows for deeper engagement.",
+                outcome: "Strong Success: D/F rates dropped to 16%. Students consistently cite course organization and clear expectations as strengths.",
+                theory: "This exemplifies <strong>Backward Design</strong> (Wiggins & McTighe) and <strong>Constructive Alignment</strong> (Biggs). By starting with desired outcomes and working backward, you've created coherent, purposeful learning experiences."
+            },
+            assessment_continuous_feedback: {
+                text: "Redesigned assessments with regular formative feedback transformed student learning. Early identification of struggles allows for timely intervention. Students appreciate knowing where they stand and how to improve.",
+                outcome: "Good Success: D/F rates dropped to 21%. Student confidence and performance both improved with increased feedback loops.",
+                theory: "Your approach draws on <strong>Formative Assessment</strong> research and <strong>Mastery Learning</strong> principles. Frequent, low-stakes feedback enables students to learn from mistakes before high-stakes evaluation."
+            },
+            integrated_connections: {
+                text: "Integrated learning activities helped students see the big picture. Synthesis skills improved notably. Students report better understanding of how concepts relate and build upon each other throughout the semester.",
+                outcome: "Moderate Success: D/F rates dropped to 24%. Students demonstrate stronger conceptual understanding and application skills.",
+                theory: "This reflects <strong>Cognitive Load Theory</strong> and <strong>Schema Theory</strong>. By explicitly building connections and reducing cognitive load through structured integration, you've supported deeper learning and transfer."
+            }
+        };
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const percentage = (currentStep / totalSteps) * 100;
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function goToScenario(scenarioNum, choice) {
+            userChoices.push(choice);
+            currentStep = scenarioNum;
+            updateProgress();
+
+            document.querySelector('.scenario.active').classList.remove('active');
+            const nextScenario = document.getElementById(`scenario${scenarioNum}`);
+            
+            if (scenarioNum === 2) {
+                setupScenario2(choice);
+            } else if (scenarioNum === 3) {
+                setupScenario3();
+            } else if (scenarioNum === 4) {
+                setupScenario4();
+            } else if (scenarioNum === 5) {
+                setupScenario5();
+            } else if (scenarioNum === 6) {
+                setupFinalOutcome();
+            }
+            
+            nextScenario.classList.add('active');
+        }
+
+        function setupScenario2(choice) {
+            const scenario = scenarios[2][choice];
+            document.getElementById('scenario2Text').innerHTML = scenario.text;
+            
+            const choicesContainer = document.getElementById('scenario2Choices');
+            choicesContainer.innerHTML = '';
+            
+            scenario.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario3() {
+            const texts = {
+                student_focused: "You're redesigning around student feedback themes. Your revised syllabus explicitly connects weekly topics, adds real-world applications, and includes practice opportunities before major assessments.<br><br>However, adding all this takes time. You're concerned about content coverage and whether you can fit everything into the semester.<br><br><strong>How do you balance depth versus breadth in your redesign?</strong>",
+                student_choice: "You're creating multiple pathways through course content. Students can choose between different assignment formats and select topics that interest them within required frameworks.<br><br>This increases relevance but also increases complexity in managing the course. You worry about consistency in learning outcomes across different paths.<br><br><strong>How do you maintain rigor while offering flexibility?</strong>",
+                student_balanced: "You're balancing student input with evidence-based practices. This hybrid approach feels promising but requires careful implementation to satisfy both student preferences and pedagogical effectiveness.<br><br><strong>How do you communicate changes to help students understand the pedagogical reasoning?</strong>",
+                backward_design: "You're rebuilding from learning outcomes backward. This requires cutting some content you've taught for years to make room for depth and meaningful assessment.<br><br>Letting go of familiar material is difficult, but the alignment is becoming much clearer.<br><br><strong>How do you decide what content to cut or condense?</strong>",
+                active_learning: "You're integrating active learning throughout the course. This means less lecture time and more in-class activities, discussions, and problem-solving.<br><br>You're excited but also nervous about classroom management and whether you can cover necessary content.<br><br><strong>How do you structure class time to maximize active learning while ensuring content coverage?</strong>",
+                udl_approach: "You're implementing UDL principles: multiple formats for content delivery, varied assessment options, flexible participation methods.<br><br>This is comprehensive but also complex to manage. You want to ensure equitable rigor across different pathways.<br><br><strong>How do you structure choices while maintaining consistent learning standards?</strong>",
+                assessment_alignment: "You're redesigning all assessments to directly align with learning objectives and adding frequent formative checkpoints.<br><br>This requires creating many new assignments and rethinking your grading approach. Time investment is significant.<br><br><strong>How do you balance comprehensive feedback with your workload capacity?</strong>",
+                integrated_learning: "You're creating activities that explicitly connect concepts across units, helping students see the big picture.<br><br>This requires rethinking course sequencing and building in reflection opportunities throughout the semester.<br><br><strong>How do you help students recognize and articulate these connections?</strong>",
+                support_structures: "You're building proactive support mechanisms: early alerts, mandatory check-ins, peer study groups, resource guides.<br><br>This feels important but also adds complexity to course management.<br><br><strong>How do you implement support without creating dependency or reducing student autonomy?</strong>"
+            };
+
+            const choices = {
+                student_focused: [
+                    { text: "Reduce content significantly to allow time for application and practice", next: 4, path: 'depth_focus' },
+                    { text: "Maintain content coverage but add explicit scaffolding and connection-building", next: 4, path: 'guided_breadth' }
+                ],
+                student_choice: [
+                    { text: "Create detailed rubrics and clear outcome criteria to ensure consistency", next: 4, path: 'structured_choice' },
+                    { text: "Allow authentic variation while maintaining common core competencies", next: 4, path: 'authentic_variation' }
+                ],
+                student_balanced: [
+                    { text: "Include rationale for each change in syllabus and discuss openly in first class", next: 4, path: 'transparent_rationale' },
+                    { text: "Demonstrate pedagogical approaches through experience and reflection activities", next: 4, path: 'experiential_learning' }
+                ],
+                backward_design: [
+                    { text: "Focus on essential concepts and skills; move nice-to-know content to optional resources", next: 4, path: 'essential_core' },
+                    { text: "Integrate related concepts to reduce redundancy while maintaining depth", next: 4, path: 'integrated_approach' }
+                ],
+                active_learning: [
+                    { text: "Flip the classroom: assign content consumption outside class, use class for application", next: 4, path: 'flipped_model' },
+                    { text: "Alternate between brief direct instruction and active learning segments within each class", next: 4, path: 'blended_approach' }
+                ],
+                udl_approach: [
+                    { text: "Provide choice menus with equivalent rigor levels across all options", next: 4, path: 'choice_menus' },
+                    { text: "Allow flexible means of engagement and representation while keeping summative assessments consistent", next: 4, path: 'flexible_consistent' }
+                ],
+                assessment_alignment: [
+                    { text: "Use peer review and self-assessment to increase feedback frequency without increasing workload", next: 4, path: 'distributed_feedback' },
+                    { text: "Create detailed rubrics and automated checks where possible to streamline grading", next: 4, path: 'efficient_assessment' }
+                ],
+                integrated_learning: [
+                    { text: "Build in regular reflection assignments where students articulate connections", next: 4, path: 'reflective_practice' },
+                    { text: "Use cumulative projects that require synthesizing multiple concepts throughout semester", next: 4, path: 'cumulative_synthesis' }
+                ],
+                support_structures: [
+                    { text: "Create optional support resources and invite rather than require participation", next: 4, path: 'invited_support' },
+                    { text: "Build support into course structure as normal expectations for all students", next: 4, path: 'normalized_support' }
+                ]
+            };
+
+            const lastChoice = userChoices[userChoices.length - 1];
+            document.getElementById('scenario3Text').innerHTML = texts[lastChoice];
+            
+            const choicesContainer = document.getElementById('scenario3Choices');
+            choicesContainer.innerHTML = '';
+            
+            choices[lastChoice].forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario4() {
+            document.getElementById('scenario4Text').innerHTML = "You're midway through your redesign work. Some changes are flowing naturally, others require more effort than anticipated. You're starting to see how everything fits together—or doesn't.<br><br>You have limited time before the semester starts. You need to prioritize what gets fully developed versus what remains more basic.<br><br><strong>How do you allocate your remaining design time and energy?</strong>";
+            
+            const choicesContainer = document.getElementById('scenario4Choices');
+            choicesContainer.innerHTML = '';
+            
+            const choices = [
+                { text: "Perfect the first few weeks to start strong, plan to develop rest as semester progresses", next: 5, path: 'strong_start' },
+                { text: "Create complete structure for entire semester even if some elements are less polished", next: 5, path: 'complete_framework' },
+                { text: "Focus deeply on highest-impact changes and keep other elements relatively unchanged", next: 5, path: 'targeted_changes' }
+            ];
+            
+            choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupScenario5() {
+            document.getElementById('scenario5Text').innerHTML = "It's week 7 of your redesigned course. You're noticing patterns: some changes are working beautifully, others need adjustment. Student response is generally positive but varied.<br><br>A few students are struggling with the new format. Some love the changes. Others wish for more traditional structure. You have enough time to make meaningful adjustments.<br><br><strong>How do you respond to mid-semester feedback and observations?</strong>";
+            
+            const choicesContainer = document.getElementById('scenario5Choices');
+            choicesContainer.innerHTML = '';
+            
+            const choices = [
+                { text: "Make targeted adjustments based on what's not working while maintaining core changes", next: 6, path: 'adaptive' },
+                { text: "Stay the course and trust the design—consistency matters for fair evaluation", next: 6, path: 'consistent' },
+                { text: "Add more scaffolding and support for struggling students while maintaining rigor", next: 6, path: 'supported' }
+            ];
+            
+            choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                button.textContent = choice.text;
+                button.onclick = () => goToScenario(choice.next, choice.path);
+                choicesContainer.appendChild(button);
+            });
+        }
+
+        function setupFinalOutcome() {
+            // Simplified outcome logic based on key themes in choices
+            const outcomeKey = userChoices.join('_');
+            let finalOutcome;
+            
+            if (outcomeKey.includes('student') && outcomeKey.includes('depth')) {
+                finalOutcome = outcomes.student_focused_success;
+            } else if (outcomeKey.includes('active_learning') || outcomeKey.includes('flipped')) {
+                finalOutcome = outcomes.active_learning_engagement;
+            } else if (outcomeKey.includes('udl') || outcomeKey.includes('choice')) {
+                finalOutcome = outcomes.udl_inclusive_design;
+            } else if (outcomeKey.includes('backward_design') || outcomeKey.includes('essential')) {
+                finalOutcome = outcomes.backward_design_clarity;
+            } else if (outcomeKey.includes('assessment') || outcomeKey.includes('feedback')) {
+                finalOutcome = outcomes.assessment_continuous_feedback;
+            } else {
+                finalOutcome = outcomes.integrated_connections;
+            }
+            
+            document.getElementById('finalOutcome').innerHTML = finalOutcome.text;
+            document.getElementById('outcomeBox').innerHTML = `<h3>Your Results</h3><p>${finalOutcome.outcome}</p>`;
+            document.getElementById('theoryConnection').innerHTML = finalOutcome.theory;
+        }
+
+        function restartActivity() {
+            currentStep = 1;
+            userChoices = [];
+            updateProgress();
+            
+            document.querySelectorAll('.scenario').forEach(scenario => {
+                scenario.classList.remove('active');
+            });
+            
+            document.getElementById('scenario1').classList.add('active');
+        }
+
+        updateProgress();
+
+        document.addEventListener('keydown', function(e) {
+            if (e.target.classList.contains('choice-btn') || e.target.classList.contains('nav-btn')) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    e.target.click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
