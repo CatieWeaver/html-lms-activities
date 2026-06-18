@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychology Key Concepts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            background: #ecf0f1;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card-counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .mastery-stats {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .mastery-stats span {
+            margin-right: 15px;
+        }
+
+        .mastery-stats .known {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .mastery-stats .review {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: #34495e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #2c3e50;
+            transform: translateY(-1px);
+        }
+
+        .control-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .control-btn.active {
+            background: #3498db;
+        }
+
+        .flashcard-container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            position: relative;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 2px solid #e0e0e0;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-type {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .card-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+            max-width: 500px;
+        }
+
+        .card-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        .card-example strong {
+            font-style: normal;
+        }
+
+        .navigation {
+            background: #f8f9fa;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: #34495e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #2c3e50;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:focus {
+            outline: 3px solid #3498db;
+            outline-offset: 2px;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .flip-instruction {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .mastery-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .mastery-btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .mastery-btn.known {
+            background: #27ae60;
+            color: white;
+        }
+
+        .mastery-btn.known:hover {
+            background: #229954;
+        }
+
+        .mastery-btn.review {
+            background: #f39c12;
+            color: white;
+        }
+
+        .mastery-btn.review:hover {
+            background: #e67e22;
+        }
+
+        .mastery-btn:focus {
+            outline: 3px solid #34495e;
+            outline-offset: 2px;
+        }
+
+        .completion-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .completion-message h3 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+
+        .completion-message p {
+            color: #155724;
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .flashcard-container {
+                padding: 20px;
+                min-height: 400px;
+            }
+
+            .flashcard {
+                height: 350px;
+            }
+
+            .card-title {
+                font-size: 1.6rem;
+            }
+
+            .card-content {
+                font-size: 1rem;
+            }
+
+            .controls, .navigation {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .control-buttons, .nav-buttons, .mastery-buttons {
+                justify-content: center;
+            }
+
+            .progress-info {
+                justify-content: center;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flashcard-front, .flashcard-back {
+                padding: 20px;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+
+            .card-content {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Psychology Key Concepts</h1>
+            <p>Learn fundamental psychological theories and principles</p>
+        </div>
+
+        <div class="controls">
+            <div class="progress-info">
+                <div class="card-counter" id="cardCounter">Card 1 of 12</div>
+                <div class="mastery-stats">
+                    <span class="known">Known: <span id="knownCount">0</span></span>
+                    <span class="review">Need Review: <span id="reviewCount">0</span></span>
+                </div>
+            </div>
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffleBtn" onclick="shuffleCards()">🔀 Shuffle</button>
+                <button class="control-btn" id="modeBtn" onclick="toggleMode()">📚 Study Mode</button>
+                <button class="control-btn" onclick="resetProgress()">🔄 Reset Progress</button>
+            </div>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-inner" id="flashcardInner">
+                    <div class="flashcard-front">
+                        <div class="card-type" id="cardType">Psychology Concept</div>
+                        <div class="card-title" id="cardTitle">Classical Conditioning</div>
+                        <div class="card-subtitle" id="cardSubtitle">Click to reveal definition and examples</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="card-content" id="cardContent">
+                            <p><strong>Definition:</strong> A learning process where a neutral stimulus becomes associated with a meaningful stimulus, producing a similar response.</p>
+                            <div class="card-example">
+                                <strong>Example:</strong> Pavlov's dogs learned to salivate at the sound of a bell after it was repeatedly paired with food presentation
+                            </div>
+                            <div class="card-example">
+                                <strong>Key Components:</strong> Unconditioned stimulus, conditioned stimulus, unconditioned response, conditioned response
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prevBtn" onclick="previousCard()">
+                    ← Previous
+                </button>
+                <button class="nav-btn" id="nextBtn" onclick="nextCard()">
+                    Next →
+                </button>
+            </div>
+            <div class="flip-instruction">
+                Click card to flip • Use arrow keys to navigate • Space bar to flip
+            </div>
+            <div class="mastery-buttons">
+                <button class="mastery-btn known" onclick="markAsKnown()">✓ I Know This</button>
+                <button class="mastery-btn review" onclick="markForReview()">? Need Review</button>
+            </div>
+        </div>
+
+        <div class="completion-message" id="completionMessage">
+            <h3>Congratulations! 🎉</h3>
+            <p>You've reviewed all flashcards in this set.</p>
+            <p id="finalStats"></p>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                type: "Psychology Concept",
+                title: "Classical Conditioning",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> A learning process where a neutral stimulus becomes associated with a meaningful stimulus, producing a similar response.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> Pavlov's dogs learned to salivate at the sound of a bell after it was repeatedly paired with food presentation
+                    </div>
+                    <div class="card-example">
+                        <strong>Key Components:</strong> Unconditioned stimulus, conditioned stimulus, unconditioned response, conditioned response
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Operant Conditioning",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Learning through consequences where behaviors are strengthened or weakened based on reinforcement or punishment.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> A child receives praise (positive reinforcement) for completing homework, making them more likely to do homework in the future
+                    </div>
+                    <div class="card-example">
+                        <strong>Key Researcher:</strong> B.F. Skinner developed this theory through experiments with rats and pigeons in controlled environments
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Cognitive Dissonance",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Psychological discomfort experienced when holding contradictory beliefs, attitudes, or behaviors simultaneously.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> A smoker who knows smoking is unhealthy may either quit smoking or rationalize that "everyone has to die of something" to reduce discomfort
+                    </div>
+                    <div class="card-example">
+                        <strong>Resolution:</strong> People reduce dissonance by changing beliefs, changing behaviors, or adding new thoughts to justify the inconsistency
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Maslow's Hierarchy of Needs",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> A motivational theory proposing that human needs are arranged in a pyramid, with basic needs at the bottom and self-actualization at the top.</p>
+                    <div class="card-example">
+                        <strong>Five Levels:</strong> Physiological needs (food, water), safety, love/belonging, esteem, and self-actualization
+                    </div>
+                    <div class="card-example">
+                        <strong>Key Principle:</strong> Lower-level needs must be reasonably satisfied before higher-level needs become motivating forces
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Confirmation Bias",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> The tendency to search for, interpret, and remember information that confirms pre-existing beliefs while ignoring contradictory evidence.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> Someone who believes vaccines are dangerous only reads articles supporting that view and dismisses scientific studies showing vaccine safety
+                    </div>
+                    <div class="card-example">
+                        <strong>Impact:</strong> Can lead to flawed decision-making, polarized thinking, and resistance to changing beliefs despite contradictory evidence
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Working Memory",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> A limited-capacity system for temporarily holding and manipulating information during cognitive tasks.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> Mentally calculating a tip at a restaurant requires holding the bill amount and percentage in working memory while computing the answer
+                    </div>
+                    <div class="card-example">
+                        <strong>Capacity:</strong> Can typically hold 7±2 chunks of information; can be improved through chunking strategies and rehearsal
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Neuroplasticity",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> The brain's ability to reorganize itself by forming new neural connections throughout life in response to learning or injury.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> London taxi drivers show enlarged hippocampi from extensive navigation training; stroke patients can regain function as other brain areas compensate
+                    </div>
+                    <div class="card-example">
+                        <strong>Significance:</strong> Demonstrates that the brain remains adaptable and can change structure and function based on experiences and behaviors
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Defense Mechanisms",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Unconscious psychological strategies used to protect oneself from anxiety, unpleasant emotions, or unacceptable thoughts.</p>
+                    <div class="card-example">
+                        <strong>Examples:</strong> Repression (blocking painful memories), projection (attributing own feelings to others), rationalization (creating logical excuses)
+                    </div>
+                    <div class="card-example">
+                        <strong>Origin:</strong> First described by Sigmund Freud; later expanded by his daughter Anna Freud in psychoanalytic theory
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Intrinsic vs. Extrinsic Motivation",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Intrinsic motivation comes from internal satisfaction; extrinsic motivation comes from external rewards or pressures.</p>
+                    <div class="card-example">
+                        <strong>Intrinsic Example:</strong> Reading a book for enjoyment; exercising because it feels good
+                    </div>
+                    <div class="card-example">
+                        <strong>Extrinsic Example:</strong> Studying to earn good grades; working for a paycheck. Research shows intrinsic motivation often leads to better long-term outcomes
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "The Bystander Effect",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> A social phenomenon where individuals are less likely to help someone in need when other people are present.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> The murder of Kitty Genovese (1964) where numerous witnesses failed to intervene, spurring research into this effect
+                    </div>
+                    <div class="card-example">
+                        <strong>Causes:</strong> Diffusion of responsibility, social influence (others aren't helping, so it must not be an emergency), and evaluation apprehension
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Schema",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Mental frameworks that organize and interpret information based on past experiences, helping us understand and navigate the world.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> A "restaurant schema" includes expectations like entering, being seated, ordering, eating, and paying; violations of this schema feel jarring
+                    </div>
+                    <div class="card-example">
+                        <strong>Function:</strong> Schemas help process information efficiently but can also lead to stereotypes and resistance to contradictory information
+                    </div>
+                `
+            },
+            {
+                type: "Psychology Concept",
+                title: "Observational Learning",
+                subtitle: "Click to reveal definition and examples",
+                content: `
+                    <p><strong>Definition:</strong> Learning by watching others' behaviors and consequences, without direct personal experience or reinforcement.</p>
+                    <div class="card-example">
+                        <strong>Example:</strong> Albert Bandura's Bobo doll experiment showed children imitated aggressive behaviors they observed in adults
+                    </div>
+                    <div class="card-example">
+                        <strong>Applications:</strong> Explains how children learn social behaviors, why media violence concerns exist, and how modeling influences learning
+                    </div>
+                `
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let studyMode = 'all'; // 'all', 'review'
+        let cardStatuses = new Array(flashcards.length).fill('unseen'); // 'unseen', 'known', 'review'
+        let displayedCards = [...Array(flashcards.length).keys()]; // Indices of cards to show
+
+        function updateDisplay() {
+            const card = flashcards[displayedCards[currentCardIndex]];
+            const actualIndex = displayedCards[currentCardIndex];
+            
+            document.getElementById('cardType').textContent = card.type;
+            document.getElementById('cardTitle').textContent = card.title;
+            document.getElementById('cardSubtitle').textContent = card.subtitle;
+            document.getElementById('cardContent').innerHTML = card.content;
+            document.getElementById('cardCounter').textContent = `Card ${currentCardIndex + 1} of ${displayedCards.length}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+            document.getElementById('nextBtn').disabled = currentCardIndex === displayedCards.length - 1;
+            
+            // Update mastery stats
+            const knownCount = cardStatuses.filter(status => status === 'known').length;
+            const reviewCount = cardStatuses.filter(status => status === 'review').length;
+            document.getElementById('knownCount').textContent = knownCount;
+            document.getElementById('reviewCount').textContent = reviewCount;
+            
+            // Reset flip state
+            isFlipped = false;
+            document.getElementById('flashcard').classList.remove('flipped');
+            
+            // Check if all cards are completed
+            if (knownCount + reviewCount === flashcards.length) {
+                showCompletionMessage();
+            }
+        }
+
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            if (isFlipped) {
+                flashcard.classList.remove('flipped');
+            } else {
+                flashcard.classList.add('flipped');
+            }
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            if (currentCardIndex < displayedCards.length - 1) {
+                currentCardIndex++;
+                updateDisplay();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateDisplay();
+            }
+        }
+
+        function shuffleCards() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = displayedCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [displayedCards[i], displayedCards[j]] = [displayedCards[j], displayedCards[i]];
+            }
+            currentCardIndex = 0;
+            updateDisplay();
+        }
+
+        function toggleMode() {
+            const modeBtn = document.getElementById('modeBtn');
+            
+            if (studyMode === 'all') {
+                studyMode = 'review';
+                modeBtn.textContent = '📖 Review Mode';
+                modeBtn.classList.add('active');
+                
+                // Show only cards marked for review
+                const reviewCards = [];
+                for (let i = 0; i < cardStatuses.length; i++) {
+                    if (cardStatuses[i] === 'review') {
+                        reviewCards.push(i);
+                    }
+                }
+                
+                if (reviewCards.length === 0) {
+                    alert('No cards marked for review yet. Mark some cards first!');
+                    studyMode = 'all';
+                    modeBtn.textContent = '📚 Study Mode';
+                    modeBtn.classList.remove('active');
+                    return;
+                }
+                
+                displayedCards = reviewCards;
+            } else {
+                studyMode = 'all';
+                modeBtn.textContent = '📚 Study Mode';
+                modeBtn.classList.remove('active');
+                displayedCards = [...Array(flashcards.length).keys()];
+            }
+            
+            currentCardIndex = 0;
+            updateDisplay();
+        }
+
+        function markAsKnown() {
+            const actualIndex = displayedCards[currentCardIndex];
+            cardStatuses[actualIndex] = 'known';
+            updateDisplay();
+            
+            // Auto-advance to next card
+            setTimeout(() => {
+                if (currentCardIndex < displayedCards.length - 1) {
+                    nextCard();
+                }
+            }, 500);
+        }
+
+        function markForReview() {
+            const actualIndex = displayedCards[currentCardIndex];
+            cardStatuses[actualIndex] = 'review';
+            updateDisplay();
+            
+            // Auto-advance to next card
+            setTimeout(() => {
+                if (currentCardIndex < displayedCards.length - 1) {
+                    nextCard();
+                }
+            }, 500);
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This will clear all mastery tracking.')) {
+                cardStatuses = new Array(flashcards.length).fill('unseen');
+                displayedCards = [...Array(flashcards.length).keys()];
+                currentCardIndex = 0;
+                studyMode = 'all';
+                document.getElementById('modeBtn').textContent = '📚 Study Mode';
+                document.getElementById('modeBtn').classList.remove('active');
+                document.getElementById('completionMessage').style.display = 'none';
+                updateDisplay();
+            }
+        }
+
+        function showCompletionMessage() {
+            const knownCount = cardStatuses.filter(status => status === 'known').length;
+            const reviewCount = cardStatuses.filter(status => status === 'review').length;
+            const completionRate = Math.round((knownCount / flashcards.length) * 100);
+            
+            document.getElementById('finalStats').innerHTML = `
+                You've mastered <strong>${knownCount}</strong> cards and marked <strong>${reviewCount}</strong> for review.<br>
+                Completion rate: <strong>${completionRate}%</strong>
+            `;
+            document.getElementById('completionMessage').style.display = 'block';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousCard();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextCard();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    flipCard();
+                    break;
+                case '1':
+                    e.preventDefault();
+                    markAsKnown();
+                    break;
+                case '2':
+                    e.preventDefault();
+                    markForReview();
+                    break;
+            }
+        });
+
+        // Initialize the app
+        updateDisplay();
+    </script>
+</body>
+</html>
