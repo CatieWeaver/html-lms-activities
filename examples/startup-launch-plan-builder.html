@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Startup Launch Plan Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,24 +14,45 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --teal: #0D7377;
+            --teal-hover: #0A5C60;
+            --border: #E2E8F0;
+            --success: #15803D;
+            --success-hover: #0F6B30;
+            --success-tint: #EAF7EF;
+            --warning: #B45309;
+            --warning-tint: #FDF1E2;
+            --danger: #C0392B;
+            --danger-hover: #A5331F;
+        }
+
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
             padding: 20px;
             min-height: 100vh;
+            color: var(--ink);
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -36,8 +60,8 @@
 
         .header h1 {
             font-size: 2.2em;
+            font-weight: 700;
             margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
@@ -53,22 +77,22 @@
         }
 
         .intro-section {
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border-left: 5px solid #2c3e50;
+            border-left: 5px solid var(--ink);
         }
 
         .intro-section h2 {
-            color: #e74c3c;
+            color: var(--teal);
             font-size: 1.5em;
             margin-bottom: 15px;
         }
 
         .intro-section p {
             line-height: 1.6;
-            color: #333;
+            color: var(--ink);
             margin-bottom: 10px;
         }
 
@@ -77,7 +101,7 @@
         }
 
         .category-header {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
             padding: 15px 20px;
             border-radius: 8px;
@@ -89,6 +113,7 @@
 
         .category-header h3 {
             font-size: 1.3em;
+            font-weight: 600;
             flex-grow: 1;
         }
 
@@ -107,8 +132,8 @@
         }
 
         .strategy-card {
-            background: white;
-            border: 2px solid #e9ecef;
+            background: var(--surface);
+            border: 2px solid var(--border);
             border-radius: 10px;
             padding: 20px;
             cursor: pointer;
@@ -117,24 +142,24 @@
         }
 
         .strategy-card:hover {
-            border-color: #3498db;
+            border-color: var(--teal);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.2);
         }
 
         .strategy-card.selected {
-            border-color: #27ae60;
-            background: #f0fff4;
-            box-shadow: 0 4px 16px rgba(39, 174, 96, 0.3);
+            border-color: var(--success);
+            background: var(--success-tint);
+            box-shadow: 0 4px 16px rgba(21, 128, 61, 0.25);
         }
 
         .strategy-card:focus {
-            outline: 3px solid #3498db;
+            outline: 3px solid var(--teal);
             outline-offset: 2px;
         }
 
         .strategy-title {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.1em;
             font-weight: 600;
             margin-bottom: 10px;
@@ -142,7 +167,7 @@
         }
 
         .strategy-description {
-            color: #666;
+            color: var(--ink-secondary);
             font-size: 0.95em;
             line-height: 1.5;
         }
@@ -153,14 +178,12 @@
             right: 15px;
             width: 28px;
             height: 28px;
-            background: #27ae60;
+            background: var(--success);
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            font-size: 1.2em;
         }
 
         .strategy-card.selected .checkmark {
@@ -175,7 +198,7 @@
         }
 
         .selection-summary {
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: var(--teal);
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -198,16 +221,21 @@
             margin: 10px 0;
         }
 
+        .selection-summary-bottom {
+            position: relative;
+            top: 0;
+        }
+
         .generate-btn {
-            background: white;
-            color: #2c3e50;
+            background: var(--surface);
+            color: var(--ink);
             border: none;
             padding: 15px 35px;
             border-radius: 8px;
             font-size: 1.1em;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             transition: all 0.3s ease;
             margin-top: 15px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -225,7 +253,7 @@
         }
 
         .generate-btn:focus {
-            outline: 3px solid #27ae60;
+            outline: 3px solid var(--teal);
             outline-offset: 3px;
         }
 
@@ -233,9 +261,9 @@
             display: none;
             margin-top: 40px;
             padding: 30px;
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             border-radius: 12px;
-            border: 3px solid #27ae60;
+            border: 3px solid var(--success);
         }
 
         .action-plan.visible {
@@ -249,7 +277,7 @@
         }
 
         .action-plan h2 {
-            color: #27ae60;
+            color: var(--success);
             font-size: 2em;
             margin-bottom: 10px;
             text-align: center;
@@ -257,22 +285,22 @@
 
         .action-plan-intro {
             text-align: center;
-            color: #666;
+            color: var(--ink-secondary);
             margin-bottom: 30px;
             font-size: 1.1em;
         }
 
         .strategy-implementation {
-            background: white;
+            background: var(--surface);
             padding: 25px;
             margin-bottom: 20px;
             border-radius: 10px;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--teal);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .strategy-implementation h3 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.4em;
             margin-bottom: 15px;
             display: flex;
@@ -281,7 +309,7 @@
         }
 
         .strategy-number {
-            background: #3498db;
+            background: var(--teal);
             color: white;
             width: 32px;
             height: 32px;
@@ -291,6 +319,7 @@
             justify-content: center;
             font-size: 1em;
             font-weight: bold;
+            flex-shrink: 0;
         }
 
         .implementation-section {
@@ -298,17 +327,15 @@
         }
 
         .implementation-section h4 {
-            color: #34495e;
+            color: var(--ink-secondary);
             font-size: 1.1em;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 600;
         }
 
         .implementation-section ul {
             margin-left: 30px;
-            color: #333;
+            color: var(--ink);
             line-height: 1.8;
         }
 
@@ -317,8 +344,8 @@
         }
 
         .time-estimate {
-            background: #f39c12;
-            color: white;
+            background: var(--warning-tint);
+            color: var(--warning);
             padding: 8px 15px;
             border-radius: 20px;
             display: inline-block;
@@ -328,15 +355,15 @@
         }
 
         .resource-reference {
-            background: #e8f5e9;
+            background: var(--success-tint);
             padding: 15px;
             border-radius: 8px;
             margin-top: 15px;
-            border-left: 3px solid #27ae60;
+            border-left: 3px solid var(--success);
         }
 
         .resource-reference strong {
-            color: #27ae60;
+            color: var(--success);
             display: block;
             margin-bottom: 8px;
         }
@@ -356,30 +383,30 @@
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             transition: all 0.3s ease;
         }
 
         .print-btn {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
         }
 
         .print-btn:hover {
-            background: #34495e;
+            background: var(--ink-secondary);
         }
 
         .reset-btn {
-            background: #e74c3c;
+            background: var(--danger);
             color: white;
         }
 
         .reset-btn:hover {
-            background: #c0392b;
+            background: var(--danger-hover);
         }
 
         .action-btn:focus {
-            outline: 3px solid #3498db;
+            outline: 3px solid var(--teal);
             outline-offset: 2px;
         }
 
@@ -410,6 +437,15 @@
             }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         @media print {
             body {
                 background: white;
@@ -418,8 +454,8 @@
 
             .header {
                 background: none;
-                color: #333;
-                border-bottom: 3px solid #27ae60;
+                color: var(--ink);
+                border-bottom: 3px solid var(--success);
             }
 
             .selection-summary, .action-buttons, .category-section, .intro-section {
@@ -449,7 +485,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Startup Launch Plan Builder</h1>
+            <h1>Startup Launch Plan Builder</h1>
             <p>Select 3-5 priority areas from the strategies below to create your personalized startup launch plan. You can't do everything at once—strategic focus is essential for early-stage success.</p>
         </div>
 
@@ -464,43 +500,48 @@
                 <p>You've selected</p>
                 <div class="selection-count" id="selectionCount">0</div>
                 <p>priority areas (select 3-5)</p>
-                <button class="generate-btn" id="generateBtn" onclick="generateActionPlan()" disabled aria-label="Generate your personalized launch plan">
-                    Generate My Launch Plan
-                </button>
             </div>
 
             <!-- Product Development -->
             <div class="category-section">
                 <div class="category-header">
-                    <h3>📦 Product Development</h3>
+                    <h3>Product Development</h3>
                     <span class="category-count" id="productCount">0 selected</span>
                 </div>
                 <div class="strategy-grid">
                     <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="mvp" 
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)" 
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)" 
                          aria-label="Select strategy: Build Minimum Viable Product">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Build Minimum Viable Product (MVP)</div>
                         <div class="strategy-description">Create the simplest version of your product that delivers core value and enables customer learning.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="customer-discovery"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Conduct Customer Discovery Interviews">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Conduct Customer Discovery Interviews</div>
                         <div class="strategy-description">Talk to potential customers to validate assumptions about their problems and needs before building.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="product-market-fit"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Test Product-Market Fit">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Test Product-Market Fit</div>
                         <div class="strategy-description">Systematically validate whether your product solves a real problem people will pay to solve.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="product" data-strategy="rapid-iteration"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Implement Rapid Iteration Process">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Implement Rapid Iteration Process</div>
                         <div class="strategy-description">Establish a build-measure-learn feedback loop to quickly improve your product based on data.</div>
                     </div>
@@ -510,35 +551,43 @@
             <!-- Marketing & Customer Acquisition -->
             <div class="category-section">
                 <div class="category-header">
-                    <h3>📢 Marketing & Customer Acquisition</h3>
+                    <h3>Marketing & Customer Acquisition</h3>
                     <span class="category-count" id="marketingCount">0 selected</span>
                 </div>
                 <div class="strategy-grid">
                     <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="social-media"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Launch Social Media Presence">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Launch Social Media Presence</div>
                         <div class="strategy-description">Establish your brand on 1-2 key platforms where your target customers spend time.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="content-marketing"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Develop Content Marketing Strategy">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Develop Content Marketing Strategy</div>
                         <div class="strategy-description">Create valuable content that attracts and educates your target audience while building authority.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="email-marketing"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Build Email Marketing System">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Build Email Marketing System</div>
                         <div class="strategy-description">Start collecting email addresses and create automated sequences to nurture potential customers.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="marketing" data-strategy="referral-program"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Create Referral Program">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Create Referral/Word-of-Mouth Program</div>
                         <div class="strategy-description">Incentivize existing customers to refer others through a structured referral system.</div>
                     </div>
@@ -548,35 +597,43 @@
             <!-- Operations & Infrastructure -->
             <div class="category-section">
                 <div class="category-header">
-                    <h3>💼 Operations & Infrastructure</h3>
+                    <h3>Operations & Infrastructure</h3>
                     <span class="category-count" id="operationsCount">0 selected</span>
                 </div>
                 <div class="strategy-grid">
                     <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="legal-structure"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Establish Legal Business Structure">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Establish Legal Business Structure</div>
                         <div class="strategy-description">Choose and register your business entity (LLC, S-Corp, etc.) to protect personal assets and enable operations.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="accounting-system"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Set Up Accounting System">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Set Up Basic Accounting System</div>
                         <div class="strategy-description">Implement simple bookkeeping to track revenue, expenses, and cash flow from day one.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="sops"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Document Core Processes">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Document Core Business Processes</div>
                         <div class="strategy-description">Create standard operating procedures for key workflows to ensure consistency and enable scaling.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="operations" data-strategy="project-management"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Implement Project Management Tools">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Implement Project Management Tools</div>
                         <div class="strategy-description">Adopt lightweight tools to organize tasks, track progress, and coordinate team activities.</div>
                     </div>
@@ -586,52 +643,69 @@
             <!-- Revenue & Financial Planning -->
             <div class="category-section">
                 <div class="category-header">
-                    <h3>💰 Revenue & Financial Planning</h3>
+                    <h3>Revenue & Financial Planning</h3>
                     <span class="category-count" id="revenueCount">0 selected</span>
                 </div>
                 <div class="strategy-grid">
                     <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="pricing-strategy"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Develop Pricing Strategy">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Develop Evidence-Based Pricing Strategy</div>
                         <div class="strategy-description">Research competitor pricing and test different price points to find optimal pricing for your market.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="revenue-streams"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Identify Multiple Revenue Streams">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Identify Multiple Revenue Streams</div>
                         <div class="strategy-description">Explore diverse ways to generate income beyond your primary offering to reduce risk.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="sales-funnel"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Design Sales Funnel">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Design Customer Acquisition Funnel</div>
                         <div class="strategy-description">Map the journey from awareness to purchase and optimize each stage for conversion.</div>
                     </div>
                     <div class="strategy-card" tabindex="0" role="button" data-category="revenue" data-strategy="retention"
-                         onclick="toggleStrategy(this)" onkeypress="handleKeyPress(event, this)"
+                         onclick="toggleStrategy(this)" onkeydown="handleKeyPress(event, this)"
                          aria-label="Select strategy: Build Customer Retention Strategy">
-                        <div class="checkmark" aria-hidden="true">✓</div>
+                        <div class="checkmark" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        </div>
                         <div class="strategy-title">Build Customer Retention Strategy</div>
                         <div class="strategy-description">Create systems to keep customers engaged, satisfied, and returning for repeat purchases.</div>
                     </div>
                 </div>
             </div>
 
+            <div class="selection-summary selection-summary-bottom" role="region" aria-label="Selection summary, bottom">
+                <p>You've selected</p>
+                <div class="selection-count" id="selectionCountBottom">0</div>
+                <p>priority areas (select 3-5)</p>
+                <button class="generate-btn" id="generateBtnBottom" onclick="generateActionPlan()" disabled aria-label="Generate your personalized launch plan">
+                    Generate My Launch Plan
+                </button>
+            </div>
+
             <!-- Action Plan Section -->
             <div class="action-plan" id="actionPlan" role="region" aria-label="Your personalized startup launch plan">
-                <h2>🎯 Your Personalized Startup Launch Plan</h2>
+                <h2>Your Personalized Startup Launch Plan</h2>
                 <p class="action-plan-intro">Here are detailed, actionable steps for implementing your selected strategies. Use this as your roadmap for the next 90 days!</p>
                 <div id="planContent"></div>
                 <div class="action-buttons">
                     <button class="action-btn print-btn" onclick="window.print()" aria-label="Print your launch plan">
-                        🖨️ Print Launch Plan
+                        Print Launch Plan
                     </button>
                     <button class="action-btn reset-btn" onclick="resetToolkit()" aria-label="Reset and start over">
-                        ↺ Start Over
+                        Start Over
                     </button>
                 </div>
             </div>
@@ -640,6 +714,7 @@
 
     <script>
         const selectedStrategies = new Set();
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const strategyDetails = {
             'mvp': {
@@ -949,6 +1024,7 @@
         function updateSelectionCount() {
             const count = selectedStrategies.size;
             document.getElementById('selectionCount').textContent = count;
+            document.getElementById('selectionCountBottom').textContent = count;
             
             const categories = {
                 product: 0,
@@ -968,14 +1044,8 @@
             document.getElementById('operationsCount').textContent = categories.operations + ' selected';
             document.getElementById('revenueCount').textContent = categories.revenue + ' selected';
             
-            const generateBtn = document.getElementById('generateBtn');
-            if (count >= 3 && count <= 5) {
-                generateBtn.disabled = false;
-                generateBtn.style.opacity = '1';
-            } else {
-                generateBtn.disabled = true;
-                generateBtn.style.opacity = '0.5';
-            }
+            const isValidCount = count >= 3 && count <= 5;
+            document.getElementById('generateBtnBottom').disabled = !isValidCount;
         }
 
         function generateActionPlan() {
@@ -996,23 +1066,23 @@
                     </h3>
                     
                     <div class="implementation-section">
-                        <h4>🚀 Quick Start Steps</h4>
+                        <h4>Quick Start Steps</h4>
                         <ul>
                             ${details.quickStart.map(step => `<li>${step}</li>`).join('')}
                         </ul>
                     </div>
                     
                     <div class="implementation-section">
-                        <h4>📋 Implementation Details</h4>
+                        <h4>Implementation Details</h4>
                         <ul>
                             ${details.implementation.map(step => `<li>${step}</li>`).join('')}
                         </ul>
                     </div>
                     
-                    <div class="time-estimate">⏱️ Time & Cost: ${details.timeframe}</div>
+                    <div class="time-estimate">Time & Cost: ${details.timeframe}</div>
                     
                     <div class="resource-reference">
-                        <strong>📚 Based On:</strong>
+                        <strong>Based On:</strong>
                         ${details.resourceLink}
                     </div>
                 `;
@@ -1023,7 +1093,7 @@
             
             const actionPlan = document.getElementById('actionPlan');
             actionPlan.classList.add('visible');
-            actionPlan.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            actionPlan.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
             
             announceToScreenReader('Your personalized startup launch plan has been generated with ' + 
                                    selectedStrategies.size + ' strategies.');
@@ -1038,7 +1108,7 @@
                 });
                 updateSelectionCount();
                 document.getElementById('actionPlan').classList.remove('visible');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
                 announceToScreenReader('Launch plan reset. Start making your selections again.');
             }
         }
