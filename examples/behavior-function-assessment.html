@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom Behavior Function Assessment Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --teal: #0D7377;
+            --teal-hover: #0A5C60;
+            --border: #E2E8F0;
+
+            /* Semantic additions - see chat summary for rationale */
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #1B7A43;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,24 +35,24 @@
         }
 
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: var(--ink);
         }
 
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 24px rgba(26, 26, 46, 0.08);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -66,38 +89,38 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: #bdc3c7;
+            background: var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            color: #34495e;
+            color: var(--ink-secondary);
             transition: all 0.4s ease;
             font-size: 16px;
         }
 
         .progress-step.active {
-            background: #3498db;
+            background: var(--teal);
             color: white;
             transform: scale(1.15);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.35);
         }
 
         .progress-step.completed {
-            background: #27ae60;
+            background: var(--success);
             color: white;
         }
 
         .progress-connector {
             width: 50px;
             height: 4px;
-            background: #bdc3c7;
+            background: var(--border);
             transition: all 0.4s ease;
             border-radius: 2px;
         }
 
         .progress-connector.completed {
-            background: #27ae60;
+            background: var(--success);
         }
 
         .screen {
@@ -107,6 +130,20 @@
 
         .screen.active {
             display: block;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .screen {
+                animation: none;
+            }
+            .progress-step,
+            .progress-connector,
+            .challenge-card,
+            .context-card,
+            .solution-item,
+            .btn {
+                transition: none;
+            }
         }
 
         @keyframes fadeIn {
@@ -126,7 +163,7 @@
 
         .welcome-screen p {
             font-size: 18px;
-            color: #444;
+            color: var(--ink-secondary);
             line-height: 1.7;
             margin-bottom: 25px;
             max-width: 700px;
@@ -148,8 +185,8 @@
         }
 
         .challenge-card {
-            background: white;
-            border: 3px solid #e0e0e0;
+            background: var(--surface);
+            border: 3px solid var(--border);
             border-radius: 14px;
             padding: 28px 20px;
             cursor: pointer;
@@ -165,31 +202,38 @@
 
         .challenge-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(44, 62, 80, 0.15);
-            border-color: #2c3e50;
+            box-shadow: 0 10px 25px rgba(26, 26, 46, 0.12);
+            border-color: var(--teal);
         }
 
         .challenge-card:focus {
-            outline: 4px solid #3498db;
+            outline: 3px solid var(--teal);
             outline-offset: 2px;
         }
 
         .challenge-card.selected {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
-            border-color: #2c3e50;
+            border-color: var(--ink);
             transform: scale(1.03);
-            box-shadow: 0 12px 30px rgba(44, 62, 80, 0.3);
+            box-shadow: 0 12px 30px rgba(26, 26, 46, 0.3);
         }
 
         .challenge-icon {
-            font-size: 56px;
             margin-bottom: 16px;
-            filter: grayscale(20%);
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .challenge-icon svg {
+            width: 48px;
+            height: 48px;
         }
 
         .challenge-card.selected .challenge-icon {
-            filter: grayscale(0%);
+            color: white;
         }
 
         .challenge-card h3 {
@@ -201,12 +245,12 @@
 
         .challenge-card p {
             font-size: 14px;
-            opacity: 0.85;
+            color: var(--ink-secondary);
             line-height: 1.5;
         }
 
         .challenge-card.selected p {
-            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .context-options {
@@ -223,8 +267,8 @@
         }
 
         .context-card {
-            background: white;
-            border: 3px solid #e0e0e0;
+            background: var(--surface);
+            border: 3px solid var(--border);
             border-radius: 12px;
             padding: 24px;
             cursor: pointer;
@@ -234,15 +278,20 @@
 
         .context-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.12);
-            border-color: #3498db;
+            box-shadow: 0 8px 20px rgba(26, 26, 46, 0.1);
+            border-color: var(--teal);
+        }
+
+        .context-card:focus {
+            outline: 3px solid var(--teal);
+            outline-offset: 2px;
         }
 
         .context-card.selected {
-            background: #3498db;
+            background: var(--teal);
             color: white;
-            border-color: #3498db;
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            border-color: var(--teal);
+            box-shadow: 0 8px 20px rgba(13, 115, 119, 0.3);
         }
 
         .context-card h4 {
@@ -254,23 +303,23 @@
         .context-card p {
             font-size: 14px;
             line-height: 1.6;
-            opacity: 0.85;
+            color: var(--ink-secondary);
         }
 
         .context-card.selected p {
-            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .solution-section {
-            background: white;
+            background: var(--surface);
             border-radius: 14px;
             padding: 35px;
             margin-bottom: 30px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border);
         }
 
         .solution-section h3 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 26px;
             margin-bottom: 24px;
             text-align: center;
@@ -283,36 +332,29 @@
         }
 
         .solution-item {
-            background: #f8f9fa;
-            border-left: 5px solid #3498db;
+            background: var(--surface-subtle);
+            border-left: 5px solid var(--teal);
             border-radius: 10px;
             padding: 24px;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(26, 26, 46, 0.04);
         }
 
         .solution-item:hover {
             transform: translateX(6px);
-            box-shadow: 0 6px 16px rgba(44, 62, 80, 0.12);
+            box-shadow: 0 6px 16px rgba(26, 26, 46, 0.1);
             border-left-width: 6px;
         }
 
         .solution-item h4 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 19px;
             margin-bottom: 12px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .solution-icon {
-            font-size: 24px;
         }
 
         .solution-item p {
-            color: #444;
+            color: var(--ink-secondary);
             line-height: 1.7;
             font-size: 15px;
             margin-bottom: 12px;
@@ -324,7 +366,7 @@
         }
 
         .solution-item li {
-            color: #555;
+            color: var(--ink-secondary);
             line-height: 1.6;
             font-size: 14px;
             margin-bottom: 6px;
@@ -345,14 +387,14 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            box-shadow: 0 2px 8px rgba(26, 26, 46, 0.08);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             letter-spacing: 0.3px;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 14px rgba(26, 26, 46, 0.14);
         }
 
         .btn:active {
@@ -360,79 +402,79 @@
         }
 
         .btn:focus {
-            outline: 4px solid #3498db;
+            outline: 3px solid var(--teal);
             outline-offset: 2px;
         }
 
         .btn-primary {
-            background: #2c3e50;
+            background: var(--teal);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #34495e;
+            background: var(--teal-hover);
         }
 
         .btn-primary:disabled {
-            background: #bdc3c7;
-            color: #7f8c8d;
+            background: var(--border);
+            color: var(--ink-tertiary);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
         .btn-secondary {
-            background: white;
-            color: #2c3e50;
-            border: 2px solid #2c3e50;
+            background: var(--surface);
+            color: var(--ink);
+            border: 2px solid var(--ink);
         }
 
         .btn-secondary:hover {
-            background: #2c3e50;
+            background: var(--ink);
             color: white;
         }
 
         .btn-restart {
-            background: #3498db;
+            background: var(--teal);
             color: white;
         }
 
         .btn-restart:hover {
-            background: #2980b9;
+            background: var(--teal-hover);
         }
 
         .info-box {
-            background: #fff3cd;
-            border-left: 5px solid #f39c12;
+            background: var(--amber-tint);
+            border-left: 5px solid var(--amber);
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(26, 26, 46, 0.04);
         }
 
         .info-box h3 {
-            color: #e67e22;
+            color: var(--amber);
             font-size: 20px;
             margin-bottom: 12px;
             font-weight: 700;
         }
 
         .info-box p {
-            color: #555;
+            color: var(--ink-secondary);
             line-height: 1.7;
             font-size: 15px;
         }
 
         .challenge-summary {
-            background: white;
+            background: var(--surface);
             border-radius: 12px;
             padding: 26px;
             margin-bottom: 24px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border);
         }
 
         .challenge-summary h4 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 20px;
             margin-bottom: 16px;
             font-weight: 700;
@@ -448,23 +490,23 @@
 
         .summary-label {
             font-weight: 700;
-            color: #34495e;
+            color: var(--ink-secondary);
             min-width: 120px;
         }
 
         .summary-value {
-            color: #333;
+            color: var(--ink);
             flex: 1;
         }
 
         .encouragement-box {
-            background: #d4edda;
-            border-left: 5px solid #27ae60;
-            color: #155724;
+            background: var(--success-tint);
+            border-left: 5px solid var(--success);
+            color: var(--success-ink);
             padding: 26px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.1);
+            box-shadow: 0 4px 12px rgba(27, 122, 67, 0.08);
         }
 
         .encouragement-box p {
@@ -479,14 +521,14 @@
         }
 
         .resource-links {
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             border-radius: 12px;
             padding: 24px;
             margin-top: 24px;
         }
 
         .resource-links h4 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 18px;
             margin-bottom: 14px;
             font-weight: 700;
@@ -501,26 +543,32 @@
             margin-bottom: 10px;
             padding-left: 24px;
             position: relative;
+            color: var(--ink-secondary);
         }
 
         .resource-links li::before {
-            content: "→";
+            content: "\2192";
             position: absolute;
             left: 0;
-            color: #3498db;
+            color: var(--teal);
             font-weight: bold;
         }
 
         .resource-links a {
-            color: #2c3e50;
+            color: var(--teal);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .resource-links a:hover {
-            color: #3498db;
+            color: var(--teal-hover);
             text-decoration: underline;
+        }
+
+        .resource-links a:focus {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
         }
 
         .sr-only {
@@ -535,25 +583,43 @@
             border-width: 0;
         }
 
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .button-group,
+            .progress-indicator {
+                display: none;
+            }
+            .screen {
+                display: block !important;
+            }
+        }
+
         @media (max-width: 767px) {
             .header h1 {
                 font-size: 26px;
             }
-            
+
             .header p {
                 font-size: 15px;
             }
-            
+
             .content {
                 padding: 30px 20px;
             }
-            
+
             .progress-step {
                 width: 36px;
                 height: 36px;
                 font-size: 14px;
             }
-            
+
             .progress-connector {
                 width: 30px;
             }
@@ -588,7 +654,7 @@
             <div class="screen active" id="welcome-screen">
                 <div class="welcome-screen">
                     <p>Understanding why a behavior occurs (its function) is essential for developing effective interventions. This tool uses principles from Applied Behavior Analysis (ABA) and Positive Behavioral Interventions and Supports (PBIS) to help you identify behavioral functions and match them with evidence-based strategies.</p>
-                    <p>You'll identify the type of challenging behavior, assess its likely function (what the behavior accomplishes for the student), and receive practical intervention strategies tailored to that function.</p>
+                    <p>You'll identify the type of challenging behavior, assess its likely function (what the behavior accomplishes for the student), and receive practical intervention strategies tailored to that function. Treat your result as a working hypothesis: behavior can serve more than one function, and confirming function in practice involves direct observation over time, not a single judgment call.</p>
                     <p><strong>Let's get started.</strong></p>
                 </div>
                 <div class="button-group" style="margin-top: 30px;">
@@ -599,25 +665,48 @@
             <!-- Behavior Type Selection Screen -->
             <div class="screen" id="challenge-screen">
                 <div class="info-box">
-                    <h3>Step 1: Identify the Behavior Type</h3>
+                    <h2 style="font-size: 20px; color: var(--amber); margin-bottom: 12px; font-weight: 700;">Step 1: Identify the Behavior Type</h2>
                     <p>Select the category that best describes the challenging behavior you're observing:</p>
                 </div>
 
                 <div class="challenge-cards" role="radiogroup" aria-label="Select behavior type">
                     <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="disruptive" onclick="selectChallenge('disruptive')" onkeypress="handleCardKeypress(event, 'disruptive')">
-                        <div class="challenge-icon">🔊</div>
+                        <div class="challenge-icon" role="img" aria-label="Speaker with sound waves, representing noise and disruption">
+                            <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+                                <path d="M6,18 L6,30 L14,30 L24,38 L24,10 L14,18 Z" fill="currentColor"></path>
+                                <path d="M30,19 A6,5 0 0 1 30,29" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
+                                <path d="M35,13 A12,11 0 0 1 35,35" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
+                            </svg>
+                        </div>
                         <h3>Disruptive/Off-Task</h3>
                         <p>Talking out, leaving seat, not following directions, distracting others, wandering</p>
                     </div>
 
                     <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="aggressive" onclick="selectChallenge('aggressive')" onkeypress="handleCardKeypress(event, 'aggressive')">
-                        <div class="challenge-icon">😤</div>
+                        <div class="challenge-icon" role="img" aria-label="Burst mark, representing intensity and aggression">
+                            <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+                                <path d="M44,24 L32.32,27.44 L38.14,38.14 L27.44,32.32 L24,44 L20.56,32.32 L9.86,38.14 L15.68,27.44 L4,24 L15.68,20.56 L9.86,9.86 L20.56,15.68 L24,4 L27.44,15.68 L38.14,9.86 L32.32,20.56 Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
                         <h3>Aggressive/Destructive</h3>
                         <p>Hitting, kicking, throwing objects, property destruction, verbal aggression</p>
                     </div>
 
                     <div class="challenge-card" tabindex="0" role="radio" aria-checked="false" data-challenge="withdrawal" onclick="selectChallenge('withdrawal')" onkeypress="handleCardKeypress(event, 'withdrawal')">
-                        <div class="challenge-icon">😔</div>
+                        <div class="challenge-icon" role="img" aria-label="Speech bubble crossed out, representing withdrawal and disengagement">
+                            <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+                                <defs>
+                                    <mask id="withdrawal-slash-mask">
+                                        <rect x="0" y="0" width="48" height="48" fill="white"></rect>
+                                        <line x1="4" y1="44" x2="44" y2="4" stroke="black" stroke-width="5" stroke-linecap="round"></line>
+                                    </mask>
+                                </defs>
+                                <g mask="url(#withdrawal-slash-mask)">
+                                    <rect x="6" y="8" width="36" height="24" rx="6" fill="currentColor"></rect>
+                                    <path d="M14,32 L22,32 L14,42 Z" fill="currentColor"></path>
+                                </g>
+                            </svg>
+                        </div>
                         <h3>Withdrawal/Avoidance</h3>
                         <p>Refusing to participate, shutting down, hiding, not completing work, task avoidance</p>
                     </div>
@@ -632,7 +721,7 @@
             <!-- Function Selection Screen -->
             <div class="screen" id="context-screen">
                 <div class="info-box">
-                    <h3>Step 2: Assess the Behavioral Function</h3>
+                    <h2 style="font-size: 20px; color: var(--amber); margin-bottom: 12px; font-weight: 700;">Step 2: Assess the Behavioral Function</h2>
                     <p>Based on your observations, what does the behavior seem to accomplish for the student? Select the function that best matches:</p>
                 </div>
 
@@ -661,9 +750,11 @@
                 </div>
 
                 <div class="encouragement-box">
-                    <div class="encouragement-icon">✓</div>
+                    <div class="encouragement-icon" aria-hidden="true">&#10003;</div>
                     <p><strong>Function-based interventions are most effective.</strong> By matching your strategies to the underlying function of the behavior, you're taking a research-informed approach that addresses the root cause rather than just the symptoms.</p>
                 </div>
+
+                <div class="info-box" id="path-caveat" style="display: none;"></div>
 
                 <div class="solution-section">
                     <h3>Evidence-Based Intervention Strategies</h3>
@@ -711,7 +802,7 @@
                 },
                 {
                     id: "sensory",
-                    title: "Sensory Stimulation",
+                    title: "Sensory Seeking",
                     description: "Behavior provides sensory input the student seeks or needs"
                 },
                 {
@@ -766,7 +857,6 @@
             disruptive: {
                 attention: [
                     {
-                        icon: "✋",
                         title: "Teach Appropriate Attention-Seeking",
                         description: "Explicitly teach and reinforce appropriate ways to gain attention.",
                         details: [
@@ -777,7 +867,6 @@
                         ]
                     },
                     {
-                        icon: "⏰",
                         title: "Provide Scheduled Attention",
                         description: "Prevent attention-seeking behavior by proactively meeting the need for attention.",
                         details: [
@@ -788,7 +877,6 @@
                         ]
                     },
                     {
-                        icon: "🚫",
                         title: "Minimize Attention to Problem Behavior",
                         description: "Reduce reinforcement by limiting attention given to disruptive behavior.",
                         details: [
@@ -799,7 +887,6 @@
                         ]
                     },
                     {
-                        icon: "👥",
                         title: "Peer-Mediated Attention",
                         description: "Teach peers to provide attention for appropriate behavior.",
                         details: [
@@ -812,7 +899,6 @@
                 ],
                 escape: [
                     {
-                        icon: "📚",
                         title: "Modify Task Difficulty",
                         description: "Adjust task demands to match student's current skill level.",
                         details: [
@@ -823,7 +909,6 @@
                         ]
                     },
                     {
-                        icon: "⏸️",
                         title: "Teach Break-Requesting",
                         description: "Provide appropriate escape through taught break-taking skills.",
                         details: [
@@ -834,7 +919,6 @@
                         ]
                     },
                     {
-                        icon: "💪",
                         title: "Build Academic Skills",
                         description: "Address skill deficits that make tasks aversive.",
                         details: [
@@ -845,7 +929,6 @@
                         ]
                     },
                     {
-                        icon: "🎯",
                         title: "Make Tasks More Engaging",
                         description: "Increase task appeal to reduce the motivation to escape.",
                         details: [
@@ -858,7 +941,6 @@
                 ],
                 sensory: [
                     {
-                        icon: "🪑",
                         title: "Provide Appropriate Sensory Input",
                         description: "Offer alternative ways to meet sensory needs.",
                         details: [
@@ -869,7 +951,6 @@
                         ]
                     },
                     {
-                        icon: "🏃",
                         title: "Schedule Movement Opportunities",
                         description: "Build sensory breaks into the daily routine.",
                         details: [
@@ -880,7 +961,6 @@
                         ]
                     },
                     {
-                        icon: "🔇",
                         title: "Modify Sensory Environment",
                         description: "Reduce sensory overload that may drive disruptive behavior.",
                         details: [
@@ -891,7 +971,6 @@
                         ]
                     },
                     {
-                        icon: "⏰",
                         title: "Implement Sensory Schedule",
                         description: "Proactively meet sensory needs before behavior escalates.",
                         details: [
@@ -904,7 +983,6 @@
                 ],
                 tangible: [
                     {
-                        icon: "⏳",
                         title: "Teach Delayed Gratification",
                         description: "Help student learn to wait for preferred items or activities.",
                         details: [
@@ -915,7 +993,6 @@
                         ]
                     },
                     {
-                        icon: "🎟️",
                         title: "Implement Token Economy",
                         description: "Create system where appropriate behavior earns access to desired items.",
                         details: [
@@ -926,7 +1003,6 @@
                         ]
                     },
                     {
-                        icon: "🗓️",
                         title: "Schedule Access to Preferred Items",
                         description: "Build in guaranteed access to reduce need to obtain through disruption.",
                         details: [
@@ -937,7 +1013,6 @@
                         ]
                     },
                     {
-                        icon: "🙋",
                         title: "Teach Appropriate Requesting",
                         description: "Provide functional communication alternative to obtain desired items.",
                         details: [
@@ -952,7 +1027,6 @@
             aggressive: {
                 attention: [
                     {
-                        icon: "👋",
                         title: "Teach Prosocial Attention-Seeking",
                         description: "Provide explicit instruction in appropriate ways to gain attention.",
                         details: [
@@ -963,7 +1037,6 @@
                         ]
                     },
                     {
-                        icon: "⚠️",
                         title: "Provide Non-Contingent Attention",
                         description: "Prevent aggressive behavior by proactively meeting attention needs.",
                         details: [
@@ -974,7 +1047,6 @@
                         ]
                     },
                     {
-                        icon: "🤐",
                         title: "Minimize Attention During Aggression",
                         description: "Ensure aggressive behavior doesn't result in desired attention.",
                         details: [
@@ -985,7 +1057,6 @@
                         ]
                     },
                     {
-                        icon: "💚",
                         title: "Build Positive Relationships",
                         description: "Strong relationships reduce need for negative attention-seeking.",
                         details: [
@@ -998,7 +1069,6 @@
                 ],
                 escape: [
                     {
-                        icon: "🛡️",
                         title: "Teach Safe Escape Behaviors",
                         description: "Provide appropriate alternatives to aggressive escape.",
                         details: [
@@ -1009,7 +1079,6 @@
                         ]
                     },
                     {
-                        icon: "📉",
                         title: "Reduce Task Demands",
                         description: "Modify expectations to reduce need for aggressive escape.",
                         details: [
@@ -1020,7 +1089,6 @@
                         ]
                     },
                     {
-                        icon: "⚡",
                         title: "Identify and Address Triggers",
                         description: "Prevent aggressive behavior by removing or modifying triggers.",
                         details: [
@@ -1031,7 +1099,6 @@
                         ]
                     },
                     {
-                        icon: "📚",
                         title: "Build Skills in Deficit Areas",
                         description: "Address skill gaps that make tasks overwhelming.",
                         details: [
@@ -1044,7 +1111,6 @@
                 ],
                 sensory: [
                     {
-                        icon: "😌",
                         title: "Teach Self-Regulation Strategies",
                         description: "Provide tools for managing sensory and emotional overwhelm.",
                         details: [
@@ -1055,7 +1121,6 @@
                         ]
                     },
                     {
-                        icon: "🏃",
                         title: "Provide Intensive Movement Breaks",
                         description: "Use physical activity to regulate sensory system.",
                         details: [
@@ -1066,7 +1131,6 @@
                         ]
                     },
                     {
-                        icon: "🔕",
                         title: "Create Low-Stimulation Environment",
                         description: "Reduce sensory input that may contribute to dysregulation.",
                         details: [
@@ -1077,7 +1141,6 @@
                         ]
                     },
                     {
-                        icon: "🚨",
                         title: "Recognize Warning Signs Early",
                         description: "Intervene before behavior escalates to aggression.",
                         details: [
@@ -1090,7 +1153,6 @@
                 ],
                 tangible: [
                     {
-                        icon: "🗣️",
                         title: "Teach Functional Communication",
                         description: "Replace aggression with appropriate requesting skills.",
                         details: [
@@ -1101,7 +1163,6 @@
                         ]
                     },
                     {
-                        icon: "⏱️",
                         title: "Implement Scheduled Access",
                         description: "Reduce motivation for aggressive behavior by ensuring regular access.",
                         details: [
@@ -1112,7 +1173,6 @@
                         ]
                     },
                     {
-                        icon: "🎫",
                         title: "Use Differential Reinforcement",
                         description: "Make preferred items more accessible through appropriate behavior.",
                         details: [
@@ -1123,7 +1183,6 @@
                         ]
                     },
                     {
-                        icon: "🙅",
                         title: "Teach Acceptance of Denial",
                         description: "Help student tolerate being told 'no' or 'wait.'",
                         details: [
@@ -1138,7 +1197,6 @@
             withdrawal: {
                 escape: [
                     {
-                        icon: "🎯",
                         title: "Modify Task Demands",
                         description: "Reduce the aversiveness of tasks to decrease avoidance.",
                         details: [
@@ -1149,7 +1207,6 @@
                         ]
                     },
                     {
-                        icon: "🪜",
                         title: "Use Gradual Exposure",
                         description: "Slowly increase task demands as student builds tolerance.",
                         details: [
@@ -1160,7 +1217,6 @@
                         ]
                     },
                     {
-                        icon: "💪",
                         title: "Build Competence",
                         description: "Address skill deficits that make tasks overwhelming.",
                         details: [
@@ -1171,7 +1227,6 @@
                         ]
                     },
                     {
-                        icon: "🤝",
                         title: "Reduce Social Demands",
                         description: "Modify social aspects of tasks that may be anxiety-producing.",
                         details: [
@@ -1184,7 +1239,6 @@
                 ],
                 attention: [
                     {
-                        icon: "👁️",
                         title: "Provide Proactive Attention",
                         description: "Meet need for attention before withdrawal occurs.",
                         details: [
@@ -1195,7 +1249,6 @@
                         ]
                     },
                     {
-                        icon: "🚫",
                         title: "Minimize Attention to Withdrawal",
                         description: "Ensure withdrawal doesn't result in desired attention.",
                         details: [
@@ -1206,7 +1259,6 @@
                         ]
                     },
                     {
-                        icon: "🔄",
                         title: "Teach Appropriate Attention-Seeking",
                         description: "Provide alternative to withdrawal for obtaining attention.",
                         details: [
@@ -1217,7 +1269,6 @@
                         ]
                     },
                     {
-                        icon: "💙",
                         title: "Build Trusting Relationship",
                         description: "Strong connection reduces need for attention through withdrawal.",
                         details: [
@@ -1230,7 +1281,6 @@
                 ],
                 sensory: [
                     {
-                        icon: "😮‍💨",
                         title: "Teach Coping Strategies",
                         description: "Provide tools for managing sensory and emotional overwhelm.",
                         details: [
@@ -1241,7 +1291,6 @@
                         ]
                     },
                     {
-                        icon: "🏠",
                         title: "Create Safe Retreat Space",
                         description: "Provide appropriate environment for sensory regulation.",
                         details: [
@@ -1252,7 +1301,6 @@
                         ]
                     },
                     {
-                        icon: "🌊",
                         title: "Reduce Environmental Demands",
                         description: "Modify classroom to reduce sensory overwhelm.",
                         details: [
@@ -1263,7 +1311,6 @@
                         ]
                     },
                     {
-                        icon: "⚡",
                         title: "Recognize Warning Signs",
                         description: "Intervene early before complete withdrawal occurs.",
                         details: [
@@ -1282,16 +1329,24 @@
             general: {
                 title: "Additional Resources",
                 links: [
-                    { text: "PBIS.org", description: "Positive Behavioral Interventions and Supports framework and resources" },
-                    { text: "Behavior Analyst Certification Board", description: "Information on evidence-based behavioral interventions" },
-                    { text: "IRIS Center", description: "Free training modules on classroom and behavior management" },
-                    { text: "Consultation with school psychologist or BCBA", description: "For individualized behavior support planning" }
+                    { text: "PBIS.org", url: "https://www.pbis.org/", description: "Positive Behavioral Interventions and Supports framework and resources" },
+                    { text: "Behavior Analyst Certification Board", url: "https://www.bacb.com/", description: "Information on evidence-based behavioral interventions" },
+                    { text: "IRIS Center", url: "https://iris.peabody.vanderbilt.edu/resources/iris-resource-locator/", description: "Free training modules on classroom and behavior management" },
+                    { text: "Consultation with school psychologist or BCBA", url: null, description: "For individualized behavior support planning" }
                 ]
             }
         };
 
         // Navigation functions
         function goToScreen(screenId) {
+            // Refresh the function-selection screen whenever we navigate to it,
+            // whether arriving forward (Continue) or backward (Back from
+            // Solutions) - this used to rely on a function-reassignment trick;
+            // folding it in here is more direct and easier to follow.
+            if (screenId === 'context-screen' && appState.selectedChallenge) {
+                loadContextOptions();
+            }
+
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
@@ -1299,7 +1354,7 @@
             appState.currentScreen = screenId.replace('-screen', '');
             updateProgressIndicator();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+
             announceChange(`Navigated to ${screenId.replace('-screen', '').replace('-', ' ')} section`);
         }
 
@@ -1320,13 +1375,13 @@
                 'context': 2,
                 'solutions': 3
             };
-            
+
             const currentStep = steps[appState.currentScreen];
-            
+
             for (let i = 1; i <= 3; i++) {
                 const step = document.getElementById(`step${i}`);
                 const connector = document.getElementById(`connector${i}`);
-                
+
                 if (i < currentStep) {
                     step.classList.add('completed');
                     step.classList.remove('active');
@@ -1346,15 +1401,15 @@
                 card.classList.remove('selected');
                 card.setAttribute('aria-checked', 'false');
             });
-            
+
             const selectedCard = document.querySelector(`[data-challenge="${challenge}"]`);
             selectedCard.classList.add('selected');
             selectedCard.setAttribute('aria-checked', 'true');
-            
+
             appState.selectedChallenge = challenge;
             appState.selectedContext = null;
             document.getElementById('challenge-next-btn').disabled = false;
-            
+
             announceChange(`Selected ${challengeNames[challenge]}`);
         }
 
@@ -1368,26 +1423,39 @@
         function loadContextOptions() {
             const container = document.getElementById('context-options-container');
             const options = contextOptions[appState.selectedChallenge];
-            
+
             container.innerHTML = '';
-            
+
             options.forEach(option => {
                 const div = document.createElement('div');
                 div.className = 'context-card';
                 div.tabIndex = 0;
                 div.setAttribute('role', 'radio');
-                div.setAttribute('aria-checked', 'false');
                 div.setAttribute('data-context', option.id);
                 div.onclick = () => selectContext(option.id);
                 div.onkeypress = (e) => handleContextKeypress(e, option.id);
-                
+
+                const isSelected = option.id === appState.selectedContext;
+                div.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+                if (isSelected) {
+                    div.classList.add('selected');
+                }
+
                 div.innerHTML = `
                     <h4>${option.title}</h4>
                     <p>${option.description}</p>
                 `;
-                
+
                 container.appendChild(div);
             });
+
+            // Bug fix: the "Get Intervention Strategies" button now reflects
+            // whether a function is actually selected for the CURRENT behavior
+            // type, instead of carrying over its enabled/disabled state from
+            // a previous behavior type. Previously, switching behavior types
+            // after already picking a function could leave this button
+            // enabled with nothing selected, which threw an error if clicked.
+            document.getElementById('context-next-btn').disabled = !appState.selectedContext;
         }
 
         function selectContext(context) {
@@ -1395,15 +1463,16 @@
                 card.classList.remove('selected');
                 card.setAttribute('aria-checked', 'false');
             });
-            
+
             const selectedCard = document.querySelector(`[data-context="${context}"]`);
             selectedCard.classList.add('selected');
             selectedCard.setAttribute('aria-checked', 'true');
-            
+
             appState.selectedContext = context;
             document.getElementById('context-next-btn').disabled = false;
-            
-            announceChange(`Selected context option`);
+
+            const contextObj = contextOptions[appState.selectedChallenge].find(opt => opt.id === context);
+            announceChange(`Selected ${contextObj.title}`);
         }
 
         function handleContextKeypress(event, context) {
@@ -1413,71 +1482,83 @@
             }
         }
 
+        // Brief, path-specific caveats - only shown for the two behavior types where
+        // a generic "consult someone" resource link isn't enough on its own. Kept to
+        // one short paragraph each so they don't compete with the strategies below.
+        const pathCaveats = {
+            aggressive: "Safety first: if a behavior poses immediate risk to the student or others, follow your school's de-escalation and safety procedures before applying the strategies below. These strategies support longer-term, function-based planning once everyone is safe.",
+            withdrawal: "A note on withdrawal: persistent or sudden withdrawal can also reflect anxiety, depression, trauma, or a safety concern rather than a learned behavior pattern alone. If what you're observing doesn't fit cleanly here, looping in a school counselor or mental health professional is a reasonable next step."
+        };
+
         function showSolutions() {
             const solutionsList = solutions[appState.selectedChallenge][appState.selectedContext];
             const solutionsContainer = document.getElementById('solution-items');
-            
+
             const contextObj = contextOptions[appState.selectedChallenge].find(
                 opt => opt.id === appState.selectedContext
             );
-            
+
             document.getElementById('selected-challenge-name').textContent = challengeNames[appState.selectedChallenge];
             document.getElementById('selected-context-name').textContent = contextObj.title;
-            
+
+            const caveatBox = document.getElementById('path-caveat');
+            const caveatText = pathCaveats[appState.selectedChallenge];
+            if (caveatText) {
+                caveatBox.innerHTML = `<h4 style="font-size: 18px; color: var(--amber); margin-bottom: 10px; font-weight: 700;">Before you apply these strategies</h4><p>${caveatText}</p>`;
+                caveatBox.style.display = 'block';
+            } else {
+                caveatBox.innerHTML = '';
+                caveatBox.style.display = 'none';
+            }
+
             solutionsContainer.innerHTML = '';
             solutionsList.forEach(solution => {
                 const solutionDiv = document.createElement('div');
                 solutionDiv.className = 'solution-item';
-                
-                const detailsHTML = solution.details 
+
+                const detailsHTML = solution.details
                     ? `<ul>${solution.details.map(detail => `<li>${detail}</li>`).join('')}</ul>`
                     : '';
-                
+
                 solutionDiv.innerHTML = `
-                    <h4><span class="solution-icon">${solution.icon}</span>${solution.title}</h4>
+                    <h4>${solution.title}</h4>
                     <p>${solution.description}</p>
                     ${detailsHTML}
                 `;
                 solutionsContainer.appendChild(solutionDiv);
             });
-            
+
             const resourcesSection = document.getElementById('resource-links');
             const resourceData = resources.general;
-            
+
             resourcesSection.innerHTML = `
                 <h4>${resourceData.title}</h4>
                 <ul>
                     ${resourceData.links.map(link => `
-                        <li>${link.text} — ${link.description}</li>
+                        <li>${link.url
+                            ? `<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.text}</a><span class="sr-only"> (opens in a new tab)</span>`
+                            : link.text} &mdash; ${link.description}</li>
                     `).join('')}
                 </ul>
             `;
-            
+
             goToScreen('solutions-screen');
         }
 
         function restartActivity() {
             appState.selectedChallenge = null;
             appState.selectedContext = null;
-            
+
             document.querySelectorAll('.challenge-card, .context-card').forEach(card => {
                 card.classList.remove('selected');
                 card.setAttribute('aria-checked', 'false');
             });
-            
+
             document.getElementById('challenge-next-btn').disabled = true;
             document.getElementById('context-next-btn').disabled = true;
-            
+
             goToScreen('welcome-screen');
         }
-
-        const originalGoToScreen = goToScreen;
-        goToScreen = function(screenId) {
-            if (screenId === 'context-screen' && appState.selectedChallenge) {
-                loadContextOptions();
-            }
-            originalGoToScreen(screenId);
-        };
 
         updateProgressIndicator();
     </script>
