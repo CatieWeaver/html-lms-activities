@@ -22,16 +22,18 @@
             --ink: #1A1A2E;
             --ink-secondary: #4A5568;
             --ink-tertiary: #636E7E;
-            --teal: #0D7377;
-            --teal-hover: #0A5C60;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
             --border: #E2E8F0;
+            /* Semantic colors */
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
             --success: #15803D;
-            --success-hover: #0F6B30;
-            --success-tint: #EAF7EF;
-            --warning: #B45309;
-            --warning-tint: #FDF1E2;
-            --danger: #C0392B;
-            --danger-hover: #A5331F;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
         }
 
         body {
@@ -52,7 +54,7 @@
         }
 
         .header {
-            background: var(--ink);
+            background: var(--navy-blue);
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -81,11 +83,11 @@
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border-left: 5px solid var(--ink);
+            border-left: 5px solid var(--navy-blue);
         }
 
         .intro-section h2 {
-            color: var(--teal);
+            color: var(--blue);
             font-size: 1.5em;
             margin-bottom: 15px;
         }
@@ -101,7 +103,7 @@
         }
 
         .category-header {
-            background: var(--ink);
+            background: var(--navy-blue);
             color: white;
             padding: 15px 20px;
             border-radius: 8px;
@@ -142,9 +144,9 @@
         }
 
         .strategy-card:hover {
-            border-color: var(--teal);
+            border-color: var(--blue);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.2);
+            box-shadow: 0 4px 12px rgba(24, 95, 165, 0.2);
         }
 
         .strategy-card.selected {
@@ -154,7 +156,7 @@
         }
 
         .strategy-card:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
@@ -198,7 +200,7 @@
         }
 
         .selection-summary {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
             padding: 20px;
             border-radius: 10px;
@@ -253,7 +255,7 @@
         }
 
         .generate-btn:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 3px;
         }
 
@@ -277,7 +279,7 @@
         }
 
         .action-plan h2 {
-            color: var(--success);
+            color: var(--success-ink);
             font-size: 2em;
             margin-bottom: 10px;
             text-align: center;
@@ -295,7 +297,7 @@
             padding: 25px;
             margin-bottom: 20px;
             border-radius: 10px;
-            border-left: 5px solid var(--teal);
+            border-left: 5px solid var(--blue);
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
@@ -309,7 +311,7 @@
         }
 
         .strategy-number {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
             width: 32px;
             height: 32px;
@@ -344,8 +346,8 @@
         }
 
         .time-estimate {
-            background: var(--warning-tint);
-            color: var(--warning);
+            background: var(--amber-tint);
+            color: var(--amber);
             padding: 8px 15px;
             border-radius: 20px;
             display: inline-block;
@@ -363,7 +365,7 @@
         }
 
         .resource-reference strong {
-            color: var(--success);
+            color: var(--success-ink);
             display: block;
             margin-bottom: 8px;
         }
@@ -397,16 +399,16 @@
         }
 
         .reset-btn {
-            background: var(--danger);
+            background: var(--navy-blue);
             color: white;
         }
 
         .reset-btn:hover {
-            background: var(--danger-hover);
+            background: var(--ink);
         }
 
         .action-btn:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
