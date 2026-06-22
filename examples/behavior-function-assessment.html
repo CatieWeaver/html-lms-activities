@@ -16,14 +16,17 @@
             --ink: #1A1A2E;
             --ink-secondary: #4A5568;
             --ink-tertiary: #636E7E;
-            --teal: #0D7377;
-            --teal-hover: #0A5C60;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
             --border: #E2E8F0;
 
-            /* Semantic additions - see chat summary for rationale */
+            /* Semantic colors */
             --amber: #B45309;
             --amber-tint: #FBF0DE;
-            --success: #1B7A43;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
             --success-ink: #155724;
             --success-tint: #E6F4EA;
         }
@@ -52,7 +55,7 @@
         }
 
         .header {
-            background: var(--ink);
+            background: var(--navy-blue);
             color: white;
             padding: 40px 30px;
             text-align: center;
@@ -100,10 +103,9 @@
         }
 
         .progress-step.active {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
-            transform: scale(1.15);
-            box-shadow: 0 4px 12px rgba(13, 115, 119, 0.35);
+            transform: scale(1.08);
         }
 
         .progress-step.completed {
@@ -203,20 +205,20 @@
         .challenge-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 10px 25px rgba(26, 26, 46, 0.12);
-            border-color: var(--teal);
+            border-color: var(--blue);
         }
 
         .challenge-card:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
         .challenge-card.selected {
-            background: var(--ink);
+            background: var(--blue);
             color: white;
-            border-color: var(--ink);
+            border-color: var(--blue);
             transform: scale(1.03);
-            box-shadow: 0 12px 30px rgba(26, 26, 46, 0.3);
+            box-shadow: 0 12px 30px rgba(24, 95, 165, 0.3);
         }
 
         .challenge-icon {
@@ -279,19 +281,19 @@
         .context-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 20px rgba(26, 26, 46, 0.1);
-            border-color: var(--teal);
+            border-color: var(--blue);
         }
 
         .context-card:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
         .context-card.selected {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
-            border-color: var(--teal);
-            box-shadow: 0 8px 20px rgba(13, 115, 119, 0.3);
+            border-color: var(--blue);
+            box-shadow: 0 8px 20px rgba(24, 95, 165, 0.3);
         }
 
         .context-card h4 {
@@ -333,7 +335,7 @@
 
         .solution-item {
             background: var(--surface-subtle);
-            border-left: 5px solid var(--teal);
+            border-left: 5px solid var(--blue);
             border-radius: 10px;
             padding: 24px;
             transition: all 0.3s ease;
@@ -402,17 +404,17 @@
         }
 
         .btn:focus {
-            outline: 3px solid var(--teal);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
         .btn-primary {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
         }
 
         .btn-primary:hover {
-            background: var(--teal-hover);
+            background: var(--blue-hover);
         }
 
         .btn-primary:disabled {
@@ -435,12 +437,12 @@
         }
 
         .btn-restart {
-            background: var(--teal);
+            background: var(--blue);
             color: white;
         }
 
         .btn-restart:hover {
-            background: var(--teal-hover);
+            background: var(--blue-hover);
         }
 
         .info-box {
@@ -506,7 +508,7 @@
             padding: 26px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 12px rgba(27, 122, 67, 0.08);
+            box-shadow: 0 4px 12px rgba(21, 128, 61, 0.08);
         }
 
         .encouragement-box p {
@@ -550,24 +552,24 @@
             content: "\2192";
             position: absolute;
             left: 0;
-            color: var(--teal);
+            color: var(--blue);
             font-weight: bold;
         }
 
         .resource-links a {
-            color: var(--teal);
+            color: var(--blue);
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
 
         .resource-links a:hover {
-            color: var(--teal-hover);
+            color: var(--blue-hover);
             text-decoration: underline;
         }
 
         .resource-links a:focus {
-            outline: 2px solid var(--teal);
+            outline: 2px solid var(--blue);
             outline-offset: 2px;
         }
 
@@ -1340,9 +1342,7 @@
         // Navigation functions
         function goToScreen(screenId) {
             // Refresh the function-selection screen whenever we navigate to it,
-            // whether arriving forward (Continue) or backward (Back from
-            // Solutions) - this used to rely on a function-reassignment trick;
-            // folding it in here is more direct and easier to follow.
+            // whether arriving forward (Continue) or backward (Back from Solutions).
             if (screenId === 'context-screen' && appState.selectedChallenge) {
                 loadContextOptions();
             }
@@ -1385,12 +1385,18 @@
                 if (i < currentStep) {
                     step.classList.add('completed');
                     step.classList.remove('active');
+                    step.removeAttribute('aria-current');
+                    step.setAttribute('aria-label', `Step ${i}, completed`);
                     if (connector) connector.classList.add('completed');
                 } else if (i === currentStep) {
                     step.classList.add('active');
                     step.classList.remove('completed');
+                    step.setAttribute('aria-current', 'step');
+                    step.setAttribute('aria-label', `Step ${i}, current`);
                 } else {
                     step.classList.remove('active', 'completed');
+                    step.removeAttribute('aria-current');
+                    step.setAttribute('aria-label', `Step ${i}`);
                     if (connector) connector.classList.remove('completed');
                 }
             }
@@ -1449,12 +1455,7 @@
                 container.appendChild(div);
             });
 
-            // Bug fix: the "Get Intervention Strategies" button now reflects
-            // whether a function is actually selected for the CURRENT behavior
-            // type, instead of carrying over its enabled/disabled state from
-            // a previous behavior type. Previously, switching behavior types
-            // after already picking a function could leave this button
-            // enabled with nothing selected, which threw an error if clicked.
+            // Disable the button whenever no function is selected for the current behavior type.
             document.getElementById('context-next-btn').disabled = !appState.selectedContext;
         }
 
@@ -1482,9 +1483,7 @@
             }
         }
 
-        // Brief, path-specific caveats - only shown for the two behavior types where
-        // a generic "consult someone" resource link isn't enough on its own. Kept to
-        // one short paragraph each so they don't compete with the strategies below.
+        // Path-specific caveats shown on the solutions screen for select behavior types.
         const pathCaveats = {
             aggressive: "Safety first: if a behavior poses immediate risk to the student or others, follow your school's de-escalation and safety procedures before applying the strategies below. These strategies support longer-term, function-based planning once everyone is safe.",
             withdrawal: "A note on withdrawal: persistent or sudden withdrawal can also reflect anxiety, depression, trauma, or a safety concern rather than a learned behavior pattern alone. If what you're observing doesn't fit cleanly here, looping in a school counselor or mental health professional is a reasonable next step."
