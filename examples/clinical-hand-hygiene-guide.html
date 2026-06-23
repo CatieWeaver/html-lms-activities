@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clinical Hand Hygiene Procedure Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
+            --border: #E2E8F0;
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,25 +36,29 @@
         }
 
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: var(--ink-secondary);
+        }
+
+        strong {
+            color: var(--ink);
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(20, 49, 90, 0.15);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
-            color: white;
+            background: var(--navy-blue);
+            color: #FFFFFF;
             padding: 40px 30px;
             text-align: center;
         }
@@ -54,22 +82,22 @@
         }
 
         .intro-section {
-            background: #e3f2fd;
+            background: var(--blue-tint);
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 30px;
-            border-left: 5px solid #2196f3;
+            border-left: 5px solid var(--blue);
         }
 
         .intro-section h2 {
-            color: #1976d2;
+            color: var(--blue);
             font-size: 1.4em;
             margin-bottom: 15px;
         }
 
         .intro-section p {
             line-height: 1.7;
-            color: #333;
+            color: var(--ink-secondary);
             margin-bottom: 12px;
         }
 
@@ -81,10 +109,11 @@
         .intro-section li {
             line-height: 1.7;
             margin-bottom: 8px;
+            color: var(--ink-secondary);
         }
 
         .progress-section {
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
@@ -92,7 +121,7 @@
         }
 
         .progress-bar-container {
-            background: #e0e0e0;
+            background: var(--border);
             height: 30px;
             border-radius: 15px;
             overflow: hidden;
@@ -100,30 +129,30 @@
         }
 
         .progress-bar {
-            background: linear-gradient(135deg, #2196f3, #1976d2);
+            background: var(--blue);
             height: 100%;
             width: 0%;
             transition: width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #FFFFFF;
             font-weight: 600;
         }
 
         .progress-text {
             font-size: 1.1em;
-            color: #2c3e50;
+            color: var(--ink);
             font-weight: 600;
         }
 
         .step-container {
-            background: white;
-            border: 2px solid #e0e0e0;
+            background: var(--surface);
+            border: 2px solid var(--border);
             border-radius: 12px;
             padding: 30px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(20, 49, 90, 0.08);
         }
 
         .step-header {
@@ -134,8 +163,8 @@
         }
 
         .step-number {
-            background: #2196f3;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -148,20 +177,22 @@
         }
 
         .step-title {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.4em;
             font-weight: 700;
             flex-grow: 1;
         }
 
         .step-duration {
-            background: #fff3cd;
-            color: #856404;
+            background: var(--amber);
+            color: #FFFFFF;
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 0.9em;
             font-weight: 600;
-            border: 1px solid #ffeaa7;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .step-content {
@@ -169,22 +200,22 @@
         }
 
         .step-description {
-            color: #555;
+            color: var(--ink-secondary);
             line-height: 1.8;
             font-size: 1.05em;
             margin-bottom: 15px;
         }
 
         .technique-box {
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             padding: 20px;
             border-radius: 8px;
             margin: 15px 0;
-            border-left: 4px solid #2196f3;
+            border-left: 4px solid var(--blue);
         }
 
         .technique-box h4 {
-            color: #2196f3;
+            color: var(--blue);
             font-size: 1.1em;
             margin-bottom: 12px;
             display: flex;
@@ -194,7 +225,7 @@
 
         .technique-box ul {
             margin-left: 25px;
-            color: #333;
+            color: var(--ink-secondary);
         }
 
         .technique-box li {
@@ -203,15 +234,15 @@
         }
 
         .mistake-box {
-            background: #fff3cd;
+            background: var(--amber-tint);
             padding: 20px;
             border-radius: 8px;
             margin: 15px 0;
-            border-left: 4px solid #f39c12;
+            border-left: 4px solid var(--amber);
         }
 
         .mistake-box h4 {
-            color: #e67e22;
+            color: var(--ink);
             font-size: 1.1em;
             margin-bottom: 12px;
             display: flex;
@@ -219,9 +250,14 @@
             gap: 8px;
         }
 
+        .mistake-box h4 svg {
+            color: var(--amber);
+            flex-shrink: 0;
+        }
+
         .mistake-box ul {
             margin-left: 25px;
-            color: #333;
+            color: var(--ink-secondary);
         }
 
         .mistake-box li {
@@ -230,15 +266,15 @@
         }
 
         .rationale-box {
-            background: #e8f5e9;
+            background: var(--success-tint);
             padding: 20px;
             border-radius: 8px;
             margin: 15px 0;
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid var(--success);
         }
 
         .rationale-box h4 {
-            color: #27ae60;
+            color: var(--success-ink);
             font-size: 1.1em;
             margin-bottom: 12px;
             display: flex;
@@ -247,63 +283,76 @@
         }
 
         .rationale-box p {
-            color: #333;
+            color: var(--ink-secondary);
             line-height: 1.7;
         }
 
         .visual-placeholder {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border: 2px dashed #2196f3;
+            background: var(--blue-tint);
+            border: 2px dashed var(--blue);
             border-radius: 8px;
-            padding: 60px 20px;
+            padding: 40px 20px;
             text-align: center;
             margin: 20px 0;
-            color: #1976d2;
+            color: var(--blue-hover);
+        }
+
+        .visual-placeholder svg {
+            margin-bottom: 12px;
+        }
+
+        .visual-placeholder p {
             font-style: italic;
+        }
+
+        .visual-placeholder-note {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--ink-secondary);
         }
 
         .step-checkbox {
             margin-top: 20px;
             padding: 15px;
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border);
         }
 
         .step-checkbox:hover {
-            background: #e8f5e9;
-            border-color: #27ae60;
+            background: var(--success-tint);
+            border-color: var(--success);
         }
 
         .step-checkbox input[type="checkbox"] {
             width: 24px;
             height: 24px;
             cursor: pointer;
-            accent-color: #27ae60;
+            accent-color: var(--success);
         }
 
-        .step-checkbox label {
+        .step-checkbox span {
             font-size: 1.05em;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--ink);
             cursor: pointer;
             flex-grow: 1;
         }
 
         .step-checkbox.checked {
-            background: #d4edda;
-            border-color: #27ae60;
+            background: var(--success-tint);
+            border-color: var(--success);
         }
 
         .completion-message {
             display: none;
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
+            background: var(--success);
+            color: #FFFFFF;
             padding: 30px;
             border-radius: 12px;
             text-align: center;
@@ -318,12 +367,20 @@
         .completion-message h3 {
             font-size: 2em;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         .completion-message p {
             font-size: 1.1em;
             line-height: 1.7;
             margin-bottom: 10px;
+        }
+
+        .completion-message strong {
+            color: #FFFFFF;
         }
 
         @keyframes slideIn {
@@ -338,17 +395,20 @@
         }
 
         .key-points-box {
-            background: #fff9e6;
+            background: var(--blue-tint);
             padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
-            border-left: 5px solid #f39c12;
+            border-left: 5px solid var(--blue);
         }
 
         .key-points-box h3 {
-            color: #e67e22;
+            color: var(--blue);
             font-size: 1.3em;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .key-points-box ul {
@@ -356,7 +416,7 @@
         }
 
         .key-points-box li {
-            color: #333;
+            color: var(--ink-secondary);
             line-height: 1.7;
             margin-bottom: 10px;
             font-weight: 500;
@@ -378,31 +438,34 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-primary {
-            background: #2196f3;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
         }
 
         .btn-primary:hover {
-            background: #1976d2;
+            background: var(--blue-hover);
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: #95a5a6;
-            color: white;
+            background: var(--ink-secondary);
+            color: #FFFFFF;
         }
 
         .btn-secondary:hover {
-            background: #7f8c8d;
+            background: var(--ink);
             transform: translateY(-2px);
         }
 
         .btn:focus {
-            outline: 3px solid #f39c12;
+            outline: 3px solid var(--amber);
             outline-offset: 2px;
         }
 
@@ -433,20 +496,20 @@
 
             .step-duration {
                 width: 100%;
-                text-align: center;
+                justify-content: center;
             }
         }
 
         @media print {
             body {
-                background: white;
+                background: #FFFFFF;
                 padding: 0;
             }
 
             .header {
                 background: none;
-                color: #333;
-                border-bottom: 3px solid #2c3e50;
+                color: var(--ink);
+                border-bottom: 3px solid var(--navy-blue);
             }
 
             .button-group, .progress-section {
@@ -508,7 +571,7 @@
                     <p class="step-description">Remove jewelry, watches, and ensure your forearms are bare to 2 inches above the elbow. Turn on water to a comfortable warm temperature using foot or elbow controls if available.</p>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Remove all rings, watches, and bracelets (these harbor bacteria)</li>
                             <li>Adjust water temperature to warm (hot water can damage skin barrier)</li>
@@ -518,7 +581,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Leaving jewelry on (rings increase bacterial counts by 10-fold)</li>
                             <li>Using water that's too hot (damages skin's protective layer)</li>
@@ -527,15 +590,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>Jewelry and watches trap moisture and microorganisms underneath. Studies show that skin under rings harbors higher concentrations of bacteria that persist even after handwashing. Proper preparation ensures the entire hand surface can be effectively cleaned.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 1)">
+                <label class="step-checkbox" for="step1">
                     <input type="checkbox" id="step1" aria-label="Mark step 1 as complete">
-                    <label for="step1">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 2: Wet Hands and Apply Soap -->
@@ -543,14 +606,14 @@
                 <div class="step-header">
                     <div class="step-number">2</div>
                     <h3 class="step-title">Wet Hands and Apply Soap</h3>
-                    <span class="step-duration">⏱️ 10 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 10 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">Wet hands and forearms thoroughly with water. Apply 3-5mL of antimicrobial soap to cover all hand and wrist surfaces. Avoid using excessive soap which can be difficult to rinse completely.</p>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Wet hands completely from fingertips to elbows</li>
                             <li>Apply enough soap to create good lather but not excessive amounts</li>
@@ -560,7 +623,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Using too little soap (insufficient coverage and lather)</li>
                             <li>Using too much soap (difficult to rinse, leaves residue)</li>
@@ -569,15 +632,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>Antimicrobial soap contains agents that kill or inhibit microorganisms. Proper amount and even distribution ensures adequate contact time and coverage. Water activates the soap's cleansing properties and helps create mechanical friction for removing debris.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 2)">
+                <label class="step-checkbox" for="step2">
                     <input type="checkbox" id="step2" aria-label="Mark step 2 as complete">
-                    <label for="step2">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 3: Wash Palms and Backs of Hands -->
@@ -585,19 +648,20 @@
                 <div class="step-header">
                     <div class="step-number">3</div>
                     <h3 class="step-title">Wash Palms and Backs of Hands</h3>
-                    <span class="step-duration">⏱️ 15 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 15 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">Vigorously rub palm to palm, then place right palm over left dorsum with interlaced fingers and vice versa. Use firm circular motions covering entire hand surfaces.</p>
 
                     <div class="visual-placeholder">
-                        <p>👐 Visual: Palm-to-palm and back-of-hand washing technique</p>
-                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <p>Visual: Palm-to-palm and back-of-hand washing technique</p>
+                        <p class="visual-placeholder-note">In practice, students would see demonstration images or video here</p>
                     </div>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Rub palms together using rotary motions (not just sliding)</li>
                             <li>Cover backs of hands completely, including wrist area</li>
@@ -607,7 +671,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Rushing through this step (inadequate contact time)</li>
                             <li>Missing the backs of hands and wrists</li>
@@ -617,15 +681,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>The backs of hands and spaces between fingers are frequently missed areas in handwashing. Studies using fluorescent markers show these areas often retain contamination. Mechanical friction combined with antimicrobial soap physically removes and kills microorganisms.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 3)">
+                <label class="step-checkbox" for="step3">
                     <input type="checkbox" id="step3" aria-label="Mark step 3 as complete">
-                    <label for="step3">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 4: Clean Between Fingers and Thumbs -->
@@ -633,19 +697,20 @@
                 <div class="step-header">
                     <div class="step-number">4</div>
                     <h3 class="step-title">Clean Between Fingers and Thumbs</h3>
-                    <span class="step-duration">⏱️ 15 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 15 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">Rub palm to palm with fingers interlaced, moving back and forth. Clasp each thumb with opposite hand and rotate, ensuring complete coverage of thumb surfaces.</p>
 
                     <div class="visual-placeholder">
-                        <p>🤞 Visual: Interlaced finger washing and thumb clasping technique</p>
-                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <p>Visual: Interlaced finger washing and thumb clasping technique</p>
+                        <p class="visual-placeholder-note">In practice, students would see demonstration images or video here</p>
                     </div>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Fully interlace fingers and move hands back and forth vigorously</li>
                             <li>Ensure soap reaches all web spaces between fingers</li>
@@ -655,7 +720,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Superficial interlacing without vigorous back-and-forth motion</li>
                             <li>Forgetting to wash thumbs separately (most commonly missed area)</li>
@@ -664,15 +729,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>The thumb and interdigital spaces (web spaces) are the most frequently missed areas in handwashing, with bacterial counts remaining high after inadequate washing. These areas require specific attention and technique to ensure proper cleaning. Research shows thumbs harbor significant bacterial loads.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 4)">
+                <label class="step-checkbox" for="step4">
                     <input type="checkbox" id="step4" aria-label="Mark step 4 as complete">
-                    <label for="step4">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 5: Clean Fingertips and Nails -->
@@ -680,19 +745,20 @@
                 <div class="step-header">
                     <div class="step-number">5</div>
                     <h3 class="step-title">Clean Fingertips and Under Nails</h3>
-                    <span class="step-duration">⏱️ 15 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 15 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">Rub fingertips of each hand in opposite palm with rotary motion. Clean under each fingernail using the opposite hand's fingernails or a nail brush if available. This step is critical as subungual areas harbor high bacterial loads.</p>
 
                     <div class="visual-placeholder">
-                        <p>👉 Visual: Fingertip rotation in palm and nail cleaning technique</p>
-                        <p style="margin-top: 10px; font-size: 0.9em;">In practice, students would see demonstration images or video here</p>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <p>Visual: Fingertip rotation in palm and nail cleaning technique</p>
+                        <p class="visual-placeholder-note">In practice, students would see demonstration images or video here</p>
                     </div>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Rotate fingertips in opposite palm using circular, scrubbing motion</li>
                             <li>Pay special attention to nail beds and cuticle areas</li>
@@ -702,7 +768,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Neglecting to clean under nails (highest concentration of bacteria)</li>
                             <li>Having long nails or artificial nails (contraindicated in clinical settings)</li>
@@ -712,15 +778,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>Subungual areas (under nails) harbor the highest concentration of microorganisms on hands. Studies show bacteria counts under fingernails can be 100-1000 times higher than on fingertip skin. Long or artificial nails significantly increase bacterial load and are strongly associated with healthcare-associated infections.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 5)">
+                <label class="step-checkbox" for="step5">
                     <input type="checkbox" id="step5" aria-label="Mark step 5 as complete">
-                    <label for="step5">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 6: Wash Wrists and Forearms -->
@@ -728,14 +794,14 @@
                 <div class="step-header">
                     <div class="step-number">6</div>
                     <h3 class="step-title">Wash Wrists and Forearms</h3>
-                    <span class="step-duration">⏱️ 20 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 20 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">For surgical/clinical handwashing, wash each wrist and forearm up to 2 inches above the elbow using circular motions. Work from cleanest (hands) to least clean (elbows) areas.</p>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Wash each wrist using rotary motion with opposite hand</li>
                             <li>Move up forearm in circular motions covering all surfaces</li>
@@ -745,7 +811,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Forgetting wrists entirely (frequently missed area)</li>
                             <li>Not washing high enough on forearms</li>
@@ -755,15 +821,15 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>The wrist area is a transition zone that's frequently missed. For surgical procedures, washing the forearms prevents contamination when donning sterile gowns and gloves. Proper positioning (hands up, elbows down) ensures water flows from clean to dirty areas, preventing recontamination.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 6)">
+                <label class="step-checkbox" for="step6">
                     <input type="checkbox" id="step6" aria-label="Mark step 6 as complete">
-                    <label for="step6">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Step 7: Rinse and Dry -->
@@ -771,14 +837,14 @@
                 <div class="step-header">
                     <div class="step-number">7</div>
                     <h3 class="step-title">Rinse Thoroughly and Dry</h3>
-                    <span class="step-duration">⏱️ 20 seconds</span>
+                    <span class="step-duration"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 16 14"></polyline></svg> 20 seconds</span>
                 </div>
 
                 <div class="step-content">
                     <p class="step-description">Rinse hands and forearms thoroughly under running water, starting at fingertips and moving toward elbows. Allow water to flow downward away from hands. Dry completely with sterile towel or air dryer.</p>
 
                     <div class="technique-box">
-                        <h4>✓ Proper Technique</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Proper Technique</h4>
                         <ul>
                             <li>Rinse from fingertips toward elbows (clean to less clean)</li>
                             <li>Keep hands elevated above elbows during rinsing</li>
@@ -790,7 +856,7 @@
                     </div>
 
                     <div class="mistake-box">
-                        <h4>⚠️ Common Mistakes</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 L22 20 L2 20 Z"></path><line x1="12" y1="9" x2="12" y2="14"></line><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle></svg> Common Mistakes</h4>
                         <ul>
                             <li>Incomplete rinsing (soap residue dries skin and harbors bacteria)</li>
                             <li>Touching faucet with clean hands when turning off water</li>
@@ -801,20 +867,20 @@
                     </div>
 
                     <div class="rationale-box">
-                        <h4>📚 Why It Matters</h4>
+                        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 21h4"></path><path d="M12 3a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.5h6c0-1.1.4-1.9 1-2.5A6 6 0 0 0 12 3z"></path></svg> Why It Matters</h4>
                         <p>Soap residue can cause skin irritation and drying, which damages the skin's protective barrier and increases bacterial colonization. Incomplete drying creates a moist environment that promotes rapid bacterial multiplication. Wet hands can transfer bacteria up to 1000 times more effectively than dry hands. Proper drying technique is as important as washing.</p>
                     </div>
                 </div>
 
-                <div class="step-checkbox" onclick="toggleStep(this, 7)">
+                <label class="step-checkbox" for="step7">
                     <input type="checkbox" id="step7" aria-label="Mark step 7 as complete">
-                    <label for="step7">I have completed this step</label>
-                </div>
+                    <span>I have completed this step</span>
+                </label>
             </div>
 
             <!-- Key Points Summary -->
             <div class="key-points-box">
-                <h3>🎯 Key Points to Remember</h3>
+                <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11"></path><path d="M9 12h11"></path><path d="M9 18h11"></path><path d="M4 6l1 1 2-2"></path><path d="M4 12l1 1 2-2"></path><path d="M4 18l1 1 2-2"></path></svg> Key Points to Remember</h3>
                 <ul>
                     <li><strong>Total time:</strong> Clinical handwashing takes 40-60 seconds minimum; surgical scrub takes 2-5 minutes</li>
                     <li><strong>Most missed areas:</strong> Thumbs, fingertips, under nails, backs of hands, and wrists</li>
@@ -826,15 +892,15 @@
             </div>
 
             <div class="completion-message" id="completionMessage">
-                <h3>✓ Procedure Complete!</h3>
+                <h3><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 12 9 18 20 6"></polyline></svg> Procedure Complete!</h3>
                 <p>You've reviewed all 7 steps of proper clinical hand hygiene technique.</p>
                 <p>Remember: Consistent, proper hand hygiene is the single most effective way to prevent healthcare-associated infections and protect both patients and healthcare workers.</p>
                 <p><strong>Practice this technique regularly until it becomes automatic!</strong></p>
             </div>
 
             <div class="button-group">
-                <button class="btn btn-primary" onclick="window.print()">🖨️ Print Procedure Guide</button>
-                <button class="btn btn-secondary" onclick="resetActivity()">↺ Review Again</button>
+                <button class="btn btn-primary" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> Print Procedure Guide</button>
+                <button class="btn btn-secondary" onclick="resetActivity()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg> Review Again</button>
             </div>
         </div>
     </div>
@@ -843,13 +909,14 @@
         let completedSteps = 0;
         const totalSteps = 7;
 
-        function toggleStep(checkbox, stepNumber) {
-            const input = checkbox.querySelector('input[type="checkbox"]');
-            
-            // Toggle checkbox
-            input.checked = !input.checked;
-            
-            // Update visual state
+        document.querySelectorAll('.step-checkbox input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', () => handleStepChange(input));
+        });
+
+        function handleStepChange(input) {
+            const checkbox = input.closest('.step-checkbox');
+            const stepNumber = input.id.replace('step', '');
+
             if (input.checked) {
                 checkbox.classList.add('checked');
                 completedSteps++;
