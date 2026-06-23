@@ -4,7 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chemistry Lab Safety Checklist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
+            --border: #E2E8F0;
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+            /* RGB companions used only where an alpha-blended color is needed
+               (focus rings, tinted shadows) so we never fall back to raw hex */
+            --ink-rgb: 26, 26, 46;
+            --success-rgb: 21, 128, 61;
+            --blue-rgb: 24, 95, 165;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,9 +41,9 @@
         }
 
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
-            color: #333;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
@@ -23,15 +52,15 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--surface);
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
-            color: white;
+            background: var(--blue);
+            color: var(--surface);
             padding: 30px;
             text-align: center;
         }
@@ -49,9 +78,9 @@
         }
 
         .progress-container {
-            background-color: #34495e;
+            background-color: var(--navy-blue);
             padding: 20px 30px;
-            color: white;
+            color: var(--surface);
         }
 
         .progress-text {
@@ -72,7 +101,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #27ae60, #229954);
+            background: var(--success);
             border-radius: 6px;
             transition: width 0.4s ease;
             width: 0%;
@@ -87,7 +116,7 @@
             align-items: flex-start;
             padding: 18px;
             margin-bottom: 12px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border);
             border-radius: 8px;
             transition: all 0.3s ease;
             cursor: pointer;
@@ -95,18 +124,18 @@
         }
 
         .checklist-item:hover {
-            border-color: #2c3e50;
-            background-color: #f8f9fa;
+            border-color: var(--blue);
+            background-color: var(--surface-subtle);
             transform: translateX(4px);
         }
 
         .checklist-item.checked {
-            border-color: #27ae60;
-            background-color: rgba(39, 174, 96, 0.05);
+            border-color: var(--success);
+            background-color: var(--success-tint);
         }
 
         .checklist-item.checked .item-text {
-            color: #2c3e50;
+            color: var(--ink);
         }
 
         .checkbox-wrapper {
@@ -119,7 +148,7 @@
             appearance: none;
             width: 24px;
             height: 24px;
-            border: 2px solid #2c3e50;
+            border: 2px solid var(--ink);
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -127,17 +156,17 @@
         }
 
         .checkbox-wrapper input[type="checkbox"]:hover {
-            border-color: #34495e;
+            border-color: var(--navy-blue);
         }
 
         .checkbox-wrapper input[type="checkbox"]:focus {
-            outline: 3px solid rgba(39, 174, 96, 0.3);
+            outline: 3px solid rgba(var(--success-rgb), 0.3);
             outline-offset: 2px;
         }
 
         .checkbox-wrapper input[type="checkbox"]:checked {
-            background-color: #27ae60;
-            border-color: #27ae60;
+            background-color: var(--success);
+            border-color: var(--success);
         }
 
         .checkbox-wrapper input[type="checkbox"]:checked::after {
@@ -146,7 +175,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
-            color: white;
+            color: var(--surface);
             font-size: 16px;
             font-weight: bold;
             animation: checkmark 0.3s ease;
@@ -171,13 +200,13 @@
         .item-text {
             font-size: 1rem;
             font-weight: 500;
-            color: #2c3e50;
+            color: var(--ink);
             transition: color 0.3s ease;
         }
 
         .item-subtext {
             font-size: 0.85rem;
-            color: #555;
+            color: var(--ink-secondary);
             margin-top: 6px;
             line-height: 1.4;
         }
@@ -185,7 +214,7 @@
         .nested-items {
             margin-top: 12px;
             padding-left: 20px;
-            border-left: 3px solid #3498db;
+            border-left: 3px solid var(--blue);
         }
 
         .nested-item {
@@ -203,7 +232,7 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            border: 2px solid #2c3e50;
+            border: 2px solid var(--ink);
             border-radius: 4px;
             cursor: pointer;
             margin-right: 12px;
@@ -213,17 +242,17 @@
         }
 
         .nested-checkbox:hover {
-            border-color: #34495e;
+            border-color: var(--navy-blue);
         }
 
         .nested-checkbox:focus {
-            outline: 3px solid rgba(39, 174, 96, 0.3);
+            outline: 3px solid rgba(var(--success-rgb), 0.3);
             outline-offset: 2px;
         }
 
         .nested-checkbox:checked {
-            background-color: #3498db;
-            border-color: #3498db;
+            background-color: var(--blue);
+            border-color: var(--blue);
         }
 
         .nested-checkbox:checked::after {
@@ -232,7 +261,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
+            color: var(--surface);
             font-size: 14px;
             font-weight: bold;
             animation: checkmark 0.3s ease;
@@ -240,7 +269,7 @@
 
         .nested-label {
             font-size: 0.9rem;
-            color: #2c3e50;
+            color: var(--ink);
             cursor: pointer;
         }
 
@@ -248,8 +277,8 @@
             display: flex;
             gap: 12px;
             padding: 20px 30px;
-            background-color: #f8f9fa;
-            border-top: 2px solid #e0e0e0;
+            background-color: var(--surface-subtle);
+            border-top: 2px solid var(--border);
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -258,7 +287,7 @@
             padding: 12px 24px;
             border: none;
             border-radius: 6px;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
@@ -269,38 +298,38 @@
         }
 
         .btn:focus {
-            outline: 3px solid rgba(39, 174, 96, 0.4);
+            outline: 3px solid rgba(var(--success-rgb), 0.4);
             outline-offset: 2px;
         }
 
         .btn-reset {
-            background-color: white;
-            color: #2c3e50;
-            border: 2px solid #2c3e50;
+            background-color: var(--surface);
+            color: var(--ink);
+            border: 2px solid var(--ink);
         }
 
         .btn-reset:hover {
-            background-color: #2c3e50;
-            color: white;
+            background-color: var(--ink);
+            color: var(--surface);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(44, 62, 80, 0.2);
+            box-shadow: 0 4px 8px rgba(var(--ink-rgb), 0.2);
         }
 
         .btn-print {
-            background-color: #2c3e50;
-            color: white;
+            background-color: var(--blue);
+            color: var(--surface);
         }
 
         .btn-print:hover {
-            background-color: #34495e;
+            background-color: var(--blue-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(44, 62, 80, 0.3);
+            box-shadow: 0 4px 8px rgba(var(--blue-rgb), 0.3);
         }
 
         .completion-message {
             padding: 20px 30px;
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
+            background: var(--success);
+            color: var(--surface);
             text-align: center;
             font-size: 1.1rem;
             font-weight: 600;
@@ -309,7 +338,10 @@
         }
 
         .completion-message.show {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         @keyframes slideDown {
@@ -324,23 +356,31 @@
         }
 
         .warning-banner {
-            background: #fff3cd;
-            border-left: 4px solid #f39c12;
+            background: var(--amber-tint);
+            border-left: 4px solid var(--amber);
             padding: 15px 20px;
             margin: 20px 30px;
             border-radius: 4px;
         }
 
         .warning-banner strong {
-            color: #e67e22;
-            display: block;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 5px;
         }
 
         .warning-banner p {
-            color: #856404;
+            color: var(--ink-secondary);
             font-size: 0.9rem;
             margin: 0;
+        }
+
+        .icon-inline {
+            width: 1.1em;
+            height: 1.1em;
+            flex-shrink: 0;
         }
 
         /* Responsive Design */
@@ -409,7 +449,7 @@
         /* Print Styles */
         @media print {
             body {
-                background: white;
+                background: var(--surface);
                 padding: 0;
             }
 
@@ -472,12 +512,22 @@
         </div>
 
         <div class="warning-banner">
-            <strong>⚠️ Important Safety Notice</strong>
+            <strong>
+                <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                Important Safety Notice
+            </strong>
             <p>Do NOT begin laboratory work until ALL checklist items are confirmed. If you cannot complete any item, notify your instructor immediately.</p>
         </div>
 
         <div class="completion-message" id="completionMessage" role="alert" aria-live="polite">
-            ✓ Safety checklist complete! You may begin laboratory work.
+            <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Safety checklist complete! You may begin laboratory work.</span>
         </div>
 
         <div class="checklist" role="list">
@@ -579,9 +629,11 @@
                 <div class="checkbox-wrapper">
                     <input type="checkbox" id="item10" aria-labelledby="label10">
                 </div>
-                <label for="item10" class="item-content">
-                    <div class="item-text" id="label10">Emergency equipment locations known</div>
-                    <div class="item-subtext">Location and operation of emergency equipment confirmed:</div>
+                <div class="item-content">
+                    <label for="item10">
+                        <div class="item-text" id="label10">Emergency equipment locations known</div>
+                        <div class="item-subtext">Location and operation of emergency equipment confirmed:</div>
+                    </label>
                     <div class="nested-items" role="list">
                         <div class="nested-item" role="listitem">
                             <input type="checkbox" class="nested-checkbox" id="nested1" aria-labelledby="nestedLabel1">
@@ -596,7 +648,7 @@
                             <label for="nested3" class="nested-label" id="nestedLabel3">Emergency shower location confirmed and accessible</label>
                         </div>
                     </div>
-                </label>
+                </div>
             </div>
 
             <div class="checklist-item" role="listitem">
@@ -687,14 +739,19 @@
                 const checkbox = document.getElementById(`item${i}`);
                 if (checkbox) {
                     checkbox.addEventListener('change', () => handleMainCheckboxChange(i - 1));
-                    
-                    // Make the entire checklist item clickable
+
+                    // Allow clicking the row itself (e.g. padding/whitespace) to toggle.
+                    // NOTE: we deliberately do NOT re-toggle when the click originated on
+                    // the checkbox or on the <label> (item-content) — those already toggle
+                    // the checkbox natively and fire their own 'change' event. Re-toggling
+                    // here on top of that was causing the "checked, then immediately
+                    // unchecked" bug when clicking the title/subtext text.
                     const checklistItem = checkbox.closest('.checklist-item');
                     if (checklistItem) {
                         checklistItem.addEventListener('click', (e) => {
-                            if (e.target !== checkbox && e.target.tagName !== 'INPUT') {
+                            if (e.target === checklistItem) {
                                 checkbox.checked = !checkbox.checked;
-                                handleMainCheckboxChange(i - 1);
+                                checkbox.dispatchEvent(new Event('change'));
                             }
                         });
                     }
@@ -713,20 +770,10 @@
             document.getElementById('resetBtn').addEventListener('click', resetChecklist);
             document.getElementById('printBtn').addEventListener('click', printChecklist);
 
-            // Keyboard navigation for checklist items
-            document.querySelectorAll('.checklist-item').forEach((item, index) => {
-                item.setAttribute('tabindex', '0');
-                item.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        const checkbox = item.querySelector('input[type="checkbox"]');
-                        if (checkbox) {
-                            checkbox.checked = !checkbox.checked;
-                            checkbox.dispatchEvent(new Event('change'));
-                        }
-                    }
-                });
-            });
+            // Note: rows are intentionally NOT given a manual tabindex here.
+            // Each checkbox is already natively focusable and toggles on
+            // Space, so adding tabindex to the row created a second,
+            // role-less tab stop for the same control.
 
             updateProgress();
         }
