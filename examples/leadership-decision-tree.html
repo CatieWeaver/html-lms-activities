@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crisis Leadership Case Study</title>
+    <title>Crisis Leadership Decision Tree</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
+            --border: #E2E8F0;
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,10 +36,10 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #F7F7F5;
+            color: var(--ink);
+            background: var(--bg);
             min-height: 100vh;
             padding: 20px;
         }
@@ -23,15 +47,15 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
-            color: white;
+            background: var(--navy-blue);
+            color: #FFFFFF;
             padding: 30px;
             text-align: center;
         }
@@ -44,17 +68,17 @@
 
         .header p {
             font-size: 1rem;
-            opacity: 0.9;
+            opacity: 0.92;
         }
 
         .progress-container {
-            background: #ecf0f1;
+            background: var(--surface-subtle);
             padding: 20px 30px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border);
         }
 
         .progress-bar {
-            background: #bdc3c7;
+            background: var(--border);
             height: 8px;
             border-radius: 4px;
             overflow: hidden;
@@ -62,7 +86,7 @@
         }
 
         .progress-fill {
-            background: linear-gradient(90deg, #3498db, #2980b9);
+            background: var(--blue);
             height: 100%;
             width: 0%;
             transition: width 0.5s ease;
@@ -71,7 +95,7 @@
 
         .progress-text {
             font-size: 0.9rem;
-            color: #7f8c8d;
+            color: var(--ink-tertiary);
             text-align: center;
         }
 
@@ -82,11 +106,11 @@
 
         .scenario {
             display: none;
-            animation: fadeIn 0.5s ease-in;
         }
 
         .scenario.active {
             display: block;
+            animation: fadeIn 0.5s ease-in;
         }
 
         @keyframes fadeIn {
@@ -94,18 +118,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            .scenario.active {
+                animation: none;
+            }
+        }
+
         .scenario h2 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.5rem;
             margin-bottom: 20px;
             font-weight: 600;
+        }
+
+        .scenario h2:focus {
+            /* Intentionally no visible ring here: this heading is only ever
+               focused programmatically (tabindex="-1", never reachable by
+               tabbing), purely so screen readers announce the new content.
+               Sighted users never land here via keyboard, so a visible
+               outline isn't needed. */
+            outline: none;
         }
 
         .scenario-text {
             font-size: 1.1rem;
             margin-bottom: 30px;
             line-height: 1.7;
-            color: #34495e;
+            color: var(--ink-secondary);
         }
 
         .choices {
@@ -115,28 +154,29 @@
         }
 
         .choice-btn {
-            background: white;
-            border: 2px solid #3498db;
+            background: var(--surface);
+            border: 2px solid var(--blue);
             padding: 18px 25px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            color: #2c3e50;
-            transition: all 0.3s ease;
+            font-family: inherit;
+            color: var(--ink);
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
             text-align: left;
             font-weight: 500;
             line-height: 1.4;
         }
 
         .choice-btn:hover {
-            background: #3498db;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 12px rgba(24, 95, 165, 0.3);
         }
 
-        .choice-btn:focus {
-            outline: 3px solid #f39c12;
+        .choice-btn:focus-visible {
+            outline: 3px solid var(--amber);
             outline-offset: 2px;
         }
 
@@ -144,85 +184,88 @@
             transform: translateY(0);
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            .choice-btn:hover {
+                transform: none;
+            }
+        }
+
         .outcome {
-            background: #f8f9fa;
-            border-left: 4px solid #27ae60;
+            background: var(--success-tint);
+            border-left: 4px solid var(--success);
             padding: 25px;
             margin-top: 30px;
             border-radius: 0 8px 8px 0;
         }
 
         .outcome h3 {
-            color: #27ae60;
+            color: var(--success-ink);
             font-size: 1.3rem;
             margin-bottom: 15px;
             font-weight: 600;
         }
 
         .outcome p {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1rem;
             line-height: 1.6;
         }
 
         .reflection {
-            background: #fff3cd;
-            border-left: 4px solid #f39c12;
+            background: var(--blue-tint);
+            border-left: 4px solid var(--navy-blue);
             padding: 25px;
             margin-top: 20px;
             border-radius: 0 8px 8px 0;
         }
 
         .reflection h4 {
-            color: #e67e22;
+            color: var(--navy-blue);
             font-size: 1.2rem;
             margin-bottom: 15px;
             font-weight: 600;
         }
 
         .reflection p {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1rem;
             line-height: 1.6;
         }
 
         .navigation {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 40px;
-            gap: 15px;
         }
 
         .nav-btn {
-            background: #95a5a6;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             border: none;
             padding: 12px 25px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
+            font-family: inherit;
             font-weight: 500;
-            transition: all 0.3s ease;
-            flex: 1;
-            max-width: 200px;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            max-width: 220px;
         }
 
         .nav-btn:hover {
-            background: #7f8c8d;
+            background: var(--blue-hover);
             transform: translateY(-1px);
         }
 
-        .nav-btn:focus {
-            outline: 3px solid #f39c12;
+        .nav-btn:focus-visible {
+            outline: 3px solid var(--amber);
             outline-offset: 2px;
         }
 
-        .nav-btn.primary {
-            background: #e74c3c;
-        }
-
-        .nav-btn.primary:hover {
-            background: #c0392b;
+        @media (prefers-reduced-motion: reduce) {
+            .nav-btn:hover {
+                transform: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -254,14 +297,6 @@
                 padding: 15px 20px;
                 font-size: 0.95rem;
             }
-
-            .navigation {
-                flex-direction: column;
-            }
-
-            .nav-btn {
-                max-width: none;
-            }
         }
 
         @media (max-width: 480px) {
@@ -279,21 +314,21 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Crisis Leadership Case Study</h1>
+            <h1>Crisis Leadership Decision Tree</h1>
             <p>Navigate organizational change during a technology disruption crisis</p>
         </div>
 
         <div class="progress-container">
-            <div class="progress-bar">
+            <div class="progress-bar" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="17" aria-label="Activity progress">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <div class="progress-text" id="progressText">Step 1 of 6</div>
+            <div class="progress-text" id="progressText" aria-live="polite">Step 1 of 6</div>
         </div>
 
         <div class="content">
             <!-- Scenario 1: Initial Crisis -->
             <div class="scenario active" id="scenario1">
-                <h2>The Crisis Unfolds</h2>
+                <h2 tabindex="-1">The Crisis Unfolds</h2>
                 <div class="scenario-text">
                     You are the CEO of MidTech Solutions, a 500-employee software company. Your main competitor has just released a revolutionary AI-powered platform that makes your core product obsolete. Industry analysts predict companies like yours have 6-12 months to adapt or risk losing 60% of market share.
                     <br><br>
@@ -302,13 +337,13 @@
                     <strong>How do you frame your initial response to this organizational crisis?</strong>
                 </div>
                 <div class="choices">
-                    <button class="choice-btn" onclick="goToScenario(2, 'transparent')">
+                    <button class="choice-btn" onclick="goToScenario(2, 'transparent', 2, 2)">
                         Be completely transparent with all employees about the severity of the threat and involve them in solution-finding
                     </button>
-                    <button class="choice-btn" onclick="goToScenario(2, 'controlled')">
+                    <button class="choice-btn" onclick="goToScenario(2, 'controlled', -1, 0)">
                         Share limited information while you and senior leadership develop a comprehensive strategy first
                     </button>
-                    <button class="choice-btn" onclick="goToScenario(2, 'decisive')">
+                    <button class="choice-btn" onclick="goToScenario(2, 'decisive', -2, -1)">
                         Make immediate decisive changes to demonstrate strong leadership and reassure stakeholders
                     </button>
                 </div>
@@ -316,35 +351,35 @@
 
             <!-- Scenario 2: Employee Response -->
             <div class="scenario" id="scenario2">
-                <h2>Managing the Human Element</h2>
+                <h2 tabindex="-1">Managing the Human Element</h2>
                 <div class="scenario-text" id="scenario2Text"></div>
                 <div class="choices" id="scenario2Choices"></div>
             </div>
 
             <!-- Scenario 3: Strategic Direction -->
             <div class="scenario" id="scenario3">
-                <h2>Choosing Your Strategic Path</h2>
+                <h2 tabindex="-1">Choosing Your Strategic Path</h2>
                 <div class="scenario-text" id="scenario3Text"></div>
                 <div class="choices" id="scenario3Choices"></div>
             </div>
 
             <!-- Scenario 4: Implementation Challenges -->
             <div class="scenario" id="scenario4">
-                <h2>Implementation Reality</h2>
+                <h2 tabindex="-1">Implementation Reality</h2>
                 <div class="scenario-text" id="scenario4Text"></div>
                 <div class="choices" id="scenario4Choices"></div>
             </div>
 
             <!-- Scenario 5: Mid-Course Corrections -->
             <div class="scenario" id="scenario5">
-                <h2>Adapting Your Approach</h2>
+                <h2 tabindex="-1">Adapting Your Approach</h2>
                 <div class="scenario-text" id="scenario5Text"></div>
                 <div class="choices" id="scenario5Choices"></div>
             </div>
 
             <!-- Final Outcome -->
             <div class="scenario" id="scenario6">
-                <h2>Six Months Later: Results</h2>
+                <h2 tabindex="-1">Six Months Later: Results</h2>
                 <div class="scenario-text" id="finalOutcome"></div>
                 <div class="outcome" id="outcomeBox"></div>
                 <div class="reflection">
@@ -352,7 +387,7 @@
                     <p id="theoryConnection"></p>
                 </div>
                 <div class="navigation">
-                    <button class="nav-btn primary" onclick="restartActivity()">Start New Scenario</button>
+                    <button class="nav-btn" onclick="restartActivity()">Start New Scenario</button>
                 </div>
             </div>
         </div>
@@ -360,91 +395,101 @@
 
     <script>
         let currentStep = 1;
-        let totalSteps = 6;
+        const totalSteps = 6;
         let userChoices = [];
+
+        // Two leadership-style dimensions tracked across every decision in the
+        // activity. Each choice nudges one or both scores; the final outcome is
+        // classified from the totals rather than matched against a hardcoded
+        // path string, so every decision (including Scenarios 4 and 5) genuinely
+        // affects the result.
+        //   auto:   negative = leader centralizes/controls the decision
+        //           positive = leader distributes authority/autonomy
+        //   people: negative = transactional / task-and-efficiency focused
+        //           positive = relational / people-and-trust focused
+        let scores = { auto: 0, people: 0 };
 
         const scenarios = {
             2: {
                 transparent: {
                     text: "You've called an all-hands meeting and shared the competitive threat openly. Employees appreciate the honesty but anxiety is high. Some key developers are already updating their resumes, while others are energized to fight back.<br><br>Your transparency has created both opportunity and risk. Middle management is struggling to maintain productivity while addressing constant questions from their teams.<br><br><strong>How do you channel this energy constructively?</strong>",
                     choices: [
-                        { text: "Form cross-functional innovation teams with volunteers to rapidly prototype solutions", next: 3, path: 'collaborative' },
-                        { text: "Establish clear communication protocols and focus groups to manage information flow", next: 3, path: 'structured' },
-                        { text: "Launch an internal competition with incentives for breakthrough ideas", next: 3, path: 'competitive' }
+                        { text: "Form cross-functional innovation teams with volunteers to rapidly prototype solutions", next: 3, path: 'collaborative', auto: 2, people: 1 },
+                        { text: "Establish clear communication protocols and focus groups to manage information flow", next: 3, path: 'structured', auto: -1, people: 0 },
+                        { text: "Launch an internal competition with incentives for breakthrough ideas", next: 3, path: 'competitive', auto: 1, people: -1 }
                     ]
                 },
                 controlled: {
                     text: "You've shared that the company faces competitive pressures but kept specifics limited while your leadership team works on strategy. This has created information gaps that rumors are starting to fill.<br><br>Some employees feel left out of important decisions, while others appreciate that leadership is handling the situation. Productivity remains stable but engagement is declining.<br><br><strong>How do you balance strategic planning with employee engagement?</strong>",
                     choices: [
-                        { text: "Create employee advisory committees to provide input on strategic directions", next: 3, path: 'advisory' },
-                        { text: "Focus on completing the leadership strategy before broader communication", next: 3, path: 'topdown' },
-                        { text: "Gradually increase transparency as plans become more concrete", next: 3, path: 'gradual' }
+                        { text: "Create employee advisory committees to provide input on strategic directions", next: 3, path: 'advisory', auto: 1, people: 1 },
+                        { text: "Focus on completing the leadership strategy before broader communication", next: 3, path: 'topdown', auto: -2, people: -1 },
+                        { text: "Gradually increase transparency as plans become more concrete", next: 3, path: 'gradual', auto: 0, people: 1 }
                     ]
                 },
                 decisive: {
                     text: "You've announced immediate cost-cutting measures including a hiring freeze and 10% workforce reduction, while simultaneously increasing R&D investment. The market reacted positively to your quick action.<br><br>However, employee morale has plummeted. Remaining staff are overworked and fearful. Some key talent has already departed, creating knowledge gaps in critical areas.<br><br><strong>How do you rebuild internal momentum while maintaining external confidence?</strong>",
                     choices: [
-                        { text: "Invest heavily in retention packages and skills development for remaining employees", next: 3, path: 'retention' },
-                        { text: "Bring in external consultants and new hires to fill gaps and drive change", next: 3, path: 'external' },
-                        { text: "Reorganize remaining teams into smaller, more agile units with greater autonomy", next: 3, path: 'agile' }
+                        { text: "Invest heavily in retention packages and skills development for remaining employees", next: 3, path: 'retention', auto: 0, people: 2 },
+                        { text: "Bring in external consultants and new hires to fill gaps and drive change", next: 3, path: 'external', auto: -1, people: -1 },
+                        { text: "Reorganize remaining teams into smaller, more agile units with greater autonomy", next: 3, path: 'agile', auto: 2, people: 0 }
                     ]
                 }
             }
         };
 
         const outcomes = {
-            collaborative_innovation_support: {
-                text: "Your collaborative approach has paid off remarkably. The cross-functional teams generated three viable product concepts, with one already in beta testing. Employee engagement is at an all-time high, and voluntary turnover decreased by 40%.",
-                outcome: "Strong Success: Market share loss limited to 15%. Employee satisfaction increased. Two new products launching ahead of schedule.",
-                theory: "Your approach aligns with <strong>Transformational Leadership Theory</strong> (Burns, Bass) and <strong>Distributed Leadership</strong> models. By inspiring collective action and distributing decision-making, you've created organizational resilience and innovation capacity that extends beyond the immediate crisis."
+            distributedRelational: {
+                text: "Across the transformation, you consistently distributed decisions to the people closest to the work, and paired that autonomy with real relational investment. Teams that were given room to run also felt genuinely supported &mdash; and that combination produced both innovation and loyalty. Voluntary turnover stayed low even as competitors circled, and at least one idea your teams generated independently is now shipping.",
+                outcome: "Strong outcome: market share loss limited to roughly 15%. Employee engagement rose, and a new product line is ahead of schedule.",
+                theory: "This pattern matches Hersey and Blanchard's <strong>Delegating</strong> style within Situational Leadership Theory &mdash; high autonomy paired with high support &mdash; and lines up with <strong>Transformational Leadership</strong> research (Burns, Bass), where distributed initiative combined with genuine relational investment tends to produce both innovation and durable commitment."
             },
-            structured_planning_systematic: {
-                text: "Your systematic approach created stability during turbulent times. Clear communication protocols prevented panic, and methodical planning resulted in a solid strategic response, though perhaps not as innovative as hoped.",
-                outcome: "Moderate Success: Market share loss contained to 25%. Organization remains stable with gradual adaptation to new market realities.",
-                theory: "This reflects <strong>Situational Leadership Theory</strong> (Hersey & Blanchard) and <strong>Systems Thinking</strong> approaches. You adapted your leadership style to provide structure during uncertainty, though may have missed opportunities for breakthrough innovation."
+            distributedTransactional: {
+                text: "You gave teams real room to run, and they ran fast &mdash; prototypes shipped, units made independent calls, and competitive energy produced genuine breakthroughs. But the relational investment didn't keep pace with the autonomy you handed out. Coordination gaps surfaced at the worst moments, and capable people who felt like they were succeeding alone, without much connection from leadership, quietly started looking elsewhere.",
+                outcome: "Mixed outcome: market share loss around 28-30%. Strong pipeline of independently-generated ideas, but elevated voluntary turnover and visible strain on collaboration.",
+                theory: "This reflects Hersey and Blanchard's <strong>Delegating</strong> style without the relational foundation that usually accompanies it &mdash; autonomy granted faster than trust was built. It also echoes <strong>Transactional Leadership</strong> patterns: effective at driving short-term output, but lacking the relational glue that sustains a team through a prolonged crisis."
             },
-            competitive_energy_direction: {
-                text: "The internal competition sparked creativity but also created silos. While some excellent ideas emerged, collaboration suffered and political dynamics intensified within the organization.",
-                outcome: "Mixed Results: Market share loss of 30%, but strong pipeline of innovative ideas. Internal culture shows signs of stress.",
-                theory: "Your approach demonstrates elements of <strong>Transactional Leadership</strong> with competitive dynamics. While effective for short-term motivation, it may undermine the collaborative culture needed for sustained organizational transformation."
+            directiveSupportive: {
+                text: "You kept a firm hand on strategic direction, but paired that control with real investment in communication and employee voice. People didn't drive every decision, but they were heard, kept informed, and supported through the uncertainty &mdash; and that combination built durable trust even though the pace of change stayed leader-led.",
+                outcome: "Solid outcome: market share loss around 20-22%. Strong employee trust and buy-in, with implementation proceeding close to plan despite a leader-driven process.",
+                theory: "This matches Hersey and Blanchard's <strong>Coaching</strong> style &mdash; high direction paired with high support &mdash; and aligns with <strong>Participative Leadership</strong> research showing that even centrally-driven decisions land well when communication and relational investment stay strong."
             },
-            advisory_balanced_input: {
-                text: "The advisory committees provided valuable employee input while maintaining strategic focus. This balanced approach built trust and generated practical solutions, though decision-making was slower than competitors'.",
-                outcome: "Solid Success: Market share loss of 20%. Strong employee buy-in for strategic changes. Implementation ahead of plan.",
-                theory: "This exemplifies <strong>Participative Leadership</strong> and <strong>Stakeholder Theory</strong>. By balancing strategic control with employee voice, you've created sustainable change with strong organizational support."
+            directiveTransactional: {
+                text: "Your strategy was technically sound, and you moved with clear authority. But decisions were made for the organization rather than with it, and communication stayed thin. The plan held up on paper, while middle managers struggled to sell a vision they hadn't helped shape, and resistance slowed implementation more than the timeline could absorb.",
+                outcome: "Limited outcome: market share loss around 33-35%. The strategy itself wasn't the problem &mdash; organizational resistance slowed execution significantly.",
+                theory: "This reflects Hersey and Blanchard's <strong>Directing</strong> style and traditional <strong>Authoritarian Leadership</strong> models &mdash; efficient for decision-making, but prone to resistance in knowledge-based organizations where buy-in drives execution speed."
             },
-            topdown_control_execution: {
-                text: "Your top-down approach resulted in a technically sound strategy, but implementation suffered due to limited employee buy-in. Resistance to change became a significant challenge.",
-                outcome: "Limited Success: Market share loss of 35%. Strategy is solid but execution is lagging due to organizational resistance.",
-                theory: "This reflects traditional <strong>Authoritarian Leadership</strong> models. While efficient for decision-making, it often struggles with change management in knowledge-based organizations where employee engagement is crucial for success."
-            },
-            gradual_transparency_trust: {
-                text: "Your gradual approach to transparency built trust over time and allowed for course corrections. The organization adapted well, though some early opportunities were missed due to slower initial response.",
-                outcome: "Good Success: Market share loss of 22%. Strong organizational cohesion and sustainable change processes established.",
-                theory: "This demonstrates <strong>Adaptive Leadership</strong> (Heifetz) and <strong>Change Management</strong> best practices. By gradually building understanding and buy-in, you've created conditions for sustainable organizational transformation."
+            adaptive: {
+                text: "Your choices didn't settle into one consistent style. You leaned directive when speed mattered, distributed authority once teams were ready for it, and stayed relationally invested in some moments while more transactional in others. That mix meant no single failure mode dominated &mdash; but it also meant the organization experienced some whiplash as your approach shifted.",
+                outcome: "Balanced outcome: market share loss in the 22-26% range, with pockets of strong engagement and pockets of uncertainty about what kind of leadership to expect next.",
+                theory: "This is the closest match to the central claim of <strong>Situational Leadership Theory</strong> itself (Hersey &amp; Blanchard) &mdash; that effective leaders flex their style to match the readiness of the people and the demands of the moment, rather than applying one approach uniformly. Done well, this adaptability is a strength; the tradeoff is that it requires clearly communicating <em>why</em> the style is shifting, or it can read as inconsistency rather than responsiveness."
             }
         };
 
         function updateProgress() {
             const progressFill = document.getElementById('progressFill');
             const progressText = document.getElementById('progressText');
-            const percentage = (currentStep / totalSteps) * 100;
-            
+            const progressBar = document.getElementById('progressBar');
+            const percentage = Math.round((currentStep / totalSteps) * 100);
+
             progressFill.style.width = percentage + '%';
             progressText.textContent = `Step ${currentStep} of ${totalSteps}`;
+            progressBar.setAttribute('aria-valuenow', percentage);
         }
 
-        function goToScenario(scenarioNum, choice) {
+        function goToScenario(scenarioNum, choice, auto = 0, people = 0) {
             userChoices.push(choice);
+            scores.auto += auto;
+            scores.people += people;
             currentStep = scenarioNum;
             updateProgress();
 
             // Hide current scenario
             document.querySelector('.scenario.active').classList.remove('active');
-            
+
             // Show next scenario
             const nextScenario = document.getElementById(`scenario${scenarioNum}`);
-            
+
             if (scenarioNum === 2) {
                 setupScenario2(choice);
             } else if (scenarioNum === 3) {
@@ -456,22 +501,30 @@
             } else if (scenarioNum === 6) {
                 setupFinalOutcome();
             }
-            
+
             nextScenario.classList.add('active');
+
+            // Move focus to the new scenario's heading so screen reader users
+            // get a clear announcement that the content changed, instead of
+            // focus silently staying on a now-hidden button.
+            const heading = nextScenario.querySelector('h2');
+            if (heading) {
+                heading.focus();
+            }
         }
 
         function setupScenario2(choice) {
             const scenario = scenarios[2][choice];
             document.getElementById('scenario2Text').innerHTML = scenario.text;
-            
+
             const choicesContainer = document.getElementById('scenario2Choices');
             choicesContainer.innerHTML = '';
-            
-            scenario.choices.forEach(choice => {
+
+            scenario.choices.forEach(c => {
                 const button = document.createElement('button');
                 button.className = 'choice-btn';
-                button.textContent = choice.text;
-                button.onclick = () => goToScenario(choice.next, choice.path);
+                button.textContent = c.text;
+                button.onclick = () => goToScenario(c.next, c.path, c.auto, c.people);
                 choicesContainer.appendChild(button);
             });
         }
@@ -483,113 +536,130 @@
                 competitive: "The internal competition has generated some breakthrough concepts, but it's also created tension between departments. Collaboration on implementation is suffering.<br><br><strong>How do you harness competitive energy while rebuilding collaboration?</strong>",
                 advisory: "The advisory committees are providing valuable input, but decision-making is slower than your competitors'. Time pressure is mounting from both the board and the market.<br><br><strong>How do you accelerate decisions while maintaining employee input?</strong>",
                 topdown: "Your leadership team has developed a comprehensive strategy, but middle managers are struggling to sell the vision to their teams. Implementation is meeting resistance.<br><br><strong>How do you improve organizational buy-in for your strategic direction?</strong>",
-                gradual: "Your gradual transparency approach is building trust, but some employees feel the pace of change is too slow compared to the competitive threat they're hearing about in the market.<br><br><strong>How do you accelerate organizational response while maintaining trust?</strong>"
+                gradual: "Your gradual transparency approach is building trust, but some employees feel the pace of change is too slow compared to the competitive threat they're hearing about in the market.<br><br><strong>How do you accelerate organizational response while maintaining trust?</strong>",
+                retention: "Your retention investments are paying dividends &mdash; engagement scores among remaining staff have climbed, and two engineers who'd been quietly job-hunting have taken themselves off the market. But the skills gaps left by earlier departures haven't closed on their own, and a critical platform migration is behind schedule because the one person who fully understood the legacy system left in the first round of cuts.<br><br>Your CFO is asking whether retention spending should continue at this level given tightening margins, while your engineering lead argues the real fix is filling the specific expertise gap, not just morale.<br><br><strong>How do you close the skills gap without undermining the trust you've just rebuilt?</strong>",
+                external: "The consultants you've brought in are sharp and moving fast &mdash; within weeks they've mapped a credible technical path forward. But your existing team has started referring to them as &ldquo;the outsiders,&rdquo; and two long-tenured engineers who survived the layoffs are now quietly disengaged, watching people who don't know the codebase get listened to over them.<br><br>The consultants' diagnosis is solid, but execution requires buy-in from the very team that feels sidelined by their arrival.<br><br><strong>How do you get the technical plan implemented without alienating the people who have to carry it out?</strong>",
+                agile: "Your newly autonomous pods are moving fast &mdash; one shipped a working prototype in three weeks, faster than anything your old structure produced. But the pods have started making conflicting technical decisions independently, and without a shared architecture, you're at risk of building three incompatible products instead of one coherent response.<br><br>Pod leads are protective of their new autonomy and resistant to anything that feels like a return to centralized oversight.<br><br><strong>How do you create enough coordination to avoid fragmentation without crushing the speed you've gained?</strong>"
             };
 
             const choices = {
                 collaborative: [
-                    { text: "Set clearer deadlines while providing innovation teams with additional resources and support", next: 4, path: 'innovation_support' },
-                    { text: "Shift to a hybrid approach combining innovation teams with faster decision-making processes", next: 4, path: 'innovation_hybrid' }
+                    { text: "Set clearer deadlines while providing innovation teams with additional resources and support", next: 4, path: 'innovation_support', auto: 1, people: 1 },
+                    { text: "Shift to a hybrid approach combining innovation teams with faster decision-making processes", next: 4, path: 'innovation_hybrid', auto: -1, people: 0 }
                 ],
                 structured: [
-                    { text: "Expand employee involvement in strategic planning through structured feedback mechanisms", next: 4, path: 'planning_involvement' },
-                    { text: "Accelerate the planning process and increase communication about progress and decisions", next: 4, path: 'planning_systematic' }
+                    { text: "Expand employee involvement in strategic planning through structured feedback mechanisms", next: 4, path: 'planning_involvement', auto: 1, people: 1 },
+                    { text: "Accelerate the planning process and increase communication about progress and decisions", next: 4, path: 'planning_systematic', auto: -1, people: 0 }
                 ],
                 competitive: [
-                    { text: "Create inter-departmental collaboration requirements and shared success metrics", next: 4, path: 'energy_collaboration' },
-                    { text: "Channel competitive energy toward external market competition rather than internal contests", next: 4, path: 'energy_direction' }
+                    { text: "Create inter-departmental collaboration requirements and shared success metrics", next: 4, path: 'energy_collaboration', auto: 0, people: 2 },
+                    { text: "Channel competitive energy toward external market competition rather than internal contests", next: 4, path: 'energy_direction', auto: -1, people: 0 }
                 ],
                 advisory: [
-                    { text: "Streamline the advisory process while maintaining meaningful employee input", next: 4, path: 'balanced_streamlined' },
-                    { text: "Give advisory committees more decision-making authority to speed up the process", next: 4, path: 'balanced_input' }
+                    { text: "Streamline the advisory process while maintaining meaningful employee input", next: 4, path: 'balanced_streamlined', auto: 0, people: 1 },
+                    { text: "Give advisory committees more decision-making authority to speed up the process", next: 4, path: 'balanced_input', auto: 2, people: 1 }
                 ],
                 topdown: [
-                    { text: "Invest in change management training and communication programs for middle managers", next: 4, path: 'control_communication' },
-                    { text: "Create direct communication channels between leadership and front-line employees", next: 4, path: 'control_execution' }
+                    { text: "Invest in change management training and communication programs for middle managers", next: 4, path: 'control_communication', auto: -1, people: 1 },
+                    { text: "Create direct communication channels between leadership and front-line employees", next: 4, path: 'control_execution', auto: 0, people: 1 }
                 ],
                 gradual: [
-                    { text: "Accelerate transparency while maintaining the trust-building approach", next: 4, path: 'transparency_accelerated' },
-                    { text: "Continue the gradual approach but add more frequent progress updates", next: 4, path: 'transparency_trust' }
+                    { text: "Accelerate transparency while maintaining the trust-building approach", next: 4, path: 'transparency_accelerated', auto: 1, people: 1 },
+                    { text: "Continue the gradual approach but add more frequent progress updates", next: 4, path: 'transparency_trust', auto: 0, people: 2 }
+                ],
+                retention: [
+                    { text: "Pair remaining senior staff with newer hires in structured mentorship roles to rebuild institutional knowledge", next: 4, path: 'retention_mentorship', auto: 1, people: 2 },
+                    { text: "Hire targeted contractors for the specific legacy-system gap while protecting the retention budget", next: 4, path: 'retention_targeted', auto: -1, people: 0 }
+                ],
+                external: [
+                    { text: "Pair each consultant with an internal engineer as co-owner of their workstream", next: 4, path: 'external_paired', auto: 1, people: 2 },
+                    { text: "Give consultants decision authority over the technical roadmap and ask the team to align with their plan", next: 4, path: 'external_directed', auto: -2, people: -1 }
+                ],
+                agile: [
+                    { text: "Establish a lightweight architecture council with rotating pod representation to align technical decisions", next: 4, path: 'agile_council', auto: 1, people: 1 },
+                    { text: "Designate a chief architect with final say to enforce consistency across pods", next: 4, path: 'agile_centralized', auto: -2, people: -1 }
                 ]
             };
 
             const lastChoice = userChoices[userChoices.length - 1];
             document.getElementById('scenario3Text').innerHTML = texts[lastChoice];
-            
+
             const choicesContainer = document.getElementById('scenario3Choices');
             choicesContainer.innerHTML = '';
-            
-            choices[lastChoice].forEach(choice => {
+
+            choices[lastChoice].forEach(c => {
                 const button = document.createElement('button');
                 button.className = 'choice-btn';
-                button.textContent = choice.text;
-                button.onclick = () => goToScenario(choice.next, choice.path);
+                button.textContent = c.text;
+                button.onclick = () => goToScenario(c.next, c.path, c.auto, c.people);
                 choicesContainer.appendChild(button);
             });
         }
 
         function setupScenario4() {
             document.getElementById('scenario4Text').innerHTML = "Three months into your transformation effort, you're seeing mixed results. Some initiatives are ahead of schedule while others are struggling. A key competitor has just announced a partnership that could further threaten your market position.<br><br>Your board is asking for concrete progress metrics, employees are looking for reassurance about job security, and customers are asking about your competitive response.<br><br><strong>How do you navigate these multiple stakeholder pressures while maintaining transformation momentum?</strong>";
-            
+
             const choicesContainer = document.getElementById('scenario4Choices');
             choicesContainer.innerHTML = '';
-            
+
             const choices = [
-                { text: "Focus resources on the most promising initiatives while scaling back others", next: 5, path: 'focus' },
-                { text: "Double down on all initiatives while improving coordination and communication", next: 5, path: 'accelerate' },
-                { text: "Pivot strategy based on new competitive intelligence and stakeholder feedback", next: 5, path: 'pivot' }
+                { text: "Focus resources on the most promising initiatives while scaling back others", next: 5, path: 'focus', auto: -1, people: 0 },
+                { text: "Double down on all initiatives while improving coordination and communication", next: 5, path: 'accelerate', auto: 0, people: 1 },
+                { text: "Pivot strategy based on new competitive intelligence and stakeholder feedback", next: 5, path: 'pivot', auto: 1, people: 1 }
             ];
-            
-            choices.forEach(choice => {
+
+            choices.forEach(c => {
                 const button = document.createElement('button');
                 button.className = 'choice-btn';
-                button.textContent = choice.text;
-                button.onclick = () => goToScenario(choice.next, choice.path);
+                button.textContent = c.text;
+                button.onclick = () => goToScenario(c.next, c.path, c.auto, c.people);
                 choicesContainer.appendChild(button);
             });
         }
 
         function setupScenario5() {
             document.getElementById('scenario5Text').innerHTML = "You're now in month five of the transformation. Early results are becoming visible, but sustainability is the question. Employee fatigue is setting in, and you need to prepare the organization for long-term success beyond this immediate crisis.<br><br>Some of your changes are working well, others need adjustment. The market is stabilizing around new norms, and you have a clearer picture of what the future competitive landscape will look like.<br><br><strong>How do you ensure the changes you've made will create lasting organizational capability?</strong>";
-            
+
             const choicesContainer = document.getElementById('scenario5Choices');
             choicesContainer.innerHTML = '';
-            
+
             const choices = [
-                { text: "Institutionalize successful changes through new systems, processes, and cultural practices", next: 6, path: 'institutionalize' },
-                { text: "Continue adapting and experimenting while building organizational learning capabilities", next: 6, path: 'learning' },
-                { text: "Consolidate gains and focus on operational excellence in your new strategic direction", next: 6, path: 'consolidate' }
+                { text: "Institutionalize successful changes through new systems, processes, and cultural practices", next: 6, path: 'institutionalize', auto: -1, people: 0 },
+                { text: "Continue adapting and experimenting while building organizational learning capabilities", next: 6, path: 'learning', auto: 1, people: 1 },
+                { text: "Consolidate gains and focus on operational excellence in your new strategic direction", next: 6, path: 'consolidate', auto: -1, people: -1 }
             ];
-            
-            choices.forEach(choice => {
+
+            choices.forEach(c => {
                 const button = document.createElement('button');
                 button.className = 'choice-btn';
-                button.textContent = choice.text;
-                button.onclick = () => goToScenario(choice.next, choice.path);
+                button.textContent = c.text;
+                button.onclick = () => goToScenario(c.next, c.path, c.auto, c.people);
                 choicesContainer.appendChild(button);
             });
         }
 
         function setupFinalOutcome() {
-            // Create outcome key based on user choices
-            const outcomeKey = userChoices.slice(1).join('_'); // Skip first choice, combine the rest
-            
-            // Simplified outcome selection based on key patterns
-            let finalOutcome;
-            if (outcomeKey.includes('collaborative') && outcomeKey.includes('innovation')) {
-                finalOutcome = outcomes.collaborative_innovation_support;
-            } else if (outcomeKey.includes('structured') && outcomeKey.includes('systematic')) {
-                finalOutcome = outcomes.structured_planning_systematic;
-            } else if (outcomeKey.includes('competitive') && outcomeKey.includes('direction')) {
-                finalOutcome = outcomes.competitive_energy_direction;
-            } else if (outcomeKey.includes('advisory') || outcomeKey.includes('balanced')) {
-                finalOutcome = outcomes.advisory_balanced_input;
-            } else if (outcomeKey.includes('topdown') || outcomeKey.includes('control')) {
-                finalOutcome = outcomes.topdown_control_execution;
+            const { auto, people } = scores;
+
+            // A small tolerance band around zero on both axes catches genuinely
+            // mixed decision patterns rather than forcing every close call into
+            // a quadrant it doesn't really represent.
+            const isBalanced = Math.abs(auto) <= 2 && Math.abs(people) <= 2;
+
+            let archetype;
+            if (isBalanced) {
+                archetype = 'adaptive';
+            } else if (auto >= 0 && people >= 0) {
+                archetype = 'distributedRelational';
+            } else if (auto >= 0 && people < 0) {
+                archetype = 'distributedTransactional';
+            } else if (auto < 0 && people >= 0) {
+                archetype = 'directiveSupportive';
             } else {
-                finalOutcome = outcomes.gradual_transparency_trust;
+                archetype = 'directiveTransactional';
             }
-            
+
+            const finalOutcome = outcomes[archetype];
             document.getElementById('finalOutcome').innerHTML = finalOutcome.text;
             document.getElementById('outcomeBox').innerHTML = `<h3>Your Results</h3><p>${finalOutcome.outcome}</p>`;
             document.getElementById('theoryConnection').innerHTML = finalOutcome.theory;
@@ -598,30 +668,22 @@
         function restartActivity() {
             currentStep = 1;
             userChoices = [];
+            scores = { auto: 0, people: 0 };
             updateProgress();
-            
+
             // Hide all scenarios
             document.querySelectorAll('.scenario').forEach(scenario => {
                 scenario.classList.remove('active');
             });
-            
+
             // Show first scenario
-            document.getElementById('scenario1').classList.add('active');
+            const firstScenario = document.getElementById('scenario1');
+            firstScenario.classList.add('active');
+            firstScenario.querySelector('h2').focus();
         }
 
         // Initialize progress bar
         updateProgress();
-
-        // Keyboard navigation support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                if (e.target.classList.contains('choice-btn') || e.target.classList.contains('nav-btn')) {
-                    e.preventDefault();
-                    e.target.click();
-                }
-            }
-        });
     </script>
 </body>
-
 </html>
