@@ -4,7 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spot the Grammar & Style Errors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
+            --border: #E2E8F0;
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,29 +36,34 @@
         }
 
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
             padding: 20px;
             min-height: 100vh;
+            color: var(--ink);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px rgba(20, 49, 90, 0.12);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
-            color: white;
+            background: var(--navy-blue);
+            color: #FFFFFF;
             padding: 35px 30px;
             text-align: center;
         }
 
         .header h1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             font-size: 2.2em;
             margin-bottom: 15px;
             font-weight: 600;
@@ -44,6 +73,8 @@
             font-size: 1.15em;
             opacity: 0.95;
             line-height: 1.5;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .content {
@@ -55,29 +86,43 @@
 
         .essay-section {
             padding: 30px;
-            background: #f8f9fa;
-            border-right: 3px solid #dee2e6;
-            overflow-y: auto;
+            background: var(--surface-subtle);
+            border-right: 1px solid var(--border);
             max-height: 800px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .essay-top {
+            flex-shrink: 0;
+        }
+
+        .essay-scroll-area {
+            overflow-y: auto;
+            flex: 1 1 auto;
+            min-height: 0;
+            padding-right: 8px;
         }
 
         .feedback-section {
             padding: 30px;
-            background: white;
+            background: var(--surface);
             overflow-y: auto;
             max-height: 800px;
         }
 
         .instructions {
-            background: #3498db;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .instructions h2 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 1.4em;
             margin-bottom: 10px;
             font-weight: 600;
@@ -89,18 +134,21 @@
         }
 
         .score-board {
-            background: #2c3e50;
-            color: white;
-            padding: 15px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 18px;
             border-radius: 8px;
             margin-bottom: 25px;
             text-align: center;
         }
 
         .score-board h3 {
-            font-size: 1.2em;
+            font-size: 1em;
             margin-bottom: 10px;
             font-weight: 600;
+            color: var(--ink-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
         .score-stats {
@@ -115,25 +163,25 @@
 
         .stat-number {
             font-size: 2em;
-            font-weight: bold;
-            color: #3498db;
+            font-weight: 700;
+            color: var(--blue);
         }
 
         .stat-label {
             font-size: 0.9em;
-            opacity: 0.9;
+            color: var(--ink-tertiary);
         }
 
         .essay-content {
-            background: white;
+            background: var(--surface);
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
             line-height: 1.8;
         }
 
         .essay-content h2 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.6em;
             margin-bottom: 8px;
             text-align: center;
@@ -143,61 +191,75 @@
         .essay-content .byline {
             text-align: center;
             font-style: italic;
-            color: #7f8c8d;
+            color: var(--ink-tertiary);
             margin-bottom: 25px;
             font-size: 0.95em;
         }
 
         .essay-content p {
             margin-bottom: 18px;
-            color: #333;
+            color: var(--ink);
             text-indent: 2em;
         }
 
         .clickable-issue {
-            background: rgba(52, 152, 219, 0.15);
             padding: 2px 4px;
             border-radius: 3px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
             border: 2px solid transparent;
             display: inline;
         }
 
-        .clickable-issue:hover {
-            background: rgba(52, 152, 219, 0.3);
-            border-color: #3498db;
+        .clickable-issue:hover,
+        .clickable-issue:focus-visible {
+            background: var(--blue-tint);
+            border-color: var(--blue);
         }
 
         .clickable-issue:focus {
-            outline: 3px solid #2980b9;
+            outline: 3px solid var(--blue-hover);
             outline-offset: 2px;
         }
 
         .clickable-issue.found {
-            background: rgba(39, 174, 96, 0.2);
-            border-color: #27ae60;
+            background: var(--success-tint);
+            border-color: var(--success);
             cursor: default;
         }
 
         .clickable-issue.found:hover {
-            background: rgba(39, 174, 96, 0.2);
+            background: var(--success-tint);
+        }
+
+        .found-marker {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 2px;
+            color: var(--success);
         }
 
         .feedback-empty {
             text-align: center;
-            color: #999;
+            color: var(--ink-secondary);
             padding: 40px 20px;
-            font-size: 1.1em;
+            font-size: 1.05em;
         }
 
         .feedback-empty p {
             margin-bottom: 15px;
         }
 
+        .feedback-empty-icon {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 4px;
+            color: var(--ink-secondary);
+        }
+
         .feedback-card {
-            background: #f8f9fa;
-            border-left: 5px solid #3498db;
+            background: var(--surface-subtle);
+            border-left: 5px solid var(--blue);
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
@@ -216,7 +278,7 @@
         }
 
         .feedback-card h3 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.3em;
             margin-bottom: 10px;
             display: flex;
@@ -226,57 +288,56 @@
         }
 
         .issue-icon {
-            background: #27ae60;
-            color: white;
+            background: var(--success);
+            color: #FFFFFF;
             width: 28px;
             height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1em;
+            font-size: 0.95em;
+            font-weight: 700;
             flex-shrink: 0;
         }
 
         .feedback-card .error {
-            background: #fff3cd;
-            border-left: 3px solid #f39c12;
+            background: var(--amber-tint);
+            border-left: 3px solid var(--amber);
             padding: 12px;
             margin: 15px 0;
             border-radius: 4px;
-        }
-
-        .feedback-card .error strong {
-            color: #e67e22;
         }
 
         .feedback-card .correction {
-            background: #d1f2eb;
-            border-left: 3px solid #27ae60;
+            background: var(--success-tint);
+            border-left: 3px solid var(--success);
             padding: 12px;
             margin: 15px 0;
             border-radius: 4px;
         }
 
-        .feedback-card .correction strong {
-            color: #27ae60;
+        .feedback-card .label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--ink);
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
         .feedback-card .rule {
-            background: #e3f2fd;
+            background: var(--blue-tint);
             padding: 12px;
             border-radius: 4px;
             margin-top: 15px;
             font-size: 0.95em;
-        }
-
-        .feedback-card .rule strong {
-            color: #2c3e50;
+            color: var(--ink);
         }
 
         .completion-message {
-            background: #27ae60;
-            color: white;
+            background: var(--success);
+            color: #FFFFFF;
             padding: 30px;
             border-radius: 12px;
             text-align: center;
@@ -284,6 +345,10 @@
         }
 
         .completion-message h3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             font-size: 1.8em;
             margin-bottom: 15px;
             font-weight: 600;
@@ -296,58 +361,66 @@
         }
 
         .reset-btn {
-            background: #3498db;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             border: none;
             padding: 12px 30px;
             border-radius: 8px;
             font-size: 1em;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: inherit;
             margin-top: 20px;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         .reset-btn:hover {
-            background: #2980b9;
+            background: var(--blue-hover);
             transform: translateY(-2px);
         }
 
         .reset-btn:focus {
-            outline: 3px solid #f39c12;
+            outline: 3px solid #FFFFFF;
             outline-offset: 2px;
+            box-shadow: 0 0 0 5px var(--blue-hover);
         }
 
         .hint-btn {
-            background: #34495e;
-            color: white;
+            background: var(--blue);
+            color: #FFFFFF;
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
             font-size: 0.95em;
+            font-weight: 600;
             cursor: pointer;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             margin-top: 15px;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease;
         }
 
         .hint-btn:hover {
-            background: #2c3e50;
+            background: var(--blue-hover);
         }
 
         .hint-btn:focus {
-            outline: 3px solid #3498db;
+            outline: 3px solid #FFFFFF;
             outline-offset: 2px;
+            box-shadow: 0 0 0 5px var(--blue-hover);
         }
 
         .hint-text {
-            background: #fff9e6;
-            border-left: 3px solid #f39c12;
+            background: var(--amber-tint);
+            border-left: 3px solid var(--amber);
             padding: 15px;
             margin-top: 15px;
             border-radius: 4px;
             display: none;
+            color: var(--ink);
+            text-align: left;
         }
 
         .hint-text.visible {
@@ -362,7 +435,7 @@
 
             .essay-section {
                 border-right: none;
-                border-bottom: 3px solid #dee2e6;
+                border-bottom: 1px solid var(--border);
                 max-height: none;
             }
 
@@ -377,6 +450,18 @@
             .score-stats {
                 flex-direction: column;
                 gap: 15px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .feedback-card,
+            .completion-message,
+            .hint-text.visible {
+                animation: none;
+            }
+
+            .reset-btn:hover {
+                transform: none;
             }
         }
 
@@ -396,46 +481,55 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Spot the Grammar & Style Errors</h1>
-            <p>Practice your editing skills! Click on errors in this student essay to reveal corrections and explanations. There are 10 errors to find.</p>
+            <h1>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Spot the Grammar &amp; Style Errors
+            </h1>
+            <p>Practice your editing skills! Click on text in this student essay that you think contains a grammar or style error. There are 10 errors to find.</p>
         </div>
 
         <div class="content">
             <!-- Essay Section -->
             <div class="essay-section">
-                <div class="instructions">
-                    <h2>📝 Your Task</h2>
-                    <p><strong>Click on any highlighted text</strong> that contains a grammar or style error.</p>
-                    <p>Each error you identify will reveal an explanation and the correct version.</p>
-                </div>
+                <div class="essay-top">
+                    <div class="instructions">
+                        <h2>
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="12" y2="16"></line></svg>
+                            Your Task
+                        </h2>
+                        <p><strong>Click on the text</strong> where you spot a grammar or style error.</p>
+                        <p>Each correct find will reveal an explanation and the correct version.</p>
+                    </div>
 
-                <div class="score-board" role="region" aria-live="polite" aria-label="Your progress">
-                    <h3>Your Progress</h3>
-                    <div class="score-stats">
-                        <div class="stat">
-                            <div class="stat-number" id="foundCount">0</div>
-                            <div class="stat-label">Errors Found</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">10</div>
-                            <div class="stat-label">Total Errors</div>
+                    <div class="score-board" role="region" aria-live="polite" aria-label="Your progress">
+                        <h3>Your Progress</h3>
+                        <div class="score-stats">
+                            <div class="stat">
+                                <div class="stat-number" id="foundCount">0</div>
+                                <div class="stat-label">Errors Found</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number">10</div>
+                                <div class="stat-label">Total Errors</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="essay-content">
+                <div class="essay-scroll-area">
+                    <div class="essay-content">
                     <h2>Time Management Strategies for College Students</h2>
                     <p class="byline">A student essay demonstrating common writing errors</p>
 
-                    <p>College students face many challenges when trying to balance their academic responsibilities with work, social activities, and personal commitments. <span class="clickable-issue" data-issue="1" tabindex="0" role="button" aria-label="Potential error: click to reveal">One of the most important skills for success is time management, its essential for achieving academic goals while maintaining a healthy lifestyle.</span> Developing effective time management strategies can significantly improve a students performance and reduce stress levels.</p>
+                    <p>College students face many challenges when trying to balance their academic responsibilities with work, social activities, and personal commitments. <span class="clickable-issue" data-issue="1" tabindex="0" role="button" aria-label="Potential error: click to reveal">One of the most important skills for success is time management, it's essential for achieving academic goals while maintaining a healthy lifestyle.</span> Developing effective time management strategies can significantly improve a student's performance and reduce stress levels. <span class="clickable-issue" data-issue="2" tabindex="0" role="button" aria-label="Potential error: click to reveal">Every successful study plan has one thing in common: its built around realistic, achievable goals.</span></p>
 
-                    <p>The first step in managing time effectively is creating a detailed schedule. <span class="clickable-issue" data-issue="2" tabindex="0" role="button" aria-label="Potential error: click to reveal">Students should write down all of their commitments they should include classes, work shifts, study sessions, and extracurricular activities.</span> By visualizing how time is allocated throughout the week, students can identify gaps in their schedule and plan accordingly. Many successful students use digital calendars or planner apps to keep track of deadlines and appointments.</p>
+                    <p>The first step in managing time effectively is creating a detailed schedule. <span class="clickable-issue" data-issue="3" tabindex="0" role="button" aria-label="Potential error: click to reveal">Students should write down all of their commitments they should include classes, work shifts, study sessions, and extracurricular activities.</span> By visualizing how time is allocated throughout the week, students can identify gaps in their schedule and plan accordingly. Many successful students use digital calendars or planner apps to keep track of deadlines and appointments.</p>
 
-                    <p><span class="clickable-issue" data-issue="3" tabindex="0" role="button" aria-label="Potential error: click to reveal">Because it helps prevent last-minute cramming and reduces anxiety.</span> Breaking larger assignments into smaller, manageable tasks makes them feel less overwhelming. For example, a research paper can be divided into stages: choosing a topic, conducting research, creating an outline, writing a draft, and revising. This approach allows students to make steady progress without feeling pressured by looming deadlines.</p>
+                    <p><span class="clickable-issue" data-issue="4" tabindex="0" role="button" aria-label="Potential error: click to reveal">Because it helps prevent last-minute cramming and reduces anxiety.</span> Breaking larger assignments into smaller, manageable tasks makes them feel less overwhelming. For example, a research paper can be divided into stages: choosing a topic, conducting research, creating an outline, writing a draft, and revising. This approach allows students to make steady progress without feeling pressured by looming deadlines.</p>
 
-                    <p>Prioritization is another crucial component of effective time management. <span class="clickable-issue" data-issue="4" tabindex="0" role="button" aria-label="Potential error: click to reveal">Not all tasks are equally important, students must learn to distinguish between urgent and non-urgent activities.</span> The Eisenhower Matrix, which categorizes tasks by urgency and importance, can help students focus on what truly matters. By tackling high-priority items first, students ensure that critical work gets completed even when unexpected events arise.</p>
+                    <p>Prioritization is another crucial component of effective time management. <span class="clickable-issue" data-issue="5" tabindex="0" role="button" aria-label="Potential error: click to reveal">Not all tasks are equally important, students must learn to distinguish between urgent and non-urgent activities.</span> The Eisenhower Matrix, which categorizes tasks by urgency and importance, can help students focus on what truly matters. By tackling high-priority items first, students ensure that critical work gets completed even when unexpected events arise.</p>
 
-                    <p>Eliminating distractions represents a significant challenge for today's students. <span class="clickable-issue" data-issue="5" tabindex="0" role="button" aria-label="Potential error: click to reveal">Social media, streaming services, and smartphones constantly compete for there attention.</span> Creating a dedicated study environment free from these interruptions can dramatically improve focus and productivity. <span class="clickable-issue" data-issue="6" tabindex="0" role="button" aria-label="Potential error: click to reveal">Some students find that using apps that block distracting websites during study sessions helps them stay on task, it prevents the temptation to check social media every few minutes.</span></p>
+                    <p>Eliminating distractions represents a significant challenge for today's students. <span class="clickable-issue" data-issue="6" tabindex="0" role="button" aria-label="Potential error: click to reveal">Social media, streaming services, and smartphones constantly compete for there attention.</span> Creating a dedicated study environment free from these interruptions can dramatically improve focus and productivity. Some students find that using apps that block distracting websites during study sessions helps them stay on task because it prevents the temptation to check social media every few minutes.</p>
 
                     <p><span class="clickable-issue" data-issue="7" tabindex="0" role="button" aria-label="Potential error: click to reveal">Walking into the library, studying in groups becomes an effective strategy for many students.</span> Collaborative learning sessions allow students to share knowledge, clarify confusing concepts, and hold each other accountable. However, study groups only work when all members remain focused on academic goals rather than socializing.</p>
 
@@ -445,15 +539,22 @@
 
                     <p>In conclusion, effective time management requires planning, prioritization, and discipline. <span class="clickable-issue" data-issue="10" tabindex="0" role="button" aria-label="Potential error: click to reveal">Student's who master these skills early in their college careers set themselves up for long-term success.</span> By implementing the strategies discussed in this essay, students can reduce stress, improve their grades, and create a more balanced college experience. Time management is not just about getting more done; it is about making intentional choices about how to spend one's most valuable resource.</p>
                 </div>
+                </div>
             </div>
 
             <!-- Feedback Section -->
             <div class="feedback-section">
                 <div id="feedbackContent">
                     <div class="feedback-empty">
-                        <p>👆 <strong>Click on highlighted text</strong> in the essay to identify errors and see corrections.</p>
+                        <p>
+                            <svg class="feedback-empty-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 2l7.07 16.97 2.51-7.39 7.39-2.51L3 2z"></path></svg>
+                            <strong>Click on the text</strong> in the essay where you think there's an error.
+                        </p>
                         <p>Look for grammar mistakes, punctuation errors, and style issues.</p>
-                        <button class="hint-btn" onclick="toggleHints()">💡 Need a Hint?</button>
+                        <button class="hint-btn" onclick="toggleHints()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.6c.3.2.5.6.5 1V17h7v-1.4c0-.4.2-.8.5-1A7 7 0 0 0 12 2z"></path></svg>
+                            Need a Hint?
+                        </button>
                         <div class="hint-text" id="hintText">
                             <strong>Common error types to look for:</strong>
                             <ul style="margin-left: 20px; margin-top: 10px;">
@@ -475,39 +576,39 @@
         const errors = {
             1: {
                 title: 'Comma Splice',
-                error: 'Two independent clauses are joined with only a comma: "...is time management, its essential for achieving academic goals..." This creates a comma splice error.',
+                error: 'Two independent clauses are joined with only a comma: "...is time management, it\'s essential for achieving academic goals..." Even though each clause could stand alone as its own sentence, a comma by itself isn\'t strong enough to connect them. This creates a comma splice.',
                 correction: 'Fix this by: (1) Using a semicolon: "...is time management; it\'s essential..." OR (2) Adding a coordinating conjunction: "...is time management, and it\'s essential..." OR (3) Creating two sentences: "...is time management. It\'s essential..."',
-                rule: '<strong>Grammar Rule:</strong> A comma alone cannot join two independent clauses (complete sentences). Use a semicolon, a comma with a coordinating conjunction (and, but, or, nor, for, so, yet), or separate them into two sentences. Note: "it\'s" (with apostrophe) means "it is," while "its" (no apostrophe) is possessive.'
+                rule: '<strong>Grammar Rule:</strong> A comma alone cannot join two independent clauses (complete sentences). Use a semicolon, a comma with a coordinating conjunction (and, but, or, nor, for, so, yet), or separate them into two sentences.'
             },
             2: {
+                title: 'Wrong Word (It\'s/Its)',
+                error: 'The word "its" is used where the sentence needs "it\'s," a contraction of "it is." Without the apostrophe, "its" is possessive (showing ownership), but this sentence is making a statement: "it is built around realistic, achievable goals."',
+                correction: 'Correct version: "Every successful study plan has one thing in common: it\'s built around realistic, achievable goals." Use "it\'s" when you mean "it is" or "it has." Use "its" only to show possession, as in "the plan and its goals."',
+                rule: '<strong>Grammar Rule:</strong> It\'s = contraction of "it is" or "it has." Its = possessive (belonging to it). A quick test: if you can swap in "it is" and the sentence still works, you need the apostrophe.'
+            },
+            3: {
                 title: 'Run-On Sentence',
                 error: 'Two complete sentences are incorrectly joined without proper punctuation: "...all of their commitments they should include classes..." This is a run-on sentence (also called a fused sentence).',
                 correction: 'Correct version: "Students should write down all of their commitments. They should include classes, work shifts, study sessions, and extracurricular activities." OR "Students should write down all of their commitments, including classes, work shifts, study sessions, and extracurricular activities."',
                 rule: '<strong>Grammar Rule:</strong> Independent clauses must be properly connected with punctuation (period, semicolon, or comma with conjunction). You cannot simply run two sentences together without punctuation.'
             },
-            3: {
+            4: {
                 title: 'Sentence Fragment',
                 error: 'This is an incomplete sentence (fragment). It begins with "Because" but never completes the thought with an independent clause. Subordinating conjunctions like "because" create dependent clauses that cannot stand alone.',
                 correction: 'Correct version: "Planning ahead is crucial because it helps prevent last-minute cramming and reduces anxiety." This attaches the dependent clause to an independent clause, creating a complete sentence.',
                 rule: '<strong>Grammar Rule:</strong> A dependent clause (starting with subordinating conjunctions like because, although, when, if, since) cannot stand alone as a sentence. It must be attached to an independent clause.'
             },
-            4: {
+            5: {
                 title: 'Comma Splice',
                 error: 'Two independent clauses are incorrectly joined with just a comma: "...are equally important, students must learn..." This is another comma splice.',
                 correction: 'Correct version: "Not all tasks are equally important; students must learn to distinguish between urgent and non-urgent activities." OR "Not all tasks are equally important, so students must learn to distinguish..."',
                 rule: '<strong>Grammar Rule:</strong> When joining two independent clauses, use a semicolon or a comma plus coordinating conjunction. A comma alone is insufficient.'
             },
-            5: {
+            6: {
                 title: 'Wrong Word (Their/There/They\'re)',
                 error: 'The word "there" is used incorrectly. "There" indicates location, but the sentence needs the possessive pronoun "their" (belonging to them).',
                 correction: 'Correct version: "...constantly compete for their attention." Use "their" (possessive), not "there" (location) or "they\'re" (they are).',
                 rule: '<strong>Grammar Rule:</strong> Their = possessive (belonging to them). There = location (over there). They\'re = contraction of "they are." Choose based on meaning.'
-            },
-            6: {
-                title: 'Comma Splice',
-                error: 'Two independent clauses joined with only a comma: "...helps them stay on task, it prevents the temptation..." This is a comma splice.',
-                correction: 'Correct version: "Some students find that using apps that block distracting websites during study sessions helps them stay on task because it prevents the temptation to check social media every few minutes."',
-                rule: '<strong>Grammar Rule:</strong> Independent clauses require proper connectors. Use subordinating conjunctions (because, although, when), coordinating conjunctions with comma (and, but, so), or semicolons.'
             },
             7: {
                 title: 'Misplaced Modifier',
@@ -535,6 +636,11 @@
             }
         };
 
+        const ICON_X_CIRCLE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+        const ICON_CHECK_CIRCLE = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 12 15 16 10"></polyline></svg>';
+        const ICON_CHECK_CIRCLE_LG = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="9 12 12 15 16 10"></polyline></svg>';
+        const ICON_FOUND_MARK = '<svg class="found-marker" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
         let foundErrors = 0;
         const totalErrors = 10;
 
@@ -544,7 +650,7 @@
                 handleIssueClick(this);
             });
 
-            issue.addEventListener('keypress', function(e) {
+            issue.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     handleIssueClick(this);
@@ -562,6 +668,8 @@
 
             // Mark as found
             element.classList.add('found');
+            element.setAttribute('aria-label', `Error found: ${errorData.title}. See the feedback panel for details.`);
+            element.insertAdjacentHTML('beforeend', ' ' + ICON_FOUND_MARK);
             foundErrors++;
 
             // Update score
@@ -595,10 +703,12 @@
                     ${errorData.title}
                 </h3>
                 <div class="error">
-                    <strong>❌ What's Wrong:</strong> ${errorData.error}
+                    <div class="label">${ICON_X_CIRCLE} What's Wrong</div>
+                    ${errorData.error}
                 </div>
                 <div class="correction">
-                    <strong>✅ How to Fix It:</strong> ${errorData.correction}
+                    <div class="label">${ICON_CHECK_CIRCLE} How to Fix It</div>
+                    ${errorData.correction}
                 </div>
                 <div class="rule">
                     ${errorData.rule}
@@ -617,11 +727,11 @@
             const completionMessage = document.createElement('div');
             completionMessage.className = 'completion-message';
             completionMessage.innerHTML = `
-                <h3>🎉 Excellent Work!</h3>
+                <h3>${ICON_CHECK_CIRCLE_LG} Excellent Work!</h3>
                 <p>You've successfully identified all 10 grammar and style errors!</p>
                 <p>You've practiced recognizing comma splices, run-on sentences, fragments, subject-verb agreement issues, pronoun errors, misplaced modifiers, and apostrophe mistakes.</p>
                 <p><strong>Keep practicing these skills to become a stronger writer and editor!</strong></p>
-                <button class="reset-btn" onclick="resetActivity()">↺ Try Again</button>
+                <button class="reset-btn" onclick="resetActivity()">Try Again</button>
             `;
 
             feedbackContent.appendChild(completionMessage);
