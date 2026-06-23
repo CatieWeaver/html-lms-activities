@@ -43,8 +43,8 @@ examples/
 |---|---|
 | Flashcards | Psychology Flashcards |
 | Sorting | Chemical vs. Physical Changes |
-| Branching Scenario | Course Redesign Decision Tree |
-| Branching Scenario | Classroom Behavior Function Assessment |
+| Guided Practice | Significant Figures Guided Practice |
+| Diagnostic Tool | Classroom Behavior Function Assessment |
 | Branching Scenario | Leadership Case Study |
 | Checklist | Lab Safety Checklist |
 | Procedure Guide | Clinical Hand Hygiene Guide |
