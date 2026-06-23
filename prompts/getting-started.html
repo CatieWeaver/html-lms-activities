@@ -11,13 +11,13 @@
         :root {
             --bg: #F7F7F5;
             --surface: #FFFFFF;
-            --surface-tint: #E8F4F4;
+            --surface-tint: #E8EFF6;
             --surface-subtle: #F0F4F8;
             --ink: #1A1A2E;
             --ink-secondary: #4A5568;
             --ink-tertiary: #636E7E;
-            --teal: #0D7377;
-            --teal-hover: #0A5C60;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
             --border: #E2E8F0;
             --shadow-sm: 0 1px 3px rgba(26,26,46,0.08), 0 1px 2px rgba(26,26,46,0.06);
             --radius: 10px;
@@ -73,7 +73,7 @@
             text-decoration: none;
             transition: color 0.2s;
         }
-        .nav-back:hover { color: var(--teal); }
+        .nav-back:hover { color: var(--blue); }
         .nav-back svg {
             width: 14px;
             height: 14px;
@@ -95,7 +95,7 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--teal);
+            color: var(--blue);
             margin-bottom: 12px;
         }
         .page-title {
@@ -126,7 +126,7 @@
         .toc {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-left: 4px solid var(--teal);
+            border-left: 4px solid var(--blue);
             border-radius: var(--radius);
             padding: 22px 26px;
         }
@@ -135,7 +135,7 @@
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--teal);
+            color: var(--blue);
             margin-bottom: 12px;
         }
         .toc-list {
@@ -150,7 +150,7 @@
             text-decoration: none;
             transition: color 0.2s;
         }
-        .toc-list a:hover { color: var(--teal); }
+        .toc-list a:hover { color: var(--blue); }
 
         /* ── Content cards ── */
         .content-card {
@@ -166,7 +166,7 @@
             color: var(--ink);
             margin-bottom: 14px;
             padding-bottom: 14px;
-            border-bottom: 2px solid var(--teal);
+            border-bottom: 2px solid var(--blue);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -174,7 +174,7 @@
         .card-title-num {
             font-family: 'DM Serif Display', Georgia, serif;
             font-size: 1.5rem;
-            color: var(--teal);
+            color: var(--blue);
             opacity: 0.65;
             line-height: 1;
         }
@@ -228,7 +228,7 @@
             font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
-        .copy-btn:hover { background: var(--teal); color: white; border-color: var(--teal); }
+        .copy-btn:hover { background: var(--blue); color: white; border-color: var(--blue); }
 
         /* ── Example box ── */
         .example-wrap {
@@ -243,7 +243,7 @@
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--teal);
+            color: var(--blue);
             margin-bottom: 10px;
         }
 
@@ -271,7 +271,7 @@
             font-weight: 600;
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            color: var(--teal);
+            color: var(--blue);
             background: var(--surface-tint);
             padding: 3px 10px;
             border-radius: 20px;
@@ -284,7 +284,7 @@
             margin-bottom: 14px;
             line-height: 1.6;
         }
-        .best-for strong { color: var(--teal); }
+        .best-for strong { color: var(--blue); }
 
         /* ── Tips ── */
         .tips-grid {
@@ -353,7 +353,7 @@
         .callout {
             background: var(--surface-tint);
             border: 1px solid var(--border);
-            border-left: 3px solid var(--teal);
+            border-left: 3px solid var(--blue);
             border-radius: var(--radius-sm);
             padding: 16px 18px;
             margin-top: 8px;
@@ -369,7 +369,7 @@
             .content-card { padding: 22px 18px; }
             .prompt-block { font-size: 0.84rem; }
         }
-        a:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 3px; }
+        a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 3px; }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { transition: none !important; }
         }
