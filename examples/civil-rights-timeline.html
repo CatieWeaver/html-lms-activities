@@ -4,7 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Civil Rights Movement Timeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #F7F7F5;
+            --surface: #FFFFFF;
+            --surface-tint: #E8F4F4;
+            --surface-subtle: #F0F4F8;
+            --ink: #1A1A2E;
+            --ink-secondary: #4A5568;
+            --ink-tertiary: #636E7E;
+            --blue: #185FA5;
+            --blue-hover: #0C447C;
+            --blue-tint: #E6F1FB;
+            --navy-blue: #14315A;
+            --border: #E2E8F0;
+            --amber: #B45309;
+            --amber-tint: #FBF0DE;
+            --success: #15803D;
+            --success-hover: #0F5C2C;
+            --success-ink: #155724;
+            --success-tint: #E6F4EA;
+            /* New tokens: the base palette didn't include a red/error hue.
+               "Incorrect" needed something distinct from amber (warning)
+               and success (green), so this pairs an accessible red with a
+               light tint, matching the structure of the success tokens. */
+            --error: #B91C1C;
+            --error-tint: #FCE8E6;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,25 +42,25 @@
         }
 
         body {
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #F7F7F5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: var(--ink);
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
             overflow: hidden;
         }
 
         .header {
-            background: #2c3e50;
-            color: white;
+            background: var(--navy-blue);
+            color: var(--surface);
             padding: 40px 30px;
             text-align: center;
         }
@@ -54,17 +84,26 @@
         }
 
         .instructions {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
+            background: var(--blue-tint);
+            color: var(--ink);
             padding: 20px;
             border-radius: 10px;
+            border-left: 4px solid var(--blue);
             margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .instructions h2 {
             font-size: 1.3em;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--navy-blue);
+        }
+
+        .instructions h2 svg {
+            color: var(--blue);
+            flex-shrink: 0;
         }
 
         .instructions p {
@@ -73,7 +112,7 @@
         }
 
         .progress-section {
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 30px;
@@ -81,7 +120,7 @@
         }
 
         .progress-bar-container {
-            background: #e0e0e0;
+            background: var(--border);
             height: 30px;
             border-radius: 15px;
             overflow: hidden;
@@ -89,21 +128,26 @@
         }
 
         .progress-bar {
-            background: linear-gradient(135deg, #27ae60, #229954);
+            background: var(--success);
             height: 100%;
             width: 0%;
             transition: width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--surface);
             font-weight: 600;
         }
 
         .progress-text {
             font-size: 1.1em;
-            color: #2c3e50;
+            color: var(--ink);
             font-weight: 600;
+        }
+
+        #progressText {
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
 
         .event-bank {
@@ -111,7 +155,7 @@
         }
 
         .event-bank h3 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.3em;
             margin-bottom: 15px;
             text-align: center;
@@ -123,51 +167,51 @@
             gap: 15px;
             min-height: 100px;
             padding: 20px;
-            background: #f8f9fa;
+            background: var(--surface-subtle);
             border-radius: 10px;
-            border: 2px dashed #bdc3c7;
+            border: 2px dashed var(--border);
         }
 
         .event-card {
-            background: white;
+            background: var(--surface);
             padding: 15px;
             border-radius: 8px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .event-card.dragging {
-            opacity: 0.5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .event-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-color: #3498db;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            border-color: var(--blue);
         }
 
         .event-card:focus {
-            outline: 3px solid #3498db;
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
         }
 
         .event-card.selected {
-            border: 3px solid #3498db;
-            background: #e3f2fd;
-            box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4);
+            border: 3px solid var(--blue);
+            background: var(--blue-tint);
+            box-shadow: 0 4px 16px rgba(24, 95, 165, 0.3);
+        }
+
+        .event-card.locked {
+            cursor: default;
         }
 
         .event-card h4 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1em;
             margin-bottom: 5px;
             font-weight: 600;
         }
 
         .event-card p {
-            color: #666;
+            color: var(--ink-secondary);
             font-size: 0.9em;
             line-height: 1.4;
         }
@@ -177,7 +221,7 @@
         }
 
         .timeline-section h3 {
-            color: #2c3e50;
+            color: var(--ink);
             font-size: 1.3em;
             margin-bottom: 20px;
             text-align: center;
@@ -194,7 +238,7 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: linear-gradient(180deg, #3498db 0%, #2c3e50 100%);
+            background: var(--blue);
             transform: translateX(-50%);
         }
 
@@ -215,20 +259,20 @@
             text-align: center;
             font-size: 1.5em;
             font-weight: 700;
-            color: #2c3e50;
+            color: var(--ink);
             padding: 15px;
-            background: white;
+            background: var(--surface);
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border: 2px solid #3498db;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 2px solid var(--blue);
         }
 
         .drop-zone {
             flex: 1;
             min-height: 120px;
             padding: 15px;
-            background: white;
-            border: 3px dashed #bdc3c7;
+            background: var(--surface);
+            border: 3px dashed var(--border);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -239,30 +283,30 @@
         }
 
         .drop-zone:hover {
-            border-color: #3498db;
-            background: rgba(227, 242, 253, 0.3);
+            border-color: var(--blue);
+            background: var(--blue-tint);
         }
 
-        .drop-zone.drag-over {
-            background: rgba(232, 245, 233, 0.5);
-            border-color: #27ae60;
-            transform: scale(1.02);
+        .drop-zone:focus {
+            outline: 3px solid var(--blue);
+            outline-offset: 2px;
         }
 
         .drop-zone.filled {
             border-style: solid;
-            border-color: #e0e0e0;
-            background: white;
+            border-color: var(--border);
+            background: var(--surface);
+            cursor: default;
         }
 
         .drop-zone.correct {
-            background: rgba(212, 237, 218, 0.3);
-            border-color: #27ae60;
+            background: var(--success-tint);
+            border-color: var(--success);
         }
 
         .drop-zone.incorrect {
-            background: rgba(248, 215, 218, 0.4);
-            border-color: #e74c3c;
+            background: var(--error-tint);
+            border-color: var(--error);
             animation: shake 0.5s ease;
         }
 
@@ -273,7 +317,7 @@
         }
 
         .drop-zone-placeholder {
-            color: #95a5a6;
+            color: var(--ink-tertiary);
             font-style: italic;
             text-align: center;
             pointer-events: none;
@@ -289,25 +333,30 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
             z-index: 10;
         }
 
+        .feedback-icon svg {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+
         .drop-zone.correct .feedback-icon {
-            color: #27ae60;
+            color: var(--success);
         }
 
         .drop-zone.incorrect .feedback-icon {
-            color: #e74c3c;
+            color: var(--error);
         }
 
         .completion-message {
             display: none;
-            background: linear-gradient(135deg, #27ae60, #229954);
-            color: white;
+            background: var(--success-tint);
+            color: var(--success-ink);
             padding: 30px;
             border-radius: 12px;
+            border-left: 4px solid var(--success);
             text-align: center;
             margin-top: 30px;
             animation: slideIn 0.5s ease;
@@ -320,13 +369,18 @@
         .completion-message h3 {
             font-size: 2em;
             margin-bottom: 15px;
-            color: white;
+            color: var(--success-ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .completion-message p {
             font-size: 1.1em;
             line-height: 1.6;
             margin-bottom: 10px;
+            color: var(--ink);
         }
 
         @keyframes slideIn {
@@ -341,11 +395,11 @@
         }
 
         .event-details {
-            background: #e8f5e9;
+            background: var(--success-tint);
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
-            border-left: 4px solid #27ae60;
+            border-left: 4px solid var(--success);
             display: none;
         }
 
@@ -360,13 +414,13 @@
         }
 
         .event-details h4 {
-            color: #27ae60;
+            color: var(--success-ink);
             margin-bottom: 10px;
             font-size: 1.1em;
         }
 
         .event-details p {
-            color: #333;
+            color: var(--ink);
             line-height: 1.6;
             margin-bottom: 8px;
         }
@@ -387,31 +441,31 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         .btn-primary {
-            background: #3498db;
-            color: white;
+            background: var(--blue);
+            color: var(--surface);
         }
 
         .btn-primary:hover {
-            background: #2980b9;
+            background: var(--blue-hover);
             transform: translateY(-2px);
         }
 
         .btn-secondary {
-            background: #95a5a6;
-            color: white;
+            background: var(--ink-secondary);
+            color: var(--surface);
         }
 
         .btn-secondary:hover {
-            background: #7f8c8d;
+            background: var(--ink);
             transform: translateY(-2px);
         }
 
         .btn:focus {
-            outline: 3px solid #f39c12;
+            outline: 3px solid var(--amber);
             outline-offset: 2px;
         }
 
@@ -477,10 +531,16 @@
 
         <div class="content">
             <div class="instructions">
-                <h2>📚 Instructions</h2>
+                <h2>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="M2 5.5C2 4.67 2.67 4 3.5 4H10a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 1 2 16V5.5Z"/>
+                        <path d="M22 5.5c0-.83-.67-1.5-1.5-1.5H14a2 2 0 0 0-2 2v13a1.5 1.5 0 0 1 1.5-1.5h6.5a1.5 1.5 0 0 0 1.5-1.5V5.5Z"/>
+                    </svg>
+                    Instructions
+                </h2>
                 <p><strong>Click an event</strong> from the bank below to select it (it will turn blue).</p>
                 <p><strong>Then click a year</strong> on the timeline to place the event.</p>
-                <p>Correct placements turn green with a ✓. Incorrect placements briefly turn red and return to the event bank.</p>
+                <p>Correct placements turn green with a check and lock in place. Incorrect placements briefly turn red and return to the event bank.</p>
             </div>
 
             <div class="progress-section" role="region" aria-live="polite">
@@ -517,7 +577,13 @@
             <div id="eventDetailsSection"></div>
 
             <div class="completion-message" id="completionMessage">
-                <h3>🎉 Excellent Work!</h3>
+                <h3>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="8" r="5"/>
+                        <path d="M9 12.5 7 21l5-3 5 3-2-8.5"/>
+                    </svg>
+                    Excellent Work!
+                </h3>
                 <p>You've successfully arranged all the major events of the Civil Rights Movement in chronological order.</p>
                 <p>These events represent pivotal moments in the struggle for racial equality and justice in America, leading to significant legal, social, and political changes.</p>
                 <p>Click "Show Event Details" below to learn more about the significance of each event.</p>
@@ -563,6 +629,13 @@
                 details: 'Interracial groups of activists rode buses through the South to challenge segregation in interstate travel facilities. Despite facing violent attacks and arrests, the Freedom Riders forced the federal government to enforce desegregation of interstate transportation, demonstrating the courage required for social change.'
             },
             {
+                id: 'event_olemiss',
+                year: 1962,
+                title: 'Integration of Ole Miss',
+                description: 'Federal marshals enforce James Meredith\'s enrollment at the University of Mississippi',
+                details: 'James Meredith became the first African American student to enroll at the University of Mississippi, but his arrival sparked a violent riot on campus. President Kennedy deployed federal marshals and U.S. Army troops to restore order and protect Meredith, echoing the federal intervention seen five years earlier at Little Rock. The episode reinforced a pattern seen throughout the movement: court-ordered desegregation often required direct federal enforcement to actually take effect.'
+            },
+            {
                 id: 'event6',
                 year: 1963,
                 title: 'March on Washington',
@@ -579,16 +652,9 @@
             {
                 id: 'event8',
                 year: 1965,
-                title: 'Selma to Montgomery Marches',
-                description: '"Bloody Sunday" and voting rights protests',
-                details: 'Three marches from Selma to Montgomery, Alabama, demanded voting rights. The first march, "Bloody Sunday," ended with brutal police violence against peaceful protesters. The images shocked the nation and accelerated passage of the Voting Rights Act, demonstrating how media coverage could influence public opinion and policy.'
-            },
-            {
-                id: 'event9',
-                year: 1965,
                 title: 'Voting Rights Act',
                 description: 'Federal law protects African American voting rights',
-                details: 'The Voting Rights Act of 1965 prohibited racial discrimination in voting, eliminating literacy tests, poll taxes, and other barriers used to prevent African Americans from voting. Federal oversight ensured enforcement, leading to dramatic increases in African American voter registration and political participation across the South.'
+                details: 'The Voting Rights Act of 1965 prohibited racial discrimination in voting, eliminating literacy tests, poll taxes, and other barriers used to prevent African Americans from voting. Its passage came just months after "Bloody Sunday," when peaceful voting-rights marchers from Selma to Montgomery were violently attacked by state troopers; national outrage over the attack built the political momentum needed to pass the law. Federal oversight ensured enforcement, leading to dramatic increases in African American voter registration and political participation across the South.'
             },
             {
                 id: 'event10',
@@ -599,14 +665,22 @@
             }
         ];
 
-        const years = [1954, 1955, 1957, 1960, 1961, 1963, 1964, 1965, 1965, 1968];
+        const years = [1954, 1955, 1957, 1960, 1961, 1962, 1963, 1964, 1965, 1968];
         let selectedEvent = null;
         let correctPlacements = 0;
+
+        // Tracks in-flight "return to bank" timers, keyed by drop zone, so a
+        // zone's pending revert can be cancelled if its card is moved before
+        // the timer fires.
+        const pendingReverts = new Map();
+
+        const CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12.5 9 17.5 20 6.5"/></svg>';
+        const X_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 5 19 19"/><path d="M19 5 5 19"/></svg>';
 
         function initializeActivity() {
             // Shuffle events
             const shuffledEvents = [...events].sort(() => Math.random() - 0.5);
-            
+
             // Create event cards
             const eventBank = document.getElementById('eventBank');
             shuffledEvents.forEach(event => {
@@ -625,7 +699,6 @@
         function createEventCard(event) {
             const card = document.createElement('div');
             card.className = 'event-card';
-            card.draggable = true;
             card.tabIndex = 0;
             card.setAttribute('data-event-id', event.id);
             card.setAttribute('data-year', event.year);
@@ -642,22 +715,26 @@
                 selectEvent(this);
             });
 
-            // Keyboard support
-            card.addEventListener('keypress', function(e) {
+            // Keyboard support (keydown, not keypress -- keypress doesn't
+            // reliably fire for Space/Enter inside an iframe, which is how
+            // this activity runs inside Blackboard Ultra)
+            card.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     selectEvent(this);
                 }
             });
 
-            // Optional drag support for those who prefer it
-            card.addEventListener('dragstart', handleDragStart);
-            card.addEventListener('dragend', handleDragEnd);
-
             return card;
         }
 
         function selectEvent(eventCard) {
+            // Correct placements are locked in and can't be picked back up.
+            if (eventCard.closest('.drop-zone.correct')) {
+                announceToScreenReader('This event is already placed correctly.');
+                return;
+            }
+
             // If clicking the same event, deselect it
             if (selectedEvent === eventCard) {
                 selectedEvent.classList.remove('selected');
@@ -693,10 +770,7 @@
             dropZone.setAttribute('aria-label', `Place event in year ${year}`);
             dropZone.tabIndex = 0;
 
-            const placeholder = document.createElement('div');
-            placeholder.className = 'drop-zone-placeholder';
-            placeholder.textContent = 'Click to place event here';
-            dropZone.appendChild(placeholder);
+            addPlaceholder(dropZone);
 
             // Click to place
             dropZone.addEventListener('click', function(e) {
@@ -705,18 +779,13 @@
                 }
             });
 
-            // Keyboard support
-            dropZone.addEventListener('keypress', function(e) {
-                if ((e.key === 'Enter' || e.key === ' ') && selectedEvent) {
+            // Keyboard support (keydown, see note above)
+            dropZone.addEventListener('keydown', function(e) {
+                if ((e.key === 'Enter' || e.key === ' ') && selectedEvent && !this.classList.contains('filled')) {
                     e.preventDefault();
                     placeEventInSlot(selectedEvent, this);
                 }
             });
-
-            // Optional drag-and-drop support
-            dropZone.addEventListener('dragover', handleDragOver);
-            dropZone.addEventListener('drop', handleDrop);
-            dropZone.addEventListener('dragleave', handleDragLeave);
 
             slot.appendChild(yearLabel);
             slot.appendChild(dropZone);
@@ -724,113 +793,88 @@
             return slot;
         }
 
-        // Optional drag support
-        let draggedElement = null;
-
-        function handleDragStart(e) {
-            draggedElement = this;
-            this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-        }
-
-        function handleDragEnd(e) {
-            this.classList.remove('dragging');
-        }
-
-        function handleDragOver(e) {
-            if (e.preventDefault) {
-                e.preventDefault();
+        function addPlaceholder(dropZone) {
+            if (!dropZone.querySelector('.drop-zone-placeholder')) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'drop-zone-placeholder';
+                placeholder.textContent = 'Click to place event here';
+                dropZone.appendChild(placeholder);
             }
-            e.dataTransfer.dropEffect = 'move';
-            this.classList.add('drag-over');
-            return false;
         }
 
-        function handleDragLeave(e) {
-            this.classList.remove('drag-over');
+        function addFeedbackIcon(dropZone, isCorrect) {
+            const icon = document.createElement('div');
+            icon.className = 'feedback-icon';
+            icon.setAttribute('aria-hidden', 'true'); // status is already announced separately
+            icon.innerHTML = isCorrect ? CHECK_ICON : X_ICON;
+            dropZone.appendChild(icon);
         }
 
-        function handleDrop(e) {
-            if (e.stopPropagation) {
-                e.stopPropagation();
+        function clearPendingRevert(dropZone) {
+            if (pendingReverts.has(dropZone)) {
+                clearTimeout(pendingReverts.get(dropZone));
+                pendingReverts.delete(dropZone);
             }
-            e.preventDefault();
+        }
 
-            this.classList.remove('drag-over');
-            
-            if (draggedElement) {
-                placeEventInSlot(draggedElement, this);
-            }
-
-            return false;
+        // Resets a drop zone to empty/unplaced visual state -- used both for
+        // the auto-revert and for cleaning up a slot a card is moved out of.
+        function resetDropZoneVisuals(dropZone) {
+            clearPendingRevert(dropZone);
+            dropZone.classList.remove('correct', 'incorrect', 'filled');
+            const icon = dropZone.querySelector('.feedback-icon');
+            if (icon) icon.remove();
+            addPlaceholder(dropZone);
         }
 
         function placeEventInSlot(eventCard, dropZone) {
-            // Check if drop zone already has an event
-            const existingCard = dropZone.querySelector('.event-card');
-            if (existingCard) {
-                // Return existing card to bank
-                existingCard.classList.remove('selected');
-                document.getElementById('eventBank').appendChild(existingCard);
+            // Defense-in-depth: the click/keydown handlers already prevent
+            // calling this on a filled target, but guard here too.
+            if (dropZone.classList.contains('filled')) return;
+
+            // If this card is being moved out of another drop zone, clean
+            // that zone up first so it doesn't get left in a stale state.
+            const sourceZone = eventCard.parentElement;
+            if (sourceZone && sourceZone.classList.contains('drop-zone')) {
+                resetDropZoneVisuals(sourceZone);
             }
 
-            // Clear placeholder
             const placeholder = dropZone.querySelector('.drop-zone-placeholder');
-            if (placeholder) {
-                placeholder.remove();
-            }
+            if (placeholder) placeholder.remove();
 
-            // Remove selection styling
             eventCard.classList.remove('selected');
-
-            // Place event in drop zone
             dropZone.appendChild(eventCard);
             dropZone.classList.add('filled');
 
-            // Check if correct
             const eventYear = parseInt(eventCard.getAttribute('data-year'));
             const slotYear = parseInt(dropZone.getAttribute('data-year'));
 
             if (eventYear === slotYear) {
-                dropZone.classList.remove('incorrect');
                 dropZone.classList.add('correct');
-                const icon = document.createElement('div');
-                icon.className = 'feedback-icon';
-                icon.textContent = '✓';
-                dropZone.appendChild(icon);
+                eventCard.classList.add('locked');
+                addFeedbackIcon(dropZone, true);
                 announceToScreenReader(`Correct! ${eventCard.querySelector('h4').textContent} belongs in ${slotYear}.`);
             } else {
                 dropZone.classList.add('incorrect');
-                dropZone.classList.remove('correct');
-                const icon = document.createElement('div');
-                icon.className = 'feedback-icon';
-                icon.textContent = '✗';
-                dropZone.appendChild(icon);
-                announceToScreenReader(`Incorrect. This event does not belong in ${slotYear}.`);
-                
-                // Return to bank after delay
-                setTimeout(() => {
-                    const feedbackIcon = dropZone.querySelector('.feedback-icon');
-                    if (feedbackIcon) feedbackIcon.remove();
-                    dropZone.classList.remove('incorrect', 'filled');
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'drop-zone-placeholder';
-                    placeholder.textContent = 'Click to place event here';
-                    dropZone.appendChild(placeholder);
+                addFeedbackIcon(dropZone, false);
+                announceToScreenReader(`Incorrect. This event does not belong in ${slotYear}. It will return to the event bank.`);
+
+                const timeoutId = setTimeout(() => {
+                    pendingReverts.delete(dropZone);
+                    resetDropZoneVisuals(dropZone);
                     document.getElementById('eventBank').appendChild(eventCard);
                 }, 1500);
+                pendingReverts.set(dropZone, timeoutId);
             }
 
-            // Clear selection
             selectedEvent = null;
-
             updateProgress();
         }
 
         function updateProgress() {
             const correctSlots = document.querySelectorAll('.drop-zone.correct').length;
             correctPlacements = correctSlots;
-            
+
             const percentage = Math.round((correctSlots / events.length) * 100);
             const progressBar = document.getElementById('progressBar');
             const progressText = document.getElementById('progressText');
@@ -838,6 +882,7 @@
 
             progressBar.style.width = percentage + '%';
             progressText.textContent = percentage + '%';
+            progressText.style.opacity = percentage > 0 ? '1' : '0';
             correctCount.textContent = correctSlots;
 
             if (correctSlots === events.length) {
@@ -855,7 +900,7 @@
 
         function showAllDetails() {
             const detailsSection = document.getElementById('eventDetailsSection');
-            detailsSection.innerHTML = '<h3 style="color: #2c3e50; margin: 30px 0 20px 0; text-align: center;">Event Details & Historical Significance</h3>';
+            detailsSection.innerHTML = '<h3 style="color: var(--ink); margin: 30px 0 20px 0; text-align: center;">Event Details &amp; Historical Significance</h3>';
 
             // Sort events by year
             const sortedEvents = [...events].sort((a, b) => a.year - b.year);
