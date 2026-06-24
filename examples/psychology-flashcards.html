@@ -210,6 +210,7 @@
             padding: 30px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.12);
             border: 2px solid var(--border);
+            overflow-y: auto;
         }
 
         .flashcard-front {
@@ -221,6 +222,7 @@
             background: var(--success-tint);
             color: var(--ink);
             transform: rotateY(180deg);
+            justify-content: flex-start;
         }
 
         .card-type {
@@ -529,7 +531,7 @@
         </div>
 
         <div class="flashcard-container">
-            <div class="flashcard" id="flashcard" onclick="flipCard()" role="button" tabindex="0" aria-label="Flashcard, click or press space to flip">
+            <div class="flashcard" id="flashcard" role="button" tabindex="0" aria-label="Flashcard, click or press space to flip">
                 <div class="flashcard-inner" id="flashcardInner">
                     <div class="flashcard-front">
                         <div class="card-type" id="cardType">Psychology Concept</div>
@@ -563,7 +565,7 @@
                 </button>
             </div>
             <div class="flip-instruction">
-                Click card to flip &bull; Use arrow keys to navigate &bull; Space bar to flip
+                Click or press Space to flip the card &bull; Use Next/Previous or arrow keys to navigate
             </div>
             <div class="mastery-buttons">
                 <button class="mastery-btn known" onclick="markAsKnown()">
@@ -938,6 +940,18 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
+            // If focus is on a button (or other native interactive
+            // element), let it handle its own key activation natively
+            // and don't also fire these global shortcuts. Without this
+            // guard, pressing Space while a button is focused would
+            // both activate that button AND flip the card, since
+            // native button-activation and this listener both respond
+            // to the same keypress.
+            const interactiveTags = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA'];
+            if (interactiveTags.includes(document.activeElement.tagName)) {
+                return;
+            }
+
             switch(e.key) {
                 case 'ArrowLeft':
                     e.preventDefault();
@@ -963,6 +977,7 @@
         });
 
         // Initialize the app
+        document.getElementById('flashcard').addEventListener('click', flipCard);
         updateDisplay();
     </script>
 </body>
