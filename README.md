@@ -85,4 +85,4 @@ To add an activity to the library:
 
 ---
 
-*Developed by Western Kentucky University's Center for Innovative Teaching & Learning.*
+*Developed by Catie Weaver, Instructional Designer and Adjunct Faculty at Western Kentucky University.*
