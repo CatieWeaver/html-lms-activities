@@ -25,7 +25,7 @@ prompts/
 examples/
   psychology-flashcards.html
   chemical-physical-changes-sorting.html
-  course-redesign-decision-tree.html
+  significant-figures-guided-practice.html
   behavior-function-assessment.html
   leadership-decision-tree.html
   lab-safety-checklist.html
